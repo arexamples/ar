@@ -1,0 +1,21 @@
+body {
+    font-family: Verdana;
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+section {
+    display: none;
+}
+section:first-of-type {
+    display: block;
+}
+nav {
+    float: left;
+    width: 200px;
+}
+ul {
+    list-style: none;
+}
+li {
+    text-align: center;
+}
