@@ -2,7 +2,6 @@ html, body {
   overflow-x: hidden;
 }
 body {
-    position: relative;
     font-family: Verdana;
     letter-spacing: 1px;
     font-size: 14px;
