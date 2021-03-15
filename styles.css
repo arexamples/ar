@@ -17,5 +17,6 @@ ul {
     list-style: none;
 }
 li {
+    display:inline; 
     text-align: center;
 }
