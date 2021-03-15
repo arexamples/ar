@@ -21,8 +21,15 @@
     <a href="arrow.html"><button type="button" class="btn btn-success">Arrow</button></a>
     --->
   </div>
-
-
+  <a-scene embedded arjs=’sourceType: webcam; trackingMethod:best;’ vr-mode-ui='enabled: false'>
+  <a-assets>
+      <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/arrow.glb"></a-asset-item>
+  </a-assets>
+  <a-marker id="arrow_marker" type='pattern' url='markers/arrow_marker.patt' emitevents="true" smooth="true smoothCount="10" smoothTolerance="0.01" smoothThreshold="5"> 
+      <a-entity gltf-model="#arrow" scale="0.1 0.1 0.1" rotation="-90 0 0" position="0 0 0"></a-entity>           
+  </a-marker>			   
+  <a-entity camera></a-entity>
+  </a-scene>  
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
   </body>
 </html>
