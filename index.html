@@ -19,10 +19,9 @@
     <button onclick="showArrow()" type="button" class="btn btn-success">Arrow</button>
    </div>
     
-    <div id="imageWrapper" style="text-align:center; max-width: 99%; max-height: 99%;"></div>  
-
-   
-    
+    <div id="imageWrapper" style="text-align:center; width: 100%; display: flex; position: absolute; justify-content: center; bottom: 0;
+      left: 0;"></div>  
+     
     <a-scene embedded arjs=’sourceType: webcam; trackingMethod:best;’ vr-mode-ui='enabled: false'>
     <a-assets>
       <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_1.glb"></a-asset-item>
