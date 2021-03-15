@@ -46,7 +46,8 @@ function showUsb(){
   usbEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
   usbEntity.setAttribute('scale', {x: 1, y: 1, z: 1});
 
-  wrapper.replaceChild(usbEntity);
+  wrapper.innerHTML = '';                                           
+  wrapper.appendChild(usbEntity);
 }
   
 function showArrow(){
@@ -55,7 +56,8 @@ function showArrow(){
   arrowEntity.setAttribute('rotation', {x: 0, y: -135, z: 0});
   arrowEntity.setAttribute('scale', {x: 0.3, y: 0.3, z: 0.3});
 
-  wrapper.replaceChild(arrowEntity);
+  wrapper.innerHTML = '';                                               
+  wrapper.appendChild(arrowEntity);
 }             
                                                                                      
 function showMap(){
