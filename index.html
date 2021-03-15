@@ -17,7 +17,9 @@
     <button onclick="showUsb()" type="button" class="btn btn-primary">Model</button> 
     <button onclick="showMap()" type="button" class="btn btn-danger">Map</button>
     <button onclick="showArrow()" type="button" class="btn btn-success">Arrow</button>
-  </div>
+   </div>
+   <div id="imageWrapper"> 
+   </div>  
     
     <a-scene embedded arjs=’sourceType: webcam; trackingMethod:best;’ vr-mode-ui='enabled: false'>
     <a-assets>
@@ -35,9 +37,11 @@
                                                                                      
 <script> 
 var wrapper;
+var imageWrapper;                                                                                     
   
 window.onload = () => {
     wrapper = document.querySelector('[wrapper]');
+    imageWrapper = document.getElementById("imageWrapper");
 };   
   
 function showUsb(){
@@ -46,7 +50,8 @@ function showUsb(){
   usbEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
   usbEntity.setAttribute('scale', {x: 1, y: 1, z: 1});
 
-  wrapper.innerHTML = '';                                           
+  imageWrapper.innerHTML = '';                                             
+  wrapper.innerHTML = '';                                          
   wrapper.appendChild(usbEntity);
 }
   
@@ -56,12 +61,18 @@ function showArrow(){
   arrowEntity.setAttribute('rotation', {x: 0, y: -135, z: 0});
   arrowEntity.setAttribute('scale', {x: 0.3, y: 0.3, z: 0.3});
 
+  imageWrapper.innerHTML = '';                                               
   wrapper.innerHTML = '';                                               
   wrapper.appendChild(arrowEntity);
 }             
                                                                                      
 function showMap(){
+  var img = document.createElement("img");
+  img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";   
+  img.style = "max-width:100%; height:auto; display: block; margin-left: auto; margin-right: auto;"                                                                                 
+                                                                 
   wrapper.innerHTML = '';
+  imageWrapper.appendChild(img);                                                    
 }                                                                                      
 </script>                                                                                                                                                                         
 </html>
