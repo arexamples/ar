@@ -9,10 +9,6 @@ section {
 section:first-of-type {
     display: block;
 }
-nav {
-    float: left;
-    width: 200px;
-}
 ul {
     list-style: none;
 }
