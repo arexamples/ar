@@ -13,64 +13,28 @@
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-  <div style="text-align:center">
-    <nav>
-      <ul>
-        <li data-rel="1"><button type="button" class="btn btn-primary">Model</button></li>
-        <li data-rel="2"><button type="button" class="btn btn-danger">Map</button></li>
-        <li data-rel="3"><button type="button" class="btn btn-success">Arrow</button></li>
-      </ul>
-    </nav>
+   <div style="text-align:center">
+    <!--
+    <a href="index.html"><button type="button" class="btn btn-primary">Model</button></a>
+    --->
+    <a href="map.html"><button type="button" class="btn btn-danger">Map</button></a>
+    <a href="arrow.html"><button type="button" class="btn btn-success">Arrow</button></a>
   </div>
     
-  <section>
-    <article>
-      <a-scene embedded arjs=’sourceType: webcam; trackingMethod:best;’ vr-mode-ui='enabled: false'>
-      <a-assets>
-          <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_1.glb"></a-asset-item>
-      </a-assets>
-      <a-marker id="arrow_marker" type='pattern' url='markers/arrow_marker.patt' emitevents="true" smooth="true smoothCount="10" smoothTolerance="0.01" smoothThreshold="5"> 
-          <a-entity gltf-model="#usb" scale="1 1 1" rotation="-90 0 0" position="0 0 0"></a-entity>           
-      </a-marker>			   
-      <a-entity camera></a-entity>
-      </a-scene>
-    </article>
-  </section>
+    <a-scene embedded arjs=’sourceType: webcam; trackingMethod:best;’ vr-mode-ui='enabled: false'>
+    <a-assets>
+        <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_1.glb"></a-asset-item>
+    </a-assets>
+    <a-marker id="arrow_marker" type='pattern' url='markers/arrow_marker.patt' emitevents="true" smooth="true smoothCount="10" smoothTolerance="0.01" smoothThreshold="5"> 
+        <a-entity gltf-model="#usb" scale="1 1 1" rotation="-90 0 0" position="0 0 0"></a-entity>           
+    </a-marker>			   
+    <a-entity camera></a-entity>
+    </a-scene>
 
-  <section>
-    <article>
-      <img src="https://raw.githubusercontent.com/arexamples/ar/master/images/map2.png" style="max-width:100%; height:auto; display: block; margin-left: auto; margin-right: auto;">
-    </article>
-  </section>
 
-  <section>
-    <article>
-      <a-scene embedded arjs=’sourceType: webcam; trackingMethod:best;’ vr-mode-ui='enabled: false'>
-      <a-assets>
-          <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/arrow.glb"></a-asset-item>
-      </a-assets>
-      <a-marker id="arrow_marker" type='pattern' url='markers/arrow_marker.patt' emitevents="true" smooth="true smoothCount="10" smoothTolerance="0.01" smoothThreshold="5"> 
-          <a-entity gltf-model="#arrow" scale="0.3 0.3 0.3" rotation="0 -135 0" position="0 0 0" opacity="0.5" transparent="true"></a-entity>           
-      </a-marker>			   
-      <a-entity camera></a-entity>
-      </a-scene>  
-    </article>
-  </section>
+  
     
   </body>
 </html>
-<script type="text/javascript">
-$(document).ready(function(){
- 
- (function($) {
-  $('nav li').click(function() {
-    $(this).addClass('active').siblings('li').removeClass('active');
-    $('section:nth-of-type('+$(this).data('rel')+')').stop().fadeIn(400, 'linear').siblings('section').stop().fadeOut(400, 'linear'); 
-  });
-})(jQuery);
-  
-});
-</script>
