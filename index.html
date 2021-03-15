@@ -17,6 +17,7 @@
    <div style="text-align:center">
     <button onclick="showUsb()" type="button" class="btn btn-primary">Model</button> 
     <button onclick="showMap()" type="button" class="btn btn-danger">Map</button>
+    <button onclick="showMap2()" type="button" class="btn btn-danger">Map2</button>
     <button onclick="showArrow()" type="button" class="btn btn-success">Arrow</button>
    </div>
     
@@ -77,10 +78,28 @@ function showMap(){
   var img = document.createElement("img");
   img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";   
   img.style = "text-align:center;max-width: 100%; height: auto; position: absolute; bottom: 0;left: 0; z-index: 10;"                                                                                         
-                                                                 
+                                                                                                                             
   wrapper.innerHTML = '';
+  imageWrapper.innerHTML = '';                                                                                                                    
   a.appendChild(img);                                                                                                       
   imageWrapper.appendChild(a);                                                    
-}                                                                                      
+}    
+                                                                                                                    
+function showMap(){                                                                      
+  var a = document.createElement('a');
+  a.href = "https://raw.githubusercontent.com/arexamples/ar/master/images/map2.png";
+  a.target = "_blank";                                                                                
+  a.ret = "noopener noreferrer";                                                                                
+                                                                                  
+  var img = document.createElement("img");
+  img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map2.png";   
+  img.style = "text-align:center;max-width: 100%; height: auto; position: absolute; bottom: 0;left: 0; z-index: 10;"                                                                                         
+     
+                                                                                                                    
+  wrapper.innerHTML = '';
+  imageWrapper.innerHTML = '';                                                                                                                    
+  a.appendChild(img);                                                                                                       
+  imageWrapper.appendChild(a);                                                    
+}                                                                                                                     
 </script>                                                                                                                                                                         
 </html>
