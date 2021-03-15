@@ -68,13 +68,20 @@ function showArrow(){
 }             
                                                                                      
 function showMap(){
+                                                 
+  <a href="default.asp">
+                       
+  var a = document.createElement('a');
+  a.href = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";
+                                                                                  
   var img = document.createElement("img");
   img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";   
   img.style = "text-align:center;max-width: 100%; height: auto; position: absolute; bottom: 0;left: 0;"       
                                                                                       
                                                                  
   wrapper.innerHTML = '';
-  imageWrapper.appendChild(img);                                                    
+  a.appendChild(img);                                                                                                       
+  imageWrapper.appendChild(a);                                                    
 }                                                                                      
 </script>                                                                                                                                                                         
 </html>
