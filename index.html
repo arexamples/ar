@@ -18,9 +18,10 @@
     <button onclick="showMap()" type="button" class="btn btn-danger">Map</button>
     <button onclick="showArrow()" type="button" class="btn btn-success">Arrow</button>
    </div>
-   <div id="imageWrapper"></div>  
+   
     
     <a-scene embedded arjs=’sourceType: webcam; trackingMethod:best;’ vr-mode-ui='enabled: false'>
+    <div id="imageWrapper"></div>  
     <a-assets>
       <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_1.glb"></a-asset-item>
       <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/arrow.glb"></a-asset-item> 
