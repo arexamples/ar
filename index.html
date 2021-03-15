@@ -19,8 +19,7 @@
     <button onclick="showArrow()" type="button" class="btn btn-success">Arrow</button>
    </div>
     
-    <div id="imageWrapper" style="text-align:center; width: 100%; display: flex; position: absolute; justify-content: center; bottom: 0;
-      left: 0;"></div>  
+    <div id="imageWrapper"></div>  
      
     <a-scene embedded arjs=’sourceType: webcam; trackingMethod:best;’ vr-mode-ui='enabled: false'>
     <a-assets>
@@ -71,7 +70,7 @@ function showArrow(){
 function showMap(){
   var img = document.createElement("img");
   img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";   
-  img.style = "max-width: 99%; max-height: 99%;"                                                                                 
+  img.style = "text-align:center; width: 100%; display: flex; position: absolute; justify-content: center; bottom: 0;left: 0;"                                                                                 
                                                                  
   wrapper.innerHTML = '';
   imageWrapper.appendChild(img);                                                    
