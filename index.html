@@ -27,9 +27,37 @@
       <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/arrow.glb"></a-asset-item> 
     </a-assets>
     <a-marker id="arrow_marker" type='pattern' url='markers/arrow_marker.patt' emitevents="true" smooth="true smoothCount="10" smoothTolerance="0.01" smoothThreshold="5"> 
-        <a-entity gltf-model="#usb" scale="1 1 1" rotation="-90 0 0" position="0 0 0"></a-entity>           
+    <a-entity wrapper id="wrapper" position="0 0 0" emitevents="true">     
+        <a-entity gltf-model="#usb" scale="1 1 1" rotation="-90 0 0" position="0 0 0"></a-entity>       
+    </a-entity>                                                                                   
     </a-marker>			   
     <a-entity camera></a-entity>
     </a-scene>
   </body>
+                                                                                     
+<script> 
+var wrapper;
+  
+window.onload = () => {
+    wrapper = document.querySelector('[wrapper]');
+};   
+  
+function showUsb(){
+  var usbEntity = document.createElement('a-entity');
+  usbEntity.setAttribute('gltf-model', #usb);
+  usbEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
+  usbEntity.setAttribute('scale', {x: 1, y: 1, z: 1});
+
+  wrapper.replaceChild(usbEntity);
+}
+  
+function showArrow(){
+  var arrowEntity = document.createElement('a-entity');
+  arrowEntity.setAttribute('gltf-model', #arrow);
+  arrowEntity.setAttribute('rotation', {x: 0, y: -135, z: 0});
+  arrowEntity.setAttribute('scale', {x: 0.3, y: 0.3, z: 0.3});
+
+  wrapper.replaceChild(arrowEntity);
+}                                                                                       
+</script>                                                                                                                                                                         
 </html>
