@@ -14,11 +14,9 @@
   </head>
   <body>
    <div style="text-align:center">
-    <!--
-    <a href="index.html"><button type="button" class="btn btn-primary">Model</button></a>
-    --->
-    <a href="map.html"><button type="button" class="btn btn-danger">Map</button></a>
-    <a href="arrow.html"><button type="button" class="btn btn-success">Arrow</button></a>
+    <button onclick="showUsb()" type="button" class="btn btn-primary">Model</button> 
+    <button onclick="showMap()" type="button" class="btn btn-danger">Map</button>
+    <button onclick="showArrow()" type="button" class="btn btn-success">Arrow</button>
   </div>
     
     <a-scene embedded arjs=’sourceType: webcam; trackingMethod:best;’ vr-mode-ui='enabled: false'>
@@ -58,6 +56,10 @@ function showArrow(){
   arrowEntity.setAttribute('scale', {x: 0.3, y: 0.3, z: 0.3});
 
   wrapper.replaceChild(arrowEntity);
-}                                                                                       
+}             
+                                                                                     
+function showMap(){
+  wrapper.innerHTML = '';
+}                                                                                      
 </script>                                                                                                                                                                         
 </html>
