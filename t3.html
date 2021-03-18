@@ -15,6 +15,7 @@ ar.js
 	<script src='https://raw.githack.com/arexamples/ar/main/libs/js/three.js'></script>
 	<script src='https://raw.githack.com/arexamples/ar/main/libs/js/OBJLoader.js'></script>
 	<script src='https://raw.githack.com/arexamples/ar/main/libs/js/MTLLoader.js'></script>
+	<script src='https://raw.githack.com/arexamples/ar/main/libs/js/GLTFLoader.js'></script>
 	<!-- include jsartookit -->
 	<script src="https://raw.githack.com/arexamples/ar/main/libs/jsartoolkit5/artoolkit.min.js"></script>
 	<script src="https://raw.githack.com/arexamples/ar/main/libs/jsartoolkit5/artoolkit.api.js"></script>
@@ -139,14 +140,14 @@ function initialize()
 	function onProgress(xhr) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' ); }
 	function onError(xhr) { console.log( 'An error happened' ); }
 	
-	new THREE.MTLLoader()
+	new THREE.GLTFLoader()
 		.setPath( 'models/' )
 		.load( 'fish-2.mtl', function ( materials ) {
 			materials.preload();
-			new THREE.OBJLoader()
+			new THREE.GLTFLoader()
 				.setMaterials( materials )
 				.setPath( 'https://raw.githubusercontent.com/arexamples/ar/main/models/' )
-				.load( 'fish-2.obj', function ( group ) {
+				.load( 'usb_anim.glb', function ( group ) {
 					mesh0 = group.children[0];
 					mesh0.material.side = THREE.DoubleSide;
 					mesh0.position.y = 0.25;
@@ -154,6 +155,7 @@ function initialize()
 					markerRoot1.add(mesh0);
 				}, onProgress, onError );
 		});
+	
 }
 
 
