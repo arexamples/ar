@@ -25,6 +25,13 @@ ar.js
 </head>
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+<div style="text-align:center">
+	<button onclick="showUsb()" type="button" class="btn btn-primary">Prize</button> 
+	<a href="https://raw.githubusercontent.com/arexamples/ar/master/images/map.png" target="_blank" ret="noopener noreferrer"><button type="button" class="btn btn-danger">Map</button></a> 
+	<button onclick="showArrow()" type="button" class="btn btn-success">Direction</button>
+</div>	
+
+<div id="imageWrapper" style="text-align:center;"></div>  	
 
 <!-- 
   Example created by Lee Stemkoski: https://github.com/stemkoski
@@ -173,6 +180,29 @@ function animate()
 	update();
 	render();
 }
+	
+function showUsb(){
+
+}
+  
+function showArrow(){
+
+}             
+                                                                                     
+function showMap(){                                                                      
+  var a = document.createElement('a');
+  a.href = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";
+  a.target = "_blank";                                                                                
+  a.ret = "noopener noreferrer";                                                                                
+                                                                                  
+  var img = document.createElement("img");
+  img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";   
+  img.style = "text-align:center;max-width: 100%; height: auto; position: absolute; bottom: 0;left: 0; z-index: 10;"                                                                                         
+                                                                                                                             
+  imageWrapper.innerHTML = '';                                                                                                                    
+  a.appendChild(img);                                                                                                       
+  imageWrapper.appendChild(a);                                                    
+}   	
 
 </script>
 
