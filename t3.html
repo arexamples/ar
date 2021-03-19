@@ -138,11 +138,11 @@ function initialize()
 	function onProgress(xhr) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' ); }
 	function onError(xhr) { console.log( 'An error happened' ); }
 	
-	new THREE.GLTFLoader()
+	/*new THREE.OBJLoader()
 		.setPath( 'models/' )
 		.load( 'fish-2.mtl', function ( materials ) {
 			materials.preload();
-			new THREE.GLTFLoader()
+			new THREE.OBJLoader()
 				.setMaterials( materials )
 				.setPath( 'https://raw.githubusercontent.com/arexamples/ar/main/models/' )
 				.load( 'usb_anim.glb', function ( group ) {
@@ -152,7 +152,32 @@ function initialize()
 					mesh0.scale.set(0.25,0.25,0.25);
 					markerRoot1.add(mesh0);
 				}, onProgress, onError );
-		});
+		});*/
+	
+	var loader = new THREE.GLTFLoader();
+	// Load a glTF resource
+	loader.load(
+		// resource URL
+		'https://raw.githubusercontent.com/arexamples/ar/main/models/usb_anim.glb',
+		// called when the resource is loaded
+		function ( gltf ) {
+			markerRoot1.add( gltf.scene );
+
+			gltf.animations; // Array<THREE.AnimationClip>
+			gltf.scene; // THREE.Group
+			gltf.scenes; // Array<THREE.Group>
+			gltf.cameras; // Array<THREE.Camera>
+			gltf.asset; // Object
+		},
+		// called while loading is progressing
+		function ( xhr ) {
+			console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+		},
+		// called when loading has errors
+		function ( error ) {
+			console.log( 'An error happened' );
+		}
+	); 
 	
 }
 
