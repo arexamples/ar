@@ -29,14 +29,6 @@ ar.js
 	<script src="https://raw.githack.com/arexamples/ar/main/libs/threex/threex-artoolkitcontext.js"></script>
 	<script src="https://raw.githack.com/arexamples/ar/main/libs/threex/threex-arbasecontrols.js"></script>
 	<script src="https://raw.githack.com/arexamples/ar/main/libs/threex/threex-armarkercontrols.js"></script>
-	<style>
-	canvas {
-		vertical-align: top;
-		width: 100vw;
-		height: 100vh;
-		display: block;
-	}
-	</style>
 </head>
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
@@ -85,7 +77,6 @@ function initialize()
 	renderer.domElement.style.position = 'absolute'
 	renderer.domElement.style.top = '0px'
 	renderer.domElement.style.left = '0px'
-	renderer.domElement.style.display = 'block'
 	document.body.appendChild( renderer.domElement );
 
 	clock = new THREE.Clock();
