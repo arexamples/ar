@@ -57,6 +57,8 @@ var arToolkitSource, arToolkitContext;
 var markerRoot1;
 
 var mesh1;
+	
+var mixer;	
 
 initialize();
 animate();
@@ -187,6 +189,15 @@ function initialize()
 			gltf.scenes; // Array<THREE.Group>
 			gltf.cameras; // Array<THREE.Camera>
 			gltf.asset; // Object
+			
+			mixer = new THREE.AnimationMixer(gltf.scene);
+			mixer.clipAction(gltf.animations[0]).play();
+			
+			//const clip = THREE.AnimationClip.findByName( clips, 'dance' );
+			//const action = mixer.clipAction( clip );
+			//action.play();
+			
+			animate();
 		},
 		// called while loading is progressing
 		function ( xhr ) {
@@ -220,8 +231,10 @@ function animate()
 	requestAnimationFrame(animate);
 	deltaTime = clock.getDelta();
 	totalTime += deltaTime;
+	mixer.update( delta );
 	update();
 	render();
+	
 }
 	
 function showUsb(){
