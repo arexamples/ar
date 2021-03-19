@@ -1,22 +1,49 @@
 <!DOCTYPE html>
+<!-- three.js library 
+<script src='https://raw.githack.com/arexamples/ar/master/libs/three/three.min.js'></script>
+ar.js
+<script src="https://raw.githack.com/arexamples/ar/master/libs/ar/ar.js"></script>
+<script>THREEx.ArToolkitContext.baseURL = '../'</script>
+
+https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/src/threex/threex-arsmoothedcontrols.js
+
+-->
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<title>Hello, world!</title>
-	<!-- include three.js library -->
-	<script src='libs/js/three.js'></script>
-	<!-- include jsartookit -->
-	<script src="libs/jsartoolkit5/artoolkit.min.js"></script>
-	<script src="libs/jsartoolkit5/artoolkit.api.js"></script>
+
+    	<title>AR - Back to store - home</title>
+	<script src='https://rawcdn.githack.com/arexamples/ar/main/libs/js/three.js'></script>
+	
+	<script src="https://rawcdn.githack.com/arexamples/ar/main/libs/jsartoolkit5/artoolkit.min.js"></script>
+	<script src="https://rawcdn.githack.com/arexamples/ar/main/libs/jsartoolkit5/artoolkit.api.js"></script>
 	<!-- include threex.artoolkit -->
-	<script src="libs/threex/threex-artoolkitsource.js"></script>
-	<script src="libs/threex/threex-artoolkitcontext.js"></script>
-	<script src="libs/threex/threex-arbasecontrols.js"></script>
-	<script src="libs/threex/threex-armarkercontrols.js"></script>
+	<script src="https://rawcdn.githack.com/arexamples/ar/main/libs/threex/threex-artoolkitsource.js"></script>
+	<script src="https://rawcdn.githack.com/arexamples/ar/main/libs/threex/threex-artoolkitcontext.js"></script>
+	<script src="https://rawcdn.githack.com/arexamples/ar/main/libs/threex/threex-arbasecontrols.js"></script>
+	<script src="https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/src/threex/threex-armarkercontrols.js"></script>
+
+	<script src='https://rawcdn.githack.com/arexamples/ar/main/libs/js/GLTFLoader.js'></script>
+	<!-- include three.js library 
+	
+	<script src='https://raw.githubusercontent.com/arexamples/ar/main/libs/js/OBJLoader.js'></script>
+	<script src='https://raw.githubusercontent.com/arexamples/ar/main/libs/js/MTLLoader.js'></script>
+	
+        
+	<script src="https://threejs.org/build/three.min.js"></script>
+	<script src="https://threejs.org/examples/js/loaders/GLTFLoader.js"></script>
+-->
+
 </head>
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
-
+<div style='position: absolute; top: 0px;width: 100%; padding: 10px; box-sizing: border-box; text-align: center; z-index: 1;'>
+	<button onclick="showUsb()" type="button" class="btn btn-primary">Prize</button> 
+	<a href="https://rawcdn.githack.com/arexamples/ar/master/images/map.png" target="_blank" ret="noopener noreferrer"><button type="button" class="btn btn-danger">Map</button></a> 
+	<button onclick="showArrow()" type="button" class="btn btn-success">Direction</button>
+</div>	
 <!-- 
+-moz-user-select: none; -webkit-user-select: none; -ms-user-select: none;user-select: none;pointer-events: none;
+
   Example created by Lee Stemkoski: https://github.com/stemkoski
   Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 -->
@@ -30,6 +57,8 @@ var arToolkitSource, arToolkitContext;
 var markerRoot1;
 
 var mesh1;
+	
+var mixer;	
 
 initialize();
 animate();
@@ -109,9 +138,10 @@ function initialize()
 	markerRoot1 = new THREE.Group();
 	scene.add(markerRoot1);
 	let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
-		type: 'pattern', patternUrl: "data/hiro.patt",
+		type: 'pattern', patternUrl: "data/hiro.patt", smooth: true, smoothCount: 10, smoothTolerance: 0.01, smoothThreshold: 5,
 	})
 
+	/*
 	let geometry1 = new THREE.PlaneBufferGeometry(1,1, 4,4);
 	let loader = new THREE.TextureLoader();
 	// let texture = loader.load( 'images/earth.jpg', render );
@@ -119,9 +149,66 @@ function initialize()
 	mesh1 = new THREE.Mesh( geometry1, material1 );
 	mesh1.rotation.x = -Math.PI/2;
 	markerRoot1.add( mesh1 );
+	*/
 	
 	function onProgress(xhr) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' ); }
 	function onError(xhr) { console.log( 'An error happened' ); }
+	
+	/*new THREE.OBJLoader()
+		.setPath( 'models/' )
+		.load( 'fish-2.mtl', function ( materials ) {
+			materials.preload();
+			new THREE.OBJLoader()
+				.setMaterials( materials )
+				.setPath( 'https://raw.githubusercontent.com/arexamples/ar/main/models/' )
+				.load( 'usb_anim.glb', function ( group ) {
+					mesh0 = group.children[0];
+					mesh0.material.side = THREE.DoubleSide;
+					mesh0.position.y = 0.25;
+					mesh0.scale.set(0.25,0.25,0.25);
+					markerRoot1.add(mesh0);
+				}, onProgress, onError );
+		});*/
+	
+	var loader2 = new THREE.GLTFLoader();
+	// Load a glTF resource
+	loader2.load(
+		// resource URL
+		'https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb',
+		// called when the resource is loaded
+		function ( gltf ) {
+			markerRoot1.add( gltf.scene );
+			gltf.scene.rotation.set(0, 0, -90);
+			console.log(gltf)
+			console.log(gltf.scene)
+			console.log(gltf.scenes)
+			console.log(gltf.animations)
+			console.log(gltf.cameras)
+			console.log(gltf.asset)
+			gltf.animations; // Array<THREE.AnimationClip>
+			gltf.scene; // THREE.Group
+			gltf.scenes; // Array<THREE.Group>
+			gltf.cameras; // Array<THREE.Camera>
+			gltf.asset; // Object
+			
+			mixer = new THREE.AnimationMixer(gltf.scene);
+			mixer.clipAction(gltf.animations[0]).play();
+			
+			//const clip = THREE.AnimationClip.findByName( clips, 'dance' );
+			//const action = mixer.clipAction( clip );
+			//action.play();
+			
+			animate();
+		},
+		// called while loading is progressing
+		function ( xhr ) {
+			console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+		},
+		// called when loading has errors
+		function ( error ) {
+			console.log( 'An error happened' );
+		}
+	); 
 	
 }
 
@@ -145,10 +232,23 @@ function animate()
 	requestAnimationFrame(animate);
 	deltaTime = clock.getDelta();
 	totalTime += deltaTime;
+	if(mixer != null)
+	{
+		mixer.update( deltaTime );
+	}
 	update();
 	render();
+	
 }
+	
+function showUsb(){
 
+}
+  
+function showArrow(){
+
+}             
+                                                                                     
 </script>
 
 </body>
