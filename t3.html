@@ -232,7 +232,10 @@ function animate()
 	requestAnimationFrame(animate);
 	deltaTime = clock.getDelta();
 	totalTime += deltaTime;
-	mixer.update( deltaTime );
+	if(mixer != null)
+	{
+		mixer.update( deltaTime );
+	}
 	update();
 	render();
 	
