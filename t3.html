@@ -167,7 +167,12 @@ function initialize()
 		// called when the resource is loaded
 		function ( gltf ) {
 			markerRoot1.add( gltf.scene );
-
+			console.log(gltf)
+			console.log(gltf.scene)
+			console.log(gltf.scenes)
+			console.log(gltf.animations)
+			console.log(gltf.cameras)
+			console.log(gltf.asset)
 			gltf.animations; // Array<THREE.AnimationClip>
 			gltf.scene; // THREE.Group
 			gltf.scenes; // Array<THREE.Group>
