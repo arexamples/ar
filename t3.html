@@ -231,7 +231,7 @@ function animate()
 	requestAnimationFrame(animate);
 	deltaTime = clock.getDelta();
 	totalTime += deltaTime;
-	mixer.update( delta );
+	mixer.update( deltaTime );
 	update();
 	render();
 	
