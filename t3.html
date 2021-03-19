@@ -175,6 +175,7 @@ function initialize()
 		// called when the resource is loaded
 		function ( gltf ) {
 			markerRoot1.add( gltf.scene );
+			gltf.scene.rotation.set(45, 45, 45);
 			console.log(gltf)
 			console.log(gltf.scene)
 			console.log(gltf.scenes)
