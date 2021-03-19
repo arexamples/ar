@@ -141,7 +141,7 @@ function initialize()
 		type: 'pattern', patternUrl: "data/hiro.patt", smooth: true, smoothCount: 10, smoothTolerance: 0.01, smoothThreshold: 5,
 	})
 
-	
+	/*
 	let geometry1 = new THREE.PlaneBufferGeometry(1,1, 4,4);
 	let loader = new THREE.TextureLoader();
 	// let texture = loader.load( 'images/earth.jpg', render );
@@ -149,6 +149,7 @@ function initialize()
 	mesh1 = new THREE.Mesh( geometry1, material1 );
 	mesh1.rotation.x = -Math.PI/2;
 	markerRoot1.add( mesh1 );
+	*/
 	
 	function onProgress(xhr) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' ); }
 	function onError(xhr) { console.log( 'An error happened' ); }
@@ -177,7 +178,7 @@ function initialize()
 		// called when the resource is loaded
 		function ( gltf ) {
 			markerRoot1.add( gltf.scene );
-			//gltf.scene.rotation.set(-90, 0, 0);
+			gltf.scene.rotation.set(-90, 0, 0);
 			console.log(gltf)
 			console.log(gltf.scene)
 			console.log(gltf.scenes)
