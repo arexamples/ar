@@ -222,11 +222,6 @@ var loader = new THREE.GLTFLoader();
 			
 			//animate();
 			model = gltf.scene;
-			var xxx = gltf;
-			console.log("model")
-			console.log(model)
-			console.log("xxx")
-			console.log(xxx)
 		},
 		// called while loading is progressing
 		function ( xhr ) {
@@ -269,12 +264,12 @@ function animate()
 }
 	
 function showUsb(){
-	console.log(xxx)
+	console.log(modelUsb)
 	addModelToMarker(modelUsb, markerRoot1)
 }
   
 function showArrow(){
-	console.log(xxx)
+	console.log(modelArrow)
 	addModelToMarker(modelArrow, markerRoot1)
 }             
                                                                                      
