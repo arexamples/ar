@@ -197,17 +197,16 @@ var loader = new THREE.GLTFLoader();
 		url,
 		// called when the resource is loaded
 		function ( gltf ) {
-			console.log(markerRoot)
 			if(markerRoot.children.length > 0)
 			{
 				markerRoot.children = [];
 			}
 			markerRoot.add(gltf.scene);
-			console.log(markerRoot)
-
-			gltf.scene.rotation.copy(rotation);
+			gltf.scene.rotation.set(rotation.x, rotation.y, rotation.z);
 			gltf.scene.scale.copy(scale);
 			gltf.scene.position.copy(position);
+			
+			
 			
 			
 			//gltf.scene.rotation.set(rotation.x, rotation.y, rotation.z);
