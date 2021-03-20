@@ -81,7 +81,7 @@ function initialize()
 	const light2  = new DirectionalLight(0xFFFFFF, 0.8 * Math.PI);
 	light2.position.set(0.5, 0, 0.866); // ~60º
 	light2.name = 'main_light';
-	this.defaultCamera.add light2);
+	this.defaultCamera.add(light2);
 
 	renderer = new THREE.WebGLRenderer({
 		antialias : true,
