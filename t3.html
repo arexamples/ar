@@ -202,11 +202,11 @@ function addModelToMarker(model, markerRoot){
 function loadModel(url){
 var loader = new THREE.GLTFLoader();
 	// Load a glTF resource
-	loader.load(
+	return loader.load(
 		// resource URL
 		url,
 		// called when the resource is loaded
-		return function ( gltf ) {
+		function ( gltf ) {
 			//markerRoot.add( gltf.scene );
 			gltf.scene.rotation.set(-90, 0, 0);
 			console.log(gltf)
