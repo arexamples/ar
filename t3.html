@@ -59,6 +59,9 @@ var markerRoot1;
 var mesh1;
 	
 var mixer;	
+	
+var modelUsb;
+var modelArrow;
 
 initialize();
 animate();
@@ -150,11 +153,11 @@ function initialize()
 	mesh1 = new THREE.Mesh( geometry1, material1 );
 	mesh1.rotation.x = -Math.PI/2;
 	markerRoot1.add( mesh1 );
-	*/
+	
 	
 	function onProgress(xhr) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' ); }
 	function onError(xhr) { console.log( 'An error happened' ); }
-	
+	*/
 	/*new THREE.OBJLoader()
 		.setPath( 'models/' )
 		.load( 'fish-2.mtl', function ( materials ) {
@@ -171,14 +174,29 @@ function initialize()
 				}, onProgress, onError );
 		});*/
 	
-	var loader2 = new THREE.GLTFLoader();
+	modelUsb = loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb')
+	modelArrow = loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb')
+	
+	
+}
+	
+function addModelToMarker(model, markerRoot){
+	markerRoot.add(gltf.scene);
+	mixer = new THREE.AnimationMixer(gltf.scene);
+	mixer.clipAction(gltf.animations[0]).play();
+	animate();
+}	
+	
+	
+function loadModel(url){
+var loader = new THREE.GLTFLoader();
 	// Load a glTF resource
-	loader2.load(
+	loader.load(
 		// resource URL
-		'https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb',
+		url,
 		// called when the resource is loaded
 		function ( gltf ) {
-			markerRoot1.add( gltf.scene );
+			//markerRoot.add( gltf.scene );
 			gltf.scene.rotation.set(-90, 0, 0);
 			console.log(gltf)
 			console.log(gltf.scene)
@@ -192,14 +210,15 @@ function initialize()
 			gltf.cameras; // Array<THREE.Camera>
 			gltf.asset; // Object
 			
-			mixer = new THREE.AnimationMixer(gltf.scene);
-			mixer.clipAction(gltf.animations[0]).play();
+			//mixer = new THREE.AnimationMixer(gltf.scene);
+			//mixer.clipAction(gltf.animations[0]).play();
 			
 			//const clip = THREE.AnimationClip.findByName( clips, 'dance' );
 			//const action = mixer.clipAction( clip );
 			//action.play();
 			
-			animate();
+			//animate();
+			return gltf;
 		},
 		// called while loading is progressing
 		function ( xhr ) {
@@ -210,8 +229,7 @@ function initialize()
 			console.log( 'An error happened' );
 		}
 	); 
-	
-}
+}	
 
 
 function update()
@@ -243,11 +261,11 @@ function animate()
 }
 	
 function showUsb(){
-
+	addModelToMarker(modelUsb, markerRoot1)
 }
   
 function showArrow(){
-
+	addModelToMarker(modelArrow, markerRoot1)
 }             
                                                                                      
 </script>
