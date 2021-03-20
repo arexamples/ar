@@ -174,17 +174,8 @@ function initialize()
 				}, onProgress, onError );
 		});*/
 	
-	modelUsb = loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb')
-	console.log("modelUsb")
-	console.log(modelUsb)
-	modelArrow = loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb')
-	console.log("modelArrow")
-	console.log(modelArrow)
-	console.log("modelUsb")
-	console.log(modelUsb)
-	console.log("modelArrow")
-	console.log(modelArrow)
-	
+	loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb', modelUsb)
+	loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb', modelArrow)
 	
 }
 	
@@ -200,7 +191,7 @@ function addModelToMarker(model, markerRoot){
 }	
 	
 	
-function loadModel(url){
+function loadModel(url, model){
 var loader = new THREE.GLTFLoader();
 	// Load a glTF resource
 	loader.load(
@@ -230,7 +221,7 @@ var loader = new THREE.GLTFLoader();
 			//action.play();
 			
 			//animate();
-			return gltf.scene;
+			model = gltf;
 		},
 		// called while loading is progressing
 		function ( xhr ) {
@@ -273,10 +264,12 @@ function animate()
 }
 	
 function showUsb(){
+	console.log(modelUsb)
 	addModelToMarker(modelUsb, markerRoot1)
 }
   
 function showArrow(){
+	console.log(modelArrow)
 	addModelToMarker(modelArrow, markerRoot1)
 }             
                                                                                      
