@@ -221,7 +221,12 @@ var loader = new THREE.GLTFLoader();
 			//action.play();
 			
 			//animate();
-			model = gltf;
+			model = gltf.scene;
+			var xxx = gltf;
+			console.log("model")
+			console.log(model)
+			console.log("xxx")
+			console.log(xxx)
 		},
 		// called while loading is progressing
 		function ( xhr ) {
