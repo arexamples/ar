@@ -200,7 +200,7 @@ function addModelToMarker(model, markerRoot){
 }	
 	
 	
-function loadModel(url, model){
+function loadModelToVar(url, modelVar){
 var loader = new THREE.GLTFLoader();
 	// Load a glTF resource
 	loader.load(
@@ -230,8 +230,8 @@ var loader = new THREE.GLTFLoader();
 			//action.play();
 			
 			//animate();
-			model.model = gltf;
-			model.add(model.model);
+			modelVar.model = gltf;
+			modelVar.add(modelVar.model);
 		},
 		// called while loading is progressing
 		function ( xhr ) {
