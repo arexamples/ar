@@ -60,8 +60,9 @@ var mesh1;
 	
 var mixer;	
 	
-var modelUsb;
-var modelArrow;
+
+var modelUsb = new THREE.Object3D();
+var modelArrow = new THREE.Object3D();
 
 initialize();
 animate();
@@ -174,8 +175,8 @@ function initialize()
 				}, onProgress, onError );
 		});*/
 	
-	modelUsb = loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb')
-	modelArrow = loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb')
+	loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb', modelUsb)
+	loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb', modelArrow)
 	
 }
 	
@@ -199,10 +200,10 @@ function addModelToMarker(model, markerRoot){
 }	
 	
 	
-function loadModel(url){
+function loadModel(url, model){
 var loader = new THREE.GLTFLoader();
 	// Load a glTF resource
-	return loader.load(
+	loader.load(
 		// resource URL
 		url,
 		// called when the resource is loaded
@@ -229,6 +230,8 @@ var loader = new THREE.GLTFLoader();
 			//action.play();
 			
 			//animate();
+			model.model = gltf;
+			model.add(model.model);
 		},
 		// called while loading is progressing
 		function ( xhr ) {
