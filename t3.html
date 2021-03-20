@@ -190,11 +190,10 @@ var loader = new THREE.GLTFLoader();
 		function ( gltf ) {
 			if(markerRoot.children.length > 0)
 			{
-				markerRoot.children[0] = gltf.scene;	
+				console.log("pop");
+				markerRoot.pop();
 			}
-			else{
-				markerRoot.add(gltf.scene);
-			}
+			markerRoot.add(gltf.scene);
 
 			gltf.scene.rotation.set(rotation.x, rotation.y, rotation.z);
 			gltf.scene.scale.set(scale.x, scale.y, scale.z);
