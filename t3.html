@@ -196,9 +196,9 @@ var loader = new THREE.GLTFLoader();
 			markerRoot.add(gltf.scene);
 			console.log(markerRoot)
 
-			gltf.scene.rotation = rotation;
-			gltf.scene.scale = scale;
-			gltf.scene.position = position;
+			gltf.scene.rotation.set(rotation);
+			gltf.scene.scale.set(scale);
+			gltf.scene.position.set(position);
 			//gltf.scene.rotation.set(rotation.x, rotation.y, rotation.z);
 			//gltf.scene.scale.set(scale.x, scale.y, scale.z);
 
