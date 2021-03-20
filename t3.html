@@ -61,9 +61,6 @@ var mesh1;
 var mixer;	
 	
 
-var modelUsb = new THREE.Object3D();
-var modelArrow = new THREE.Object3D();
-
 initialize();
 animate();
 
@@ -175,32 +172,15 @@ function initialize()
 				}, onProgress, onError );
 		});*/
 	
-	loadModelToVar('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb', modelUsb)
-	loadModelToVar('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb', modelArrow)
+	
+	
 	
 }
 	
-function addModelToMarker(model, markerRoot){
-	/*markerRoot.add(model.scene);
-	console.log(model.animations.length)
-	if(model.animations.length != 0)
-	{
-		mixer = new THREE.AnimationMixer(model.scene);
-		mixer.clipAction(model.animations[0]).play();
-	}
-	animate();*/
-	markerRoot.add(model);
-	console.log(model.animations.length)
-	if(model.animations.length != 0)
-	{
-		mixer = new THREE.AnimationMixer(model.scene);
-		mixer.clipAction(model.animations[0]).play();
-	}
-	animate();
-}	
+
 	
 	
-function loadModelToVar(url, modelVar){
+function loadModel(url, markerRoot){
 var loader = new THREE.GLTFLoader();
 	// Load a glTF resource
 	loader.load(
@@ -230,8 +210,14 @@ var loader = new THREE.GLTFLoader();
 			//action.play();
 			
 			//animate();
-			modelVar.model = gltf;
-			modelVar.add(modelVar.model);
+			markerRoot.add(model);
+			console.log(model.animations.length)
+			if(model.animations.length != 0)
+			{
+				mixer = new THREE.AnimationMixer(model.scene);
+				mixer.clipAction(model.animations[0]).play();
+			}
+			animate();
 		},
 		// called while loading is progressing
 		function ( xhr ) {
@@ -274,13 +260,11 @@ function animate()
 }
 	
 function showUsb(){
-	console.log(modelUsb)
-	addModelToMarker(modelUsb, markerRoot1)
+	loadModelToVar('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb', markerRoot1)
 }
   
 function showArrow(){
-	console.log(modelArrow)
-	addModelToMarker(modelArrow, markerRoot1)
+	loadModelToVar('https://rawcdn.githack.com/arexamples/ar/main/models/arrow.glb', markerRoot1)
 }             
                                                                                      
 </script>
