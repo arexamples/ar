@@ -181,12 +181,12 @@ function initialize()
 }
 	
 function addModelToMarker(model, markerRoot){
-	markerRoot.add(gltf.scene);
-	console.log(gltf.animations.length)
-	if(gltf.animations.length != 0)
+	markerRoot.add(model.scene);
+	console.log(model.animations.length)
+	if(model.animations.length != 0)
 	{
-		mixer = new THREE.AnimationMixer(gltf.scene);
-		mixer.clipAction(gltf.animations[0]).play();
+		mixer = new THREE.AnimationMixer(model.scene);
+		mixer.clipAction(model.animations[0]).play();
 	}
 	animate();
 }	
