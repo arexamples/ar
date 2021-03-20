@@ -182,8 +182,12 @@ function initialize()
 	
 function addModelToMarker(model, markerRoot){
 	markerRoot.add(gltf.scene);
-	mixer = new THREE.AnimationMixer(gltf.scene);
-	mixer.clipAction(gltf.animations[0]).play();
+	console.log(gltf.animations.length)
+	if(gltf.animations.length != 0)
+	{
+		mixer = new THREE.AnimationMixer(gltf.scene);
+		mixer.clipAction(gltf.animations[0]).play();
+	}
 	animate();
 }	
 	
