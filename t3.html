@@ -210,12 +210,12 @@ var loader = new THREE.GLTFLoader();
 			//action.play();
 			
 			//animate();
-			markerRoot.add(model);
-			console.log(model.animations.length)
+			markerRoot.add(gltf);
+			console.log(gltf.animations.length)
 			if(model.animations.length != 0)
 			{
-				mixer = new THREE.AnimationMixer(model.scene);
-				mixer.clipAction(model.animations[0]).play();
+				mixer = new THREE.AnimationMixer(gltf.scene);
+				mixer.clipAction(gltf.animations[0]).play();
 			}
 			animate();
 		},
