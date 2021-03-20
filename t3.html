@@ -188,26 +188,24 @@ var loader = new THREE.GLTFLoader();
 		url,
 		// called when the resource is loaded
 		function ( gltf ) {
+			console.log(markerRoot)
 			if(markerRoot.children.length > 0)
 			{
-				console.log("pop");
-				markerRoot.pop();
+				markerRoot.children = [];
 			}
 			markerRoot.add(gltf.scene);
+			console.log(markerRoot)
 
 			gltf.scene.rotation.set(rotation.x, rotation.y, rotation.z);
 			gltf.scene.scale.set(scale.x, scale.y, scale.z);
-			console.log(gltf)
-			console.log(gltf.scene)
-			console.log(gltf.scenes)
-			console.log(gltf.animations)
-			console.log(gltf.cameras)
-			console.log(gltf.asset)
+
+			/*
 			gltf.animations; // Array<THREE.AnimationClip>
 			gltf.scene; // THREE.Group
 			gltf.scenes; // Array<THREE.Group>
 			gltf.cameras; // Array<THREE.Camera>
 			gltf.asset; // Object
+			*/
 			
 			//const clip = THREE.AnimationClip.findByName( clips, 'dance' );
 			//const action = mixer.clipAction( clip );
