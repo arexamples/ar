@@ -212,7 +212,7 @@ var loader = new THREE.GLTFLoader();
 			//animate();
 			markerRoot.add(gltf);
 			console.log(gltf.animations.length)
-			if(model.animations.length != 0)
+			if(gltf.animations.length != 0)
 			{
 				mixer = new THREE.AnimationMixer(gltf.scene);
 				mixer.clipAction(gltf.animations[0]).play();
