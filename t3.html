@@ -188,7 +188,6 @@ var loader = new THREE.GLTFLoader();
 		url,
 		// called when the resource is loaded
 		function ( gltf ) {
-			//markerRoot.add( gltf.scene );
 			gltf.scene.rotation.set(-90, 0, 0);
 			console.log(gltf)
 			console.log(gltf.scene)
@@ -202,16 +201,11 @@ var loader = new THREE.GLTFLoader();
 			gltf.cameras; // Array<THREE.Camera>
 			gltf.asset; // Object
 			
-			//mixer = new THREE.AnimationMixer(gltf.scene);
-			//mixer.clipAction(gltf.animations[0]).play();
-			
 			//const clip = THREE.AnimationClip.findByName( clips, 'dance' );
 			//const action = mixer.clipAction( clip );
 			//action.play();
 			
-			//animate();
-			markerRoot.add(gltf);
-			console.log(gltf.animations.length)
+			markerRoot.add(gltf.scene);
 			if(gltf.animations.length != 0)
 			{
 				mixer = new THREE.AnimationMixer(gltf.scene);
