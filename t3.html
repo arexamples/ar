@@ -180,7 +180,7 @@ function initialize()
 
 	
 	
-function loadModel(url, markerRoot){
+function loadModel(url, markerRoot, rotation, scale){
 var loader = new THREE.GLTFLoader();
 	// Load a glTF resource
 	loader.load(
@@ -188,7 +188,8 @@ var loader = new THREE.GLTFLoader();
 		url,
 		// called when the resource is loaded
 		function ( gltf ) {
-			gltf.scene.rotation.set(-90, 0, 0);
+			gltf.scene.rotation.set(rotation.x, rotation.y, rotation.z);
+			gltf.scene.scale.set(scale.x, scale.y, scale.z);
 			console.log(gltf)
 			console.log(gltf.scene)
 			console.log(gltf.scenes)
@@ -205,7 +206,8 @@ var loader = new THREE.GLTFLoader();
 			//const action = mixer.clipAction( clip );
 			//action.play();
 			
-			markerRoot.add(gltf.scene);
+			//markerRoot.add(gltf.scene);
+			markerRoot.children[0] = gltf.scene;
 			if(gltf.animations.length != 0)
 			{
 				mixer = new THREE.AnimationMixer(gltf.scene);
@@ -255,12 +257,12 @@ function animate()
 	
 function showUsb(){
 	console.log(markerRoot1)
-	loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb', markerRoot1)
+	loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb', markerRoot1, new THREE.Vector3(-90, 0, 0), new THREE.Vector3(1, 1, 1))
 }
   
 function showArrow(){
 	console.log(markerRoot1)
-	loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/arrow.glb', markerRoot1)
+	loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/arrow.glb', markerRoot1, new THREE.Vector3(0, -135, 0), new THREE.Vector3(0.25, 0.25, 0.25))
 }             
                                                                                      
 </script>
