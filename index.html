@@ -90,7 +90,9 @@ function initialize()
 		alpha: true
 	});
 	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-	renderer.setSize( 640, 480 );
+	//renderer.setSize( 640, 480 );
+	renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.setSize( window.innerWidth, window.innerHeight );
 	renderer.domElement.style.position = 'absolute'
 	renderer.domElement.style.top = '0px'
 	renderer.domElement.style.left = '0px'
@@ -210,7 +212,7 @@ var loader = new THREE.GLTFLoader();
 			gltf.scene.position.copy(position);
 			
 			
-			
+			console.log(gltf)
 			
 			//gltf.scene.rotation.set(rotation.x, rotation.y, rotation.z);
 			//gltf.scene.scale.set(scale.x, scale.y, scale.z);
