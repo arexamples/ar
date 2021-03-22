@@ -194,7 +194,7 @@ function initialize()
 
 	
 	
-function loadModel(url, markerRoot, rotation, scale, position){
+function loadModel(url, markerRoot, rotation, scale, position, changeFiltering){
 var loader = new THREE.GLTFLoader();
 	// Load a glTF resource
 	loader.load(
@@ -211,7 +211,12 @@ var loader = new THREE.GLTFLoader();
 			gltf.scene.scale.copy(scale);
 			gltf.scene.position.copy(position);
 			
-			
+			if(changeFiltering)
+			{
+				for(int i=0; i<scene.children[0].children.length; i++]){
+					scene.children[0].children[i].material.depthTest = false
+				}
+			}
 			console.log(gltf)
 			
 			//gltf.scene.rotation.set(rotation.x, rotation.y, rotation.z);
@@ -282,7 +287,8 @@ function showUsb(){
 	loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/usb_anim.glb', markerRoot1,
 		  new THREE.Vector3(toRadians(-90), 0, 0), 
 		  new THREE.Vector3(1, 1, 1),
-		  new THREE.Vector3(0, 0, 0)
+		  new THREE.Vector3(0, 0, 0),
+		  false
 		)
 }
   
@@ -290,7 +296,8 @@ function showArrow(){
 	loadModel('https://rawcdn.githack.com/arexamples/ar/main/models/arrow2.glb', markerRoot1, 
 		  new THREE.Vector3(0, toRadians(-135), 0), 
 		  new THREE.Vector3(0.25, 0.25, 0.25),
-		  new THREE.Vector3(0.5, 1, -1)
+		  new THREE.Vector3(0.5, 1, -1),
+		  true
 		)
 }     
 	
