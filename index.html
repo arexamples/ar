@@ -214,7 +214,11 @@ var loader = new THREE.GLTFLoader();
 			if(changeFiltering)
 			{
 				for(var i = 0; i < gltf.scene.children[0].children.length; i++){
-					gltf.scene.children[0].children[i].material.depthTest = false
+					gltf.scene.children[0].children[i].material.map.minFilter = THREE.LinearMipMapLinearFilter 
+					gltf.scene.children[0].children[i].material.map.magFilter = THREE.LinearFilter 
+					//LinearMipmapLinearFilter 
+					//material.map.magFilter = THREE.LinearMipMapLinearFilter 
+					//material.map.minFilter = THREE.LinearMipMapLinearFilter 
 				}
 			}
 			console.log(gltf)
