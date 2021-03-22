@@ -143,14 +143,11 @@ function initialize()
 	arToolkitContext = new THREEx.ArToolkitContext({
 		debug: true,
 		cameraParametersUrl: 'data/camera_para.dat',
-		detectionMode: 'mono_and_matrix',
+		detectionMode: 'mono',
 		maxDetectionRate: 60,
 		canvasWidth: 640,
 		canvasHeight: 480,
-		patternRatio: 0.5,
-		labelingMode: 'black_region'
-		
-		
+		patternRatio: 0.5
 	});
 	
 	// copy projection matrix to camera when initialization complete
