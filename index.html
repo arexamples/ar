@@ -210,10 +210,10 @@ var loader = new THREE.GLTFLoader();
 			gltf.scene.rotation.set(rotation.x, rotation.y, rotation.z);
 			gltf.scene.scale.copy(scale);
 			gltf.scene.position.copy(position);
-			
+
 			if(changeFiltering)
 			{
-				for(int i=0; i<scene.children[0].children.length; i++){
+				for(var i = 0; i < scene.children[0].children.length; i++){
 					scene.children[0].children[i].material.depthTest = false
 				}
 			}
