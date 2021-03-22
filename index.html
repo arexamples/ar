@@ -14,15 +14,15 @@ https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/src/threex/threex-ars
     	<title>AR - Back to store - home</title>
 	<script src='https://rawcdn.githack.com/arexamples/ar/main/libs/js/three.js'></script>
 	
-	<!--<script src="https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/vendor/jsartoolkit5/build/artoolkit.min.js"></script>
-	<script src="https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/vendor/jsartoolkit5/js/artoolkit.api.js"></script>-->
+	<script src="https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/vendor/jsartoolkit5/build/artoolkit.min.js"></script>
+	<script src="https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/vendor/jsartoolkit5/js/artoolkit.api.js"></script>
 	<!-- include threex.artoolkit -->
-	<!--<script src="https://rawcdn.githack.com/arexamples/ar/main/libs/threex/threex-artoolkitsource.js"></script>
+	<script src="https://rawcdn.githack.com/arexamples/ar/main/libs/threex/threex-artoolkitsource.js"></script>
 	<script src="https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/src/threex/threex-artoolkitcontext.js"></script>
 	<script src="https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/src/threex/threex-arbasecontrols.js"></script>
-	<script src="https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/src/threex/threex-armarkercontrols.js"></script>-->
+	<script src="https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/src/threex/threex-armarkercontrols.js"></script>
 	
-	<script src="https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/build/ar.js"></script>
+	<!-- <script src="https://rawcdn.githack.com/AR-js-org/AR.js/master/three.js/build/ar.js"></script>-->
 
 	<script src='https://rawcdn.githack.com/arexamples/ar/main/libs/js/GLTFLoader.js'></script>
 	
@@ -141,7 +141,7 @@ function initialize()
 		
 	// create atToolkitContext
 	arToolkitContext = new THREEx.ArToolkitContext({
-		debug: true,
+		//debug: true,
 		cameraParametersUrl: 'data/camera_para.dat',
 		detectionMode: 'mono',
 		maxDetectionRate: 60,
@@ -162,11 +162,9 @@ function initialize()
 	// build markerControls
 	markerRoot1 = new THREE.Group();
 	scene.add(markerRoot1);
-	//markers/arrow_marker.patt
 
 	let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
 		type: 'pattern', 
-		//patternUrl: "https://rawcdn.githack.com/AR-js-org/AR.js/master/data/data/patt.hiro",
 		patternUrl : 'markers/pattern050.patt',
 		minConfidence: 0.6, smooth: true, smoothCount: 10, smoothTolerance: 0.01, smoothThreshold: 2,
 	})
