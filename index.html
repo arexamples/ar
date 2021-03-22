@@ -211,21 +211,6 @@ var loader = new THREE.GLTFLoader();
 			gltf.scene.scale.copy(scale);
 			gltf.scene.position.copy(position);
 
-			if(changeFiltering)
-			{
-				for(var i = 0; i < gltf.scene.children[0].children.length; i++){
-					console.log(gltf.scene.children[0].children[i])
-					console.log(gltf.scene.children[0].children[i].material)
-					console.log(gltf.scene.children[0].children[i].material.map)
-					console.log(gltf.scene.children[0].children[i].material.map.minFilter)
-					console.log(gltf.scene.children[0].children[i].material.map.magFilter)
-					gltf.scene.children[0].children[i].material.map.minFilter = THREE.LinearMipMapLinearFilter 
-					gltf.scene.children[0].children[i].material.map.magFilter = THREE.LinearFilter 
-					//LinearMipmapLinearFilter 
-					//material.map.magFilter = THREE.LinearMipMapLinearFilter 
-					//material.map.minFilter = THREE.LinearMipMapLinearFilter 
-				}
-			}
 			console.log(gltf)
 			
 			//gltf.scene.rotation.set(rotation.x, rotation.y, rotation.z);
