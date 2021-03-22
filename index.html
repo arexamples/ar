@@ -87,8 +87,7 @@ function initialize()
 	
 	renderer = new THREE.WebGLRenderer({
 		antialias : true,
-		alpha: true,
-		logarithmicDepthBuffer: true
+		alpha: true
 	});
 	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
 	//renderer.setSize( 640, 480 );
@@ -217,6 +216,7 @@ var loader = new THREE.GLTFLoader();
 				for(var i = 0; i < gltf.scene.children[0].children.length; i++){
 					gltf.scene.children[0].children[i].material.map.minFilter = THREE.LinearMipMapLinearFilter 
 					gltf.scene.children[0].children[i].material.map.magFilter = THREE.LinearFilter 
+					gltf.scene.children[0].children[i].material.anisotropy = renderer.capabilities.getMaxAnisotropy();
 					//LinearMipmapLinearFilter 
 					//material.map.magFilter = THREE.LinearMipMapLinearFilter 
 					//material.map.minFilter = THREE.LinearMipMapLinearFilter 
