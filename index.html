@@ -214,6 +214,11 @@ var loader = new THREE.GLTFLoader();
 			if(changeFiltering)
 			{
 				for(var i = 0; i < gltf.scene.children[0].children.length; i++){
+					console.log(gltf.scene.children[0].children[i])
+					console.log(gltf.scene.children[0].children[i].material)
+					console.log(gltf.scene.children[0].children[i].material.map)
+					console.log(gltf.scene.children[0].children[i].material.map.minFilter)
+					console.log(gltf.scene.children[0].children[i].material.map.magFilter)
 					gltf.scene.children[0].children[i].material.map.minFilter = THREE.LinearMipMapLinearFilter 
 					gltf.scene.children[0].children[i].material.map.magFilter = THREE.LinearFilter 
 					//LinearMipmapLinearFilter 
