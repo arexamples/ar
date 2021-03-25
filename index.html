@@ -30,8 +30,7 @@
     </div>
     
 
-    <div class="holder2">
-      <a-scene embedded device-orientation-permission-ui="enabled: false" [renderer]="logarithmicDepthBuffer: true;" arjs=’sourceType: webcam; trackingMethod:best; debugUIEnabled: true;’ vr-mode-ui='enabled: false'>
+      <a-scene class="holder2" embedded device-orientation-permission-ui="enabled: false" [renderer]="logarithmicDepthBuffer: true;" arjs=’sourceType: webcam; trackingMethod:best; debugUIEnabled: true;’ vr-mode-ui='enabled: false'>
       <a-assets>
         <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_anim.glb"></a-asset-item>
         <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/arrow.glb"></a-asset-item> 
@@ -43,7 +42,6 @@
       </a-marker>			   
       <a-entity camera debug ></a-entity>
       </a-scene>
-    </div>
   </body>
                                                                                      
 <script> 
