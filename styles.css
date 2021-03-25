@@ -17,7 +17,7 @@ body {
 
 .holder {
   z-index: 1;
-  background-color: red;
+  background-color: none;
   min-width: 100vw;
   min-height: 100vh;
   display: flex;
