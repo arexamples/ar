@@ -10,17 +10,13 @@ html {
   box-sizing: inherit;
 }
 
-
-
-.holder2 {
-  min-width: 100vw;
-  min-height: 100vh;
+body::-webkit-scrollbar {
+  display: none;
 }
-
 
 .holder {
   z-index: 1;
-  background-color: none;
+  background-color: transparent;
   min-width: 100vw;
   min-height: 100vh;
   display: flex;
@@ -28,7 +24,23 @@ html {
   justify-content: space-between;
   align-items: center;
   padding: 32px 8px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
+
+#myEmbeddedScene {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+/* a-scene {
+  display: block;
+  position: relative;
+  height: 100%;
+  width: 100%;
+} */
 
 .btn-group {
   padding: 0px 8%;
