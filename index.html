@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1">  -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>SHOP AFRAME</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+  </head>
+  <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+   <div style="text-align:center">
+    <button onclick="showUsb()" type="button" class="btn btn-primary">Prize</button> 
+    <a href="https://raw.githubusercontent.com/arexamples/ar/master/images/map.png" target="_blank" ret="noopener noreferrer"><button type="button" class="btn btn-danger">Map</button></a> 
+    <button onclick="showArrow()" type="button" class="btn btn-success">Direction</button>
+   </div>
+    
+   <!-- 
+   <div style="text-align:center; position:absolute; bottom: 0; width: 100%; z-index: 9999;">
+    <a href="https://raw.githubusercontent.com/arexamples/ar/master/images/map.png" target="_blank" ret="noopener noreferrer"><button type="button" class="btn btn-danger">Map</button></a>
+    <a href="https://raw.githubusercontent.com/arexamples/ar/master/images/map2.png" target="_blank" ret="noopener noreferrer"><button type="button" class="btn btn-danger">Map2</button></a>
+   </div> 
+trackingMethod:best;
+ emitevents="true" 
+   -->
+    
+    <div id="imageWrapper" style="text-align:center;"></div>  
+     
+    <a-scene embedded device-orientation-permission-ui="enabled: false" [renderer]="logarithmicDepthBuffer: true;" arjs=’sourceType: webcam; trackingMethod:best; debugUIEnabled: true;’ vr-mode-ui='enabled: false'>
+    <a-assets>
+      <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_anim.glb"></a-asset-item>
+      <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/arrow.glb"></a-asset-item> 
+    </a-assets>
+    <a-marker id="arrow_marker" type='pattern' url='markers/arrow_marker.patt'smooth="true smoothCount="10" smoothTolerance="0.01" smoothThreshold="5"> 
+    <a-entity wrapper id="wrapper" position="0 0 0" emitevents="true">     
+        <a-entity gltf-model="#usb" scale="1 1 1" rotation="-90 0 0" position="0 0 0" animation-mixer="clips: *"></a-entity>       
+    </a-entity>                                                                                   
+    </a-marker>			   
+    <a-entity camera debug ></a-entity>
+    </a-scene>
+  </body>
+                                                                                     
+<script> 
+var wrapper;
+var imageWrapper;                                                                                     
+  
+window.onload = () => {
+    wrapper = document.querySelector('[wrapper]');
+    imageWrapper = document.getElementById("imageWrapper");
+};   
+  
+function showUsb(){
+  var usbEntity = document.createElement('a-entity');
+  usbEntity.setAttribute('gltf-model', "#usb");
+  usbEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
+  usbEntity.setAttribute('scale', {x: 1, y: 1, z: 1});
+  usbEntity.setAttribute('animation-mixer', "clips: *");                                           
+
+  imageWrapper.innerHTML = '';                                             
+  wrapper.innerHTML = '';                                          
+  wrapper.appendChild(usbEntity);
+}
+  
+function showArrow(){
+  var arrowEntity = document.createElement('a-entity');
+  arrowEntity.setAttribute('gltf-model', "#arrow");
+  arrowEntity.setAttribute('rotation', {x: 0, y: -135, z: 0});
+  arrowEntity.setAttribute('position', {x: 0.5, y: 0, z: -1});                                               
+  arrowEntity.setAttribute('scale', {x: 0.25, y: 0.25, z: 0.25});
+
+  imageWrapper.innerHTML = '';                                               
+  wrapper.innerHTML = '';                                               
+  wrapper.appendChild(arrowEntity);
+}             
+                                                                                     
+function showMap(){                                                                      
+  var a = document.createElement('a');
+  a.href = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";
+  a.target = "_blank";                                                                                
+  a.ret = "noopener noreferrer";                                                                                
+                                                                                  
+  var img = document.createElement("img");
+  img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";   
+  img.style = "text-align:center;max-width: 100%; height: auto; position: absolute; bottom: 0;left: 0; z-index: 10;"                                                                                         
+                                                                                                                             
+  wrapper.innerHTML = '';
+  imageWrapper.innerHTML = '';                                                                                                                    
+  a.appendChild(img);                                                                                                       
+  imageWrapper.appendChild(a);                                                    
+}    
+                                                                                                                    
+function showMap2(){                                                                      
+  var a = document.createElement('a');
+  a.href = "https://raw.githubusercontent.com/arexamples/ar/master/images/map2.png";
+  a.target = "_blank";                                                                                
+  a.ret = "noopener noreferrer";                                                                                
+                                                                                  
+  var img = document.createElement("img");
+  img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map2.png";   
+  img.style = "text-align:center;max-width: 100%; height: auto; position: absolute; bottom: 0;left: 0; z-index: 10;"                                                                                         
+     
+                                                                                                                    
+  wrapper.innerHTML = '';
+  imageWrapper.innerHTML = '';                                                                                                                    
+  a.appendChild(img);                                                                                                       
+  imageWrapper.appendChild(a);                                                    
+}                                                                                                                     
+</script>                                                                                                                                                                         
+</html>
