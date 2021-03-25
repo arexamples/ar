@@ -1,18 +1,135 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+html {
+  box-sizing: border-box;
+}
+
+*,
+::after,
+::before {
+  box-sizing: inherit;
+}
+
 body {
-    font-family: Verdana;
-    letter-spacing: 1px;
-    font-size: 14px;
+  margin: 0;
+  font-family: "Roboto", sans-serif;
 }
-section {
-    display: none;
+
+.holder {
+  z-index: 1;
+  background-color: red;
+  min-width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 8px;
 }
-section:first-of-type {
-    display: block;
+
+.btn-group {
+  padding: 0px 8%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
 }
-ul {
-    list-style: none;
+
+.button {
+  background-color: rgba(254, 254, 254, 0.2);
+  border: 2px solid #ffffff;
+  min-height: 36px;
+  width: 23vw;
+  height: 6vh;
+  border-radius: 14px;
+  color: #fefefe;
+  font-size: 15px;
+  font-weight: 700;
 }
-li {
-    display:inline; 
-    text-align: center;
+
+.button:focus {
+  background-color: #fefefe;
+  color: #051e76;
+  outline: none;
+}
+
+.guide {
+  display: flex;
+  width: 100%;
+  padding: 0px 10%;
+}
+
+.robot {
+  margin-right: 24px;
+}
+
+.mystery-guide {
+  font-size: 9px;
+  font-weight: 700;
+  color: #fefefe;
+}
+
+.guide-bubble {
+  background-color: #fefefe;
+  border-radius: 0px 8px 8px 8px;
+  font-size: 11px;
+  line-height: 140%;
+  padding: 5px 16px;
+  color: #373737;
+  animation: fadeIn ease-in 1.5s, moveUp ease-in 1.5s;
+  position: relative;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes moveUp {
+  from {
+    top: 20px;
+  }
+  to {
+    top: 0px;
+  }
+}
+
+/* to disable landscape mode */
+@media screen and (orientation: landscape) {
+  .holder {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    min-width: unset;
+    width: 100vh;
+    height: 100vw;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+
+  .button {
+    width: 23vh;
+    height: 6vw;
+  }
+}
+
+/* styles for larger screens */
+@media screen and (min-width: 500px) {
+  .button {
+    font-size: 20px;
+  }
+  .robot img {
+    min-width: 80px;
+  }
+  .guide p {
+    font-size: 18px;
+  }
+  .guide-bubble {
+    font-size: 18px;
+    padding: 8px 24px;
+  }
 }
