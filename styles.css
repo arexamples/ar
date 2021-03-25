@@ -15,6 +15,12 @@ body {
   font-family: "Roboto", sans-serif;
 }
 
+.holder2 {
+  min-width: 100vw;
+  min-height: 100vh;
+}
+
+
 .holder {
   z-index: 1;
   background-color: none;
@@ -98,6 +104,7 @@ body {
 }
 
 /* to disable landscape mode */
+/*
 @media screen and (orientation: landscape) {
   .holder {
     transform: rotate(-90deg);
@@ -116,8 +123,9 @@ body {
     height: 6vw;
   }
 }
-
+*/
 /* styles for larger screens */
+/*
 @media screen and (min-width: 500px) {
   .button {
     font-size: 20px;
@@ -133,3 +141,4 @@ body {
     padding: 8px 24px;
   }
 }
+*/
