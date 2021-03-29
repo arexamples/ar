@@ -142,9 +142,11 @@
     </script>
   </head>
   <body>
+	   <!--
     <div id="slide2" class="slide">
     <div id="slide3" class="slide">
     <div id="slide4" class="slide">
+-->
     <a-scene fog="type: linear; color: #222222; far: 20;">
       <a-assets>
         <img id="floor" src="assets/floor.png">
@@ -154,10 +156,20 @@
       <a-sky color="#222222"></a-sky>
       <a-entity id="cameraRig">
         <a-camera id="camera">
+		<a-entity id="menu" class="screen menu dark" htmlembed="ppu:256" position="-2.712 2.5 -4.476" rotation="0 45 0">
+        <h2>Menu</h2>
+        <ul>
+          <li><a href="#" class="button">Home</a></li>
+          <li><a href="#slide2" class="button">CSS</a></li>
+          <li><a href="#slide3" class="button">Interactivity</a></li>
+          <li><a href="#slide4" class="button">Limitations</a></li>
+        </ul>
+      </a-entity>
         </a-camera>
         <a-entity id="mouseCursor" cursor="rayOrigin: mouse" raycaster="objects: .screen"></a-entity>
         <a-entity laser-controls raycaster="objects: .screen;"></a-entity>
       </a-entity>
+	    <!--
       <a-entity id="menu" class="screen menu dark" htmlembed="ppu:256" position="-2.712 2.5 -4.476" rotation="0 45 0">
         <h2>Menu</h2>
         <ul>
@@ -237,6 +249,7 @@
         <a class="imgLink" href="https://www.npmjs.com/package/aframe-htmlembed-component"><img src="assets/npm.png" width="80" height="80"><div>npm</div></a>
       </a-entity>
       <a-box material="src:#tex1" scale="0.5 0.5 0.5" position="0 0.5 -4" id="box" visible="false"></a-box>
+-->
     </a-scene>
     </div>
     </div>
