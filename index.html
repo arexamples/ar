@@ -18,8 +18,8 @@
       <div class="guide">
         <div class="robot"><img src="guide.svg" /></div>
         <div>
-          <p class="mystery-guide">Mystery guide</p>
-          <div class="guide-bubble">Naskenujte symbol kompasu</div>
+          <p class="mystery-guide">Tajemný průvodce</p>
+          <div class="guide-bubble">Naskenujte prosím symbol kompasu.</div>
         </div>
       </div>
       <div class="btn-group">
@@ -35,17 +35,20 @@
         <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_anim.glb"></a-asset-item>
         <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/arrow.glb"></a-asset-item> 
       </a-assets>
-      <a-marker id="arrow_marker" type='pattern' url='https://raw.githubusercontent.com/arexamples/ar/master/markers/arrow_marker.patt' smooth="true smoothCount="10" smoothTolerance="0.01" smoothThreshold="5"> 
+      <a-marker id="arrow_marker" type='pattern' url='https://raw.githubusercontent.com/arexamples/ar/master/markers/arrow_marker.patt' smooth="true smoothCount="10" smoothTolerance="0.01" smoothThreshold="5">
       <a-entity wrapper id="wrapper" position="0 0 0" emitevents="true">     
           <a-entity gltf-model="#usb" scale="1 1 1" rotation="-90 0 0" position="0 0 0" animation-mixer="clips: *"></a-entity>       
       </a-entity>                                                                                   
       </a-marker>			   
-      <a-entity camera></a-entity>
+      <a-entity camera debug ></a-entity>
       </a-scene>
       </div>
   </body>
                                                                                      
 <script> 
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
 var wrapper;
 var imageWrapper;                                                                                     
   
