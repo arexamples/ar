@@ -84,6 +84,37 @@ a-scene {
   padding: 0px 10%;
 }
 
+.overlay {
+  z-index: 2;
+  background-color: black;
+  opacity:0.85;
+  min-width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 8px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+}
+
+.overlay-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.overlay-container {
+  position: relative;
+  width: 75%;
+  max-width: 300px;
+}
+
+
+
 .robot {
   margin-right: 16px;
 }
