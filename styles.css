@@ -137,7 +137,7 @@ a-scene {
 }
 
 .guide-bubble::before {
-  content: url(bubble-arrow.svg);
+  content: url(https://raw.githubusercontent.com/arexamples/ar/master/bubble-arrow.svg);
   top: 2px;
   left: -9px;
   position: absolute;
