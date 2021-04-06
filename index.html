@@ -28,9 +28,9 @@
             <button onclick="wrongAnswer()" class="button">1997</button>
             <button onclick="wrongAnswer()" class="button">2003</button>
         </div>
-         <!--<div id="mapButton" class="map-button">
+        <div id="mapButton" class="map-button">
             <button onclick="rightAnswer()" class="button">Mapa<img src="map-icon.svg"></button>
-        </div> -->
+        </div>
     </div>
 
     <div id="overlay" class="overlay">
@@ -67,6 +67,7 @@ var overlay;
 var answerButton;
 var mapButton;
 var scannedMarker = false;
+var currentPhaze = "intro"
   
 window.onload = () => {
     wrapper = document.getElementById('wrapper');
@@ -76,6 +77,8 @@ window.onload = () => {
     guideText = document.getElementById("guide-text");
     answerButton = document.getElementById("answerButton");
     mapButton = document.getElementById("mapButton");
+    answerButton.style.visibility = "hidden";
+    mapButton.style.visibility = "hidden"; 
 };   
 
 AFRAME.registerComponent('registerevents', {
@@ -87,10 +90,23 @@ AFRAME.registerComponent('registerevents', {
             {
               guideText.innerHTML = 'Ve kterém roce se poprvě začal používat mobilní telefon pro osobní použití?'; 
               scannedMarker = true;
+              currentPhaze = "question"
             }   
             var markerId = marker.id;
             overlay.style.visibility = "hidden";
-            answerButton.style.visibility = "visible";
+            if(currentPhaze == "question")
+            {
+              answerButton.style.visibility = "visible";
+            }
+            if(currentPhaze == "model")
+            {
+              answerButton.style.visibility = "visible";
+            }
+            if(currentPhaze == "arrow")
+            {
+              answerButton.style.visibility = "visible";
+            }
+            
             console.log('markerFound', markerId);
             // TODO: Add your own code here to react to the marker being found.
         });
@@ -98,7 +114,18 @@ AFRAME.registerComponent('registerevents', {
         marker.addEventListener('markerLost', function() {
             var markerId = marker.id;
             overlay.style.visibility = "visible";
-            answerButton.style.visibility = "hidden";
+            if(currentPhaze == "question")
+            {
+              answerButton.style.visibility = "hidden";
+            }
+            if(currentPhaze == "model")
+            {
+              answerButton.style.visibility = "hidden";
+            }
+            if(currentPhaze == "arrow")
+            {
+              answerButton.style.visibility = "hidden";
+            }
             console.log('markerLost', markerId);
             // TODO: Add your own code here to react to the marker being lost.
         });
@@ -112,6 +139,7 @@ function wrongAnswer(){
 function rightAnswer(){
     guideText.innerHTML = 'Správně! Telefon Xxx Yyy od společnosti ABC se začal používat v USA v listopadu 1989.'; 
     animatedModel.setAttribute('animation-mixer',{clip: "*",loop: "once"});    
+    currentPhaze = "model"
 }
 
 
