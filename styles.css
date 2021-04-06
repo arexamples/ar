@@ -87,7 +87,7 @@ a-scene {
 .overlay {
   z-index: 2;
   background-color: black;
-  opacity:0.85;
+  opacity:0.4;
   min-width: 100%;
   min-height: 100%;
   display: flex;
