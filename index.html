@@ -22,8 +22,8 @@
             <div class="robot"><img src="https://raw.githubusercontent.com/arexamples/ar/master/guide.svg" /></div>
             <div>
                 <p class="mystery-guide">Tajemný průvodce</p>
-                <!-- <div id="guide-text" class="guide-bubble">Naskenujte prosím symbol kompasu.</div> -->
-                <div id="guide-text" class="guide-bubble">Ve kterém roce se poprvě začal používat mobilní telefon pro osobní použití?</div>
+                <div id="guide-text" class="guide-bubble">Naskenujte prosím symbol kompasu.</div>
+                <!-- <div id="guide-text" class="guide-bubble">Ve kterém roce se poprvě začal používat mobilní telefon pro osobní použití?</div>  -->
             </div>
         </div>
         
@@ -68,8 +68,9 @@ var imageWrapper;
 var animatedModel;
 var guideText;
 var overlay;
-var overlay;
-var overlay;
+var answerButton;
+var mapButton;
+var scannedMarker = false;
   
 window.onload = () => {
     wrapper = document.getElementById('wrapper');
@@ -84,8 +85,14 @@ AFRAME.registerComponent('registerevents', {
         var marker = this.el;
 
         marker.addEventListener('markerFound', function() {
+            if(!scannedMarker)
+            {
+              guideText.innerHTML = 'Ve kterém roce se poprvě začal používat mobilní telefon pro osobní použití?'; 
+              scannedMarker = true;
+            }   
             var markerId = marker.id;
             overlay.style.visibility = "hidden";
+            answerButton.style.visibility = "visible";
             console.log('markerFound', markerId);
             // TODO: Add your own code here to react to the marker being found.
         });
@@ -93,6 +100,7 @@ AFRAME.registerComponent('registerevents', {
         marker.addEventListener('markerLost', function() {
             var markerId = marker.id;
             overlay.style.visibility = "visible";
+            answerButton.style.visibility = "hidden";
             console.log('markerLost', markerId);
             // TODO: Add your own code here to react to the marker being lost.
         });
