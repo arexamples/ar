@@ -13,7 +13,7 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div class="holder">
+    <div id="holder" class="holder">
         <div class="guide">
             <div class="robot"><img src="https://raw.githubusercontent.com/arexamples/ar/master/guide.svg" /></div>
             <div>
@@ -22,7 +22,7 @@
                 <!-- <div id="guide-text" class="guide-bubble">Ve kterém roce se poprvě začal používat mobilní telefon pro osobní použití?</div>  -->
             </div>
         </div>
-        
+        <!-- 
         <div id="answerButton" class="btn-group">
             <button onclick="rightAnswer()" class="button">1990</button>
             <button onclick="wrongAnswer()" class="button">1997</button>
@@ -30,7 +30,7 @@
         </div>
         <div id="mapButton" class="map-button">
             <button onclick="rightAnswer()" class="button">Mapa<img src="map-icon.svg"></button>
-        </div>
+        </div> -->
     </div>
 
     <div id="overlay" class="overlay">
@@ -64,19 +64,20 @@ var imageWrapper;
 var animatedModel;
 var guideText;
 var overlay;
-var answerButton;
-var mapButton;
-var scannedMarker = false;
-var currentPhaze = "intro"
+var currentPhaze = "question"
+var answerButtonsDiv;
+var arrowButtonsDiv;
+var mapButtonsDiv;
+var modelButtonsDiv;
+var holderDiv;
   
 window.onload = () => {
     wrapper = document.getElementById('wrapper');
     imageWrapper = document.getElementById("imageWrapper");
     animatedModel = document.getElementById("animatedModel");
-    overlay  = document.getElementById("overlay");
     guideText = document.getElementById("guide-text");
-    answerButton = document.getElementById("answerButton");
-    mapButton = document.getElementById("mapButton");
+    overlay = document.getElementById("overlay");
+    holderDiv = document.getElementById("holder");
 };   
 
 AFRAME.registerComponent('registerevents', {
@@ -84,27 +85,23 @@ AFRAME.registerComponent('registerevents', {
         var marker = this.el;
 
         marker.addEventListener('markerFound', function() {
-            if(!scannedMarker)
-            {
-              guideText.innerHTML = 'Ve kterém roce se poprvě začal používat mobilní telefon pro osobní použití?'; 
-              scannedMarker = true;
-              currentPhaze = "question"
-            }   
             var markerId = marker.id;
             overlay.style.visibility = "hidden";
             if(currentPhaze == "question")
             {
-              answerButton.style.visibility = "visible";
+                showAnswerButtons()
+                guideText.innerHTML = 'Ve kterém roce se poprvě začal používat mobilní telefon pro osobní použití?'; 
             }
             if(currentPhaze == "model")
             {
-              answerButton.style.visibility = "visible";
+                showModelButtons()
+                guideText.innerHTML = 'Správně! Telefon Xxx Yyy od společnosti ABC se začal používat v USA v listopadu 1989.'; 
             }
             if(currentPhaze == "arrow")
             {
-              answerButton.style.visibility = "visible";
+                showArrowButtons()
+                guideText.innerHTML = 'Nasledujte sipku k dalsi otazce.'; 
             }
-            
             console.log('markerFound', markerId);
             // TODO: Add your own code here to react to the marker being found.
         });
@@ -112,17 +109,19 @@ AFRAME.registerComponent('registerevents', {
         marker.addEventListener('markerLost', function() {
             var markerId = marker.id;
             overlay.style.visibility = "visible";
-            if(currentPhaze == "question")
+            guideText.innerHTML = 'Naskenujte prosím symbol kompasu.'; 
+            if(currentPhaze == "question" && answerButtonsDiv)
             {
-              answerButton.style.visibility = "hidden";
+                answerButtonsDiv.remove();
             }
-            if(currentPhaze == "model")
+            if(currentPhaze == "model" && modelButtonsDiv)
             {
-              answerButton.style.visibility = "hidden";
+                modelButtonsDiv.remove();
+              //answerButton.style.visibility = "hidden";
             }
-            if(currentPhaze == "arrow")
+            if(currentPhaze == "arrow" && arrowButtonsDiv)
             {
-              answerButton.style.visibility = "hidden";
+                arrowButtonsDiv.remove();
             }
             console.log('markerLost', markerId);
             // TODO: Add your own code here to react to the marker being lost.
@@ -135,35 +134,125 @@ function wrongAnswer(){
 }
 
 function rightAnswer(){
-    guideText.innerHTML = 'Správně! Telefon Xxx Yyy od společnosti ABC se začal používat v USA v listopadu 1989.'; 
+    answerButtonsDiv.remove();
     animatedModel.setAttribute('animation-mixer',{clip: "*",loop: "once"});    
-    currentPhaze = "model"
+    currentPhaze = "model";
+    showModelButtons();
 }
+
+
+function showAnswerButtons(){
+    answerButtonsDiv = document.createElement("div");
+    answerButtonsDiv.classList.add("btn-group");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "1990";
+    button1.classList.add("button");
+    button1.onclick = function() {rightAnswer()};
+    answerButtonsDiv.appendChild(button1);
+
+    var button2 = document.createElement("button");
+    button2.innerHTML = "1997";
+    button2.classList.add('button');
+    button2.onclick = function() {wrongAnswer()};
+    answerButtonsDiv.appendChild(button2);
+
+    var button3 = document.createElement("button");
+    button3.innerHTML = "2003";
+    button3.classList.add('button');
+    button3.onclick = function() {wrongAnswer()};
+    answerButtonsDiv.appendChild(button3);
+    //document.getElementById("MyElement").classList.remove('MyClass');
+
+    holderDiv.appendChild(answerButtonsDiv);
+}
+
+function showModelButtons(){
+    currentPhaze = "model";
+    if(arrowButtonsDiv)
+    {
+        arrowButtonsDiv.remove();
+    }
+    guideText.innerHTML = 'Správně! Telefon Xxx Yyy od společnosti ABC se začal používat v USA v listopadu 1989.'; 
+
+    modelButtonsDiv = document.createElement("div");
+    modelButtonsDiv.classList.add("map-button");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Arrow";
+    button1.classList.add("button");
+    button1.onclick = function() {showArrow()};
+    modelButtonsDiv.appendChild(button1);
+
+
+    holderDiv.appendChild(modelButtonsDiv);
+}
+
+function showArrowButtons(){
+    currentPhaze = "arrow";
+    if(modelButtonsDiv)
+    {
+        modelButtonsDiv.remove();
+    }
+    guideText.innerHTML = 'Nasledujte sipku k dalsi otazce.'; 
+
+    arrowButtonsDiv = document.createElement("div");
+    arrowButtonsDiv.classList.add("map-button");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Model";
+    button1.classList.add("button");
+    button1.onclick = function() {showUsb()};
+    arrowButtonsDiv.appendChild(button1);
+
+
+    holderDiv.appendChild(arrowButtonsDiv);
+}
+
+function showMapButtons(){
+    if(arrowButtonsDiv)
+    {
+        arrowButtonsDiv.remove();
+    }
+    mapButtonsDiv = document.createElement("div");
+    mapButtonsDiv.classList.add("map-button");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Mapa<img src='map-icon.svg'>";
+    button1.classList.add("button");
+    button1.onclick = function() {rightAnswer()};
+    mapButtonsDiv.appendChild(button1);
+
+    holderDiv.appendChild(mapButtonsDiv);
+}
+
 
 
 function showUsb(){
-  var usbEntity = document.createElement('a-entity');
-  usbEntity.setAttribute('gltf-model', "#usb");
-  usbEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
-  usbEntity.setAttribute('scale', {x: 1, y: 1, z: 1});
-  usbEntity.setAttribute('animation-mixer', "clips: *");                                           
+    showModelButtons()
+    var usbEntity = document.createElement('a-entity');
+    usbEntity.setAttribute('gltf-model', "#usb");
+    usbEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    usbEntity.setAttribute('scale', {x: 1, y: 1, z: 1});
+    usbEntity.setAttribute('animation-mixer', "clips: *");                                           
 
-  imageWrapper.innerHTML = '';                                             
-  wrapper.innerHTML = '';                                          
-  wrapper.appendChild(usbEntity);
+    //imageWrapper.innerHTML = '';                                             
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(usbEntity);
 }
   
 function showArrow(){
-  var arrowEntity = document.createElement('a-entity');
-  arrowEntity.setAttribute('gltf-model', "#arrow");
-  arrowEntity.setAttribute('rotation', {x: 0, y: -135, z: 0});
-  arrowEntity.setAttribute('position', {x: 0.5, y: 0, z: -1});                                               
-  arrowEntity.setAttribute('scale', {x: 0.25, y: 0.25, z: 0.25});
+    showArrowButtons()
+    var arrowEntity = document.createElement('a-entity');
+    arrowEntity.setAttribute('gltf-model', "#arrow");
+    arrowEntity.setAttribute('rotation', {x: 0, y: -135, z: 0});
+    arrowEntity.setAttribute('position', {x: 0.5, y: 0, z: -1});                                               
+    arrowEntity.setAttribute('scale', {x: 0.25, y: 0.25, z: 0.25});
 
-  imageWrapper.innerHTML = '';                                               
-  wrapper.innerHTML = '';                                               
-  wrapper.appendChild(arrowEntity);
-}             
+    //imageWrapper.innerHTML = '';                                               
+    wrapper.innerHTML = '';                                               
+    wrapper.appendChild(arrowEntity);
+}          
                                                                                      
 function showMap(){                                                                      
   var a = document.createElement('a');
