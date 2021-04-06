@@ -27,12 +27,12 @@
             </div>
         </div>
         
-        <!-- <div class="btn-group">
+        <div id="answerButton" class="btn-group">
             <button onclick="rightAnswer()" class="button">1990</button>
             <button onclick="wrongAnswer()" class="button">1997</button>
             <button onclick="wrongAnswer()" class="button">2003</button>
-        </div> -->
-        <div class="map-button">
+        </div>
+        <div id="mapButton" class="map-button">
             <button onclick="rightAnswer()" class="button">Mapa<img src="map-icon.svg"></button>
         </div>
     </div>
@@ -68,13 +68,15 @@ var imageWrapper;
 var animatedModel;
 var guideText;
 var overlay;
+var overlay;
+var overlay;
   
 window.onload = () => {
     wrapper = document.getElementById('wrapper');
     imageWrapper = document.getElementById("imageWrapper");
     animatedModel = document.getElementById("animatedModel");
-    guideText = document.getElementById("guide-text");
-    overlay = document.getElementById("overlay");
+    answerButton = document.getElementById("answerButton");
+    mapButton = document.getElementById("mapButton");
 };   
 
 AFRAME.registerComponent('registerevents', {
