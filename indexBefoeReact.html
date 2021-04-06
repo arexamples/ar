@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+  <head>
+    <title>SHOP AFRAME</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"rel="stylesheet"/>
+    <link rel="stylesheet" href="styles.css" />
+    
+    
+  </head>
+  <!-- style='margin : 0px; overflow: hidden; font-family: Monospace;' -->
+  <body style='margin: 0px; overflow: hidden;'>
+   <div class="holder">
+        <div class="guide">
+            <div class="robot"><img src="https://raw.githubusercontent.com/arexamples/ar/master/guide.svg" /></div>
+            <div>
+                <p class="mystery-guide">Tajemný průvodce</p>
+                <!-- <div id="guide-text" class="guide-bubble">Naskenujte prosím symbol kompasu.</div> -->
+                <div id="guide-text" class="guide-bubble">Ve kterém roce se poprvě začal používat mobilní telefon pro osobní použití?</div>
+            </div>
+        </div>
+        
+        <div class="btn-group">
+            <button onclick="rightAnswer()" class="button">1990</button>
+            <button onclick="wrongAnswer()" class="button">1997</button>
+            <button onclick="wrongAnswer()" class="button">2003</button>
+        </div>
+    </div>
+
+    <div id="overlay" class="overlay">
+        <div class="overlay-container">
+            <img class="overlay-image" src="https://raw.githubusercontent.com/arexamples/ar/master/overlay.gif" />
+        </div>
+    </div>
+
+    <div id="myEmbeddedScene">
+        <a-scene class="holder2" embedded device-orientation-permission-ui="enabled: false" [renderer]="logarithmicDepthBuffer: true; antialias: true;" arjs=’sourceType: webcam; trackingMethod:best; debugUIEnabled: true;’ vr-mode-ui='enabled: false'>
+        <a-assets>
+            <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_anim.glb"></a-asset-item>
+            <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/arrow.glb"></a-asset-item> 
+        </a-assets>
+        <a-marker id="arrow_marker" type='pattern' url='https://raw.githubusercontent.com/arexamples/ar/master/markers/arrow_marker.patt' smooth="true" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5" registerevents>
+            <a-entity id="wrapper" position="0 0 0" emitevents="true">     
+            <a-entity id="animatedModel" gltf-model="#usb" scale="1 1 1" rotation="-90 0 0" position="0 0 0"></a-entity>       
+            </a-entity>                                                                                   
+        </a-marker>			   
+        <a-entity camera></a-entity>
+        </a-scene>
+    </div>
+  </body>
+                                                                                     
+<script> 
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+var wrapper;
+var imageWrapper;  
+var animatedModel;
+var guideText;
+var overlay;
+  
+window.onload = () => {
+    wrapper = document.getElementById('wrapper');
+    imageWrapper = document.getElementById("imageWrapper");
+    animatedModel = document.getElementById("animatedModel");
+    guideText = document.getElementById("guide-text");
+    overlay = document.getElementById("overlay");
+};   
+
+AFRAME.registerComponent('registerevents', {
+    init: function () {
+        var marker = this.el;
+
+        marker.addEventListener('markerFound', function() {
+            var markerId = marker.id;
+            overlay.style.visibility = "hidden";
+            console.log('markerFound', markerId);
+            // TODO: Add your own code here to react to the marker being found.
+        });
+
+        marker.addEventListener('markerLost', function() {
+            var markerId = marker.id;
+            overlay.style.visibility = "visible";
+            console.log('markerLost', markerId);
+            // TODO: Add your own code here to react to the marker being lost.
+        });
+    }
+});
+  
+function wrongAnswer(){
+    guideText.innerHTML = 'Špatně! Zkuste to znovu.'; 
+}
+
+function rightAnswer(){
+    guideText.innerHTML = 'Správně! Telefon Xxx Yyy od společnosti ABC se začal používat v USA v listopadu 1989.'; 
+    animatedModel.setAttribute('animation-mixer',{clip: "*",loop: "once"});    
+}
+
+
+function showUsb(){
+  var usbEntity = document.createElement('a-entity');
+  usbEntity.setAttribute('gltf-model', "#usb");
+  usbEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
+  usbEntity.setAttribute('scale', {x: 1, y: 1, z: 1});
+  usbEntity.setAttribute('animation-mixer', "clips: *");                                           
+
+  imageWrapper.innerHTML = '';                                             
+  wrapper.innerHTML = '';                                          
+  wrapper.appendChild(usbEntity);
+}
+  
+function showArrow(){
+  var arrowEntity = document.createElement('a-entity');
+  arrowEntity.setAttribute('gltf-model', "#arrow");
+  arrowEntity.setAttribute('rotation', {x: 0, y: -135, z: 0});
+  arrowEntity.setAttribute('position', {x: 0.5, y: 0, z: -1});                                               
+  arrowEntity.setAttribute('scale', {x: 0.25, y: 0.25, z: 0.25});
+
+  imageWrapper.innerHTML = '';                                               
+  wrapper.innerHTML = '';                                               
+  wrapper.appendChild(arrowEntity);
+}             
+                                                                                     
+function showMap(){                                                                      
+  var a = document.createElement('a');
+  a.href = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";
+  a.target = "_blank";                                                                                
+  a.ret = "noopener noreferrer";                                                                                
+                                                                                  
+  var img = document.createElement("img");
+  img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";   
+  img.style = "text-align:center;max-width: 100%; height: auto; position: absolute; bottom: 0;left: 0; z-index: 10;"                                                                                         
+                                                                                                                             
+  wrapper.innerHTML = '';
+  imageWrapper.innerHTML = '';                                                                                                                    
+  a.appendChild(img);                                                                                                       
+  imageWrapper.appendChild(a);                                                    
+}    
+                                                                                                                    
+function showMap2(){                                                                      
+  var a = document.createElement('a');
+  a.href = "https://raw.githubusercontent.com/arexamples/ar/master/images/map2.png";
+  a.target = "_blank";                                                                                
+  a.ret = "noopener noreferrer";                                                                                
+                                                                                  
+  var img = document.createElement("img");
+  img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map2.png";   
+  img.style = "text-align:center;max-width: 100%; height: auto; position: absolute; bottom: 0;left: 0; z-index: 10;"                                                                                         
+     
+                                                                                                                    
+  wrapper.innerHTML = '';
+  imageWrapper.innerHTML = '';                                                                                                                    
+  a.appendChild(img);                                                                                                       
+  imageWrapper.appendChild(a);                                                    
+}                  
+</script>                                                                                                                                                                       
+</html>
