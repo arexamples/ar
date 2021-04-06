@@ -24,7 +24,7 @@ video {
 }
 
 .holder {
-  z-index: 1;
+  z-index: 10;
   background-color: transparent;
   min-width: 100%;
   min-height: 100%;
@@ -85,35 +85,27 @@ a-scene {
 }
 
 .overlay {
-  z-index: 2;
-  background-color: black;
-  opacity:0.4;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
   min-width: 100%;
   min-height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
   padding: 24px 8px;
   position: absolute;
-  top: 0;
-  left: 0;
-  text-align: center;
 }
 
 .overlay-image {
-  display: block;
   width: 100%;
-  height: auto;
 }
 
 .overlay-container {
-  position: relative;
-  width: 75%;
-  max-width: 300px;
+  min-width: 280px;
+  max-width: 60%;
 }
-
-
 
 .robot {
   margin-right: 16px;
@@ -143,6 +135,15 @@ a-scene {
   position: absolute;
 }
 
+.map-button button {
+  width: unset;
+  padding: 0px 24px;
+}
+
+.map-button img {
+  margin-left: 10px;
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;
@@ -164,7 +165,9 @@ a-scene {
 /* to disable landscape mode */
 
 @media screen and (orientation: landscape) {
-  .holder {
+  .holder,
+  .overlay,
+  #myEmbeddedScene {
     transform: rotate(-90deg);
     transform-origin: left top;
     min-width: unset;
@@ -217,6 +220,9 @@ a-scene {
   .guide-bubble::before {
     left: -13px;
   }
+  .map-button img {
+    width: 18px;
+  }
 }
 
 @media screen and (min-width: 1000px) {
@@ -244,5 +250,9 @@ a-scene {
   }
   .guide-bubble::before {
     left: -16px;
+  }
+  .map-button img {
+    margin-left: 14px;
+    width: 22px;
   }
 }
