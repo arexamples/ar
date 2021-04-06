@@ -54,6 +54,7 @@ a-scene {
 }
 
 .btn-group {
+  visibility: hidden;
   padding: 0px 7%;
   width: 100%;
   display: flex;
@@ -136,6 +137,7 @@ a-scene {
 }
 
 .map-button button {
+  visibility: hidden;
   width: unset;
   padding: 0px 24px;
 }
