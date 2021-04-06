@@ -54,7 +54,6 @@ a-scene {
 }
 
 .btn-group {
-  visibility: hidden;
   padding: 0px 7%;
   width: 100%;
   display: flex;
