@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="map-body">
+    <div class="map-holder"><img class="map" src="map.svg" /></div>
+    <div class="photo-holder">
+      <div class="photo"><img src="photo1.svg" /></div>
+      <div class="photo"><img src="photo2.svg" /></div>
+      <div class="photo"><img src="photo2.svg" /></div>
+    </div>
+    <div class="holder">
+      <div class="guide">
+        <div class="robot">
+          <img src="guide-blue.svg" />
+        </div>
+        <div>
+          <p class="mystery-guide blue-guide">Tajemný průvodce</p>
+          <div id="guide-text" class="guide-bubble blue-bubble">
+            Tady vidíte, kudy jít. Další otázku najdete <b>vedle Zary</b>. Nebo
+            se koukněte na fotografie, podle kterých se můžete po cestě
+            orientovat.
+          </div>
+        </div>
+      </div>
+      <div class="toggle-buttons">
+        <input
+          onclick="showMap()"
+          id="toggle-on"
+          class="toggle toggle-left"
+          name="toggle"
+          value="false"
+          type="radio"
+          checked
+        />
+        <label for="toggle-on" class="btn">Mapa</label>
+        <input
+          onclick="showPhotos()"
+          id="toggle-off"
+          class="toggle toggle-right"
+          name="toggle"
+          value="true"
+          type="radio"
+        />
+        <label for="toggle-off" class="btn">Fotografie</label>
+      </div>
+    </div>
+
+    <script>
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+      let photoHolder = document.querySelector(".photo-holder");
+      let mapHolder = document.querySelector(".map-holder");
+      let guideHolder = document.querySelector(".guide");
+      let holder = document.querySelector(".holder");
+
+      function showPhotos() {
+        photoHolder.style.display = "flex";
+        mapHolder.style.display = "none";
+        guideHolder.style.display = "none";
+        holder.style.justifyContent = "flex-end";
+      }
+
+      function showMap() {
+        photoHolder.style.display = "none";
+        mapHolder.style.display = "block";
+        guideHolder.style.display = "flex";
+        holder.style.justifyContent = "space-between";
+      }
+    </script>
+  </body>
+</html>
