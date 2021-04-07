@@ -199,13 +199,19 @@ function showArrowButtons(){
     arrowButtonsDiv = document.createElement("div");
     arrowButtonsDiv.classList.add("map-button");
 
+
+    var a = document.createElement('a');
+    a.href = "https://arexamples.github.io/ar/map.html";
+    a.target = "_blank";                                                                                
+    a.ret = "noopener noreferrer";   
+    
+
     var button1 = document.createElement("button");
-    button1.innerHTML = "Model";
+    button1.innerHTML = "Mapa<img src='map-icon.svg'>";
     button1.classList.add("button");
-    button1.onclick = function() {showUsb()};
-    arrowButtonsDiv.appendChild(button1);
+    a.appendChild(button1);
 
-
+    arrowButtonsDiv.appendChild(a);
     holderDiv.appendChild(arrowButtonsDiv);
 }
 
