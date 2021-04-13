@@ -72,7 +72,7 @@ a-scene {
   font-weight: 700;
 }
 
-.button:focus {
+.button:hover {
   background-color: #fefefe;
   color: #051e76;
   outline: none;
