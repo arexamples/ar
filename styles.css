@@ -32,8 +32,8 @@ video {
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 8px;
-  position: absolute;
+  padding: 16px 8px 24px;
+  position: fixed;
   top: 0;
   left: 0;
 }
@@ -81,7 +81,7 @@ a-scene {
 .guide {
   display: flex;
   width: 100%;
-  padding: 0px 10%;
+  padding: 0px 16px;
 }
 
 .overlay {
@@ -334,6 +334,9 @@ input[type="radio"].toggle:checked + label:after {
   input[type="radio"].toggle + label:after {
     height: 60px;
   }
+  .guide {
+    padding: 0px 24px;
+  }
 }
 
 @media screen and (min-width: 1000px) {
@@ -365,5 +368,8 @@ input[type="radio"].toggle:checked + label:after {
   .map-button img {
     margin-left: 14px;
     width: 22px;
+  }
+  .guide {
+    padding: 0px 32px;
   }
 }
