@@ -42,7 +42,8 @@
     <div id="myEmbeddedScene">
         <a-scene class="holder2" embedded device-orientation-permission-ui="enabled: false" [renderer]="logarithmicDepthBuffer: true; antialias: true;" arjs=’sourceType: webcam; trackingMethod:best; debugUIEnabled: true;’ vr-mode-ui='enabled: false'>
         <a-assets>
-            <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_anim.glb"></a-asset-item>
+            <!-- <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_anim.glb"></a-asset-item> -->
+            <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/Brick_phone_01.gltf"></a-asset-item>
             <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/arrow.glb"></a-asset-item> 
         </a-assets>
         <a-marker id="arrow_marker" type='pattern' url='https://raw.githubusercontent.com/arexamples/ar/master/markers/arrow_marker.patt' smooth="true" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5" registerevents>
