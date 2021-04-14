@@ -40,7 +40,7 @@
     </div>
     
     <div id="myEmbeddedScene">
-        <a-scene class="holder2" embedded device-orientation-permission-ui="enabled: false" [renderer]="logarithmicDepthBuffer: true; antialias: true;" arjs=’sourceType: webcam; trackingMethod:best; debugUIEnabled: true;’ vr-mode-ui='enabled: false'>
+        <a-scene class="holder2" embedded device-orientation-permission-ui="enabled: false" renderer="logarithmicDepthBuffer: true; antialias: true;" arjs=’sourceType: webcam; trackingMethod:best; debugUIEnabled: true;’ vr-mode-ui='enabled: false'>
         <a-assets>
             <!-- <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_anim.glb"></a-asset-item> -->
             <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/brick_02.gltf"></a-asset-item>
@@ -49,7 +49,7 @@
         <a-marker id="arrow_marker" type='pattern' url='https://raw.githubusercontent.com/arexamples/ar/master/markers/arrow_marker.patt' smooth="true" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5" registerevents>
             <a-entity id="wrapper" position="0 0 0" emitevents="true">     
             <!-- <a-entity id="animatedModel" gltf-model="#usb" scale="1 1 1" rotation="-90 0 0" position="0 0 0"></a-entity> -->
-            <a-entity id="animatedModel" gltf-model="#usb" scale="0.1 0.1 0.1" rotation="-90 0 0" position="0 0 0"></a-entity>    
+            <a-entity id="animatedModel" gltf-model="#usb" scale="0.1 0.1 0.1" rotation="-90 0 0" position="0 0 1"></a-entity>    
             </a-entity>                                                                                   
         </a-marker>			   
         <a-entity camera></a-entity>
@@ -247,6 +247,7 @@ function showUsb(){
     usbEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
    // usbEntity.setAttribute('scale', {x: 1, y: 1, z: 1});
     usbEntity.setAttribute('scale', {x: 0.1, y: 0.1, z: 0.1});
+    usbEntity.setAttribute('position', {x: 0, y: 0, z: 1});
     usbEntity.setAttribute('animation-mixer', "clips: *");                                           
 
     //imageWrapper.innerHTML = '';                                             
