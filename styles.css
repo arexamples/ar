@@ -178,11 +178,6 @@ body.map-body {
   transform: translateX(-50%);
 }
 
-.arrow-button button {
-  width: unset;
-  padding: 0px 24px;
-}
-
 .map-button button {
   width: unset;
   padding: 0px 24px;
