@@ -48,7 +48,8 @@
         </a-assets>
         <a-marker id="arrow_marker" type='pattern' url='https://raw.githubusercontent.com/arexamples/ar/master/markers/arrow_marker.patt' smooth="true" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5" registerevents>
             <a-entity id="wrapper" position="0 0 0" emitevents="true">     
-            <a-entity id="animatedModel" gltf-model="#usb" scale="1 1 1" rotation="-90 0 0" position="0 0 0"></a-entity>       
+            <!-- <a-entity id="animatedModel" gltf-model="#usb" scale="1 1 1" rotation="-90 0 0" position="0 0 0"></a-entity> -->
+            <a-entity id="animatedModel" gltf-model="#usb" scale="0.1 0.1 0.1" rotation="-90 0 0" position="0 0 0"></a-entity>    
             </a-entity>                                                                                   
         </a-marker>			   
         <a-entity camera></a-entity>
@@ -244,7 +245,8 @@ function showUsb(){
     var usbEntity = document.createElement('a-entity');
     usbEntity.setAttribute('gltf-model', "#usb");
     usbEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
-    usbEntity.setAttribute('scale', {x: 1, y: 1, z: 1});
+   // usbEntity.setAttribute('scale', {x: 1, y: 1, z: 1});
+    usbEntity.setAttribute('scale', {x: 0.1, y: 0.1, z: 0.1});
     usbEntity.setAttribute('animation-mixer', "clips: *");                                           
 
     //imageWrapper.innerHTML = '';                                             
