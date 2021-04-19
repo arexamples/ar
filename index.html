@@ -84,7 +84,6 @@ var isOverlay = true;
 const QUESTION_TEXT = 'Kdy se začal používat úplně první mobilní telefon pro osobní použití Motorola DynaTAC 8000X?';
 const RIGHT_ANSWER_TEXT = 'Správně! Jeho cena tehdy byla 10 tisíc doolarů, což je asi dnešních 200 tisíc korun. A pak, že jsou dnešní moderní telefony drahé :).';
 const WRONG_ANSWER_TEXT = 'Špatně! Zkuste to znovu.';
-const NEXT_QUESTION_TEXT = 'Nasledujte sipku k dalsi otazce.';
 const COMPASS_TEXT = 'Naskenujte prosím symbol kompasu.';
 const WELCOME_TEXT = 'Vítejte do tajemné soutěže o super ceny jako třeba IPhone XYZ.';
 const READY_TEXT = 'Odpovězte na pár otázek, dojděte si pro okamžitou odměnu a zaregistrujte se do hry o hlavní ceny. Nezabere to víc jak 10 minut. Jste připraveni?';
@@ -269,7 +268,7 @@ function showArrowButtons(){
     {
         modelButtonsDiv.remove();
     }
-    guideText.innerHTML = NEXT_QUESTION_TEXT; 
+    guideText.innerHTML = DONE_TEXT; 
 
     var delayInMilliseconds = 1;
 
