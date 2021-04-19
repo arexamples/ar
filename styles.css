@@ -82,6 +82,7 @@ a-scene {
   display: flex;
   width: 100%;
   padding: 0px 16px;
+  visibility:hidden;
 }
 
 .overlay {
