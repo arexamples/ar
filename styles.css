@@ -61,34 +61,33 @@ a-scene {
 }
 
 .button {
-  background-color: rgba(254, 254, 254, 0.4);
-  border: 2px solid #ffffff;
+  background-color: #ffffff;
+  border: none;
   min-height: 48px;
   width: 24vw;
   height: 6vh;
   border-radius: 14px;
-  color: #fefefe;
-  font-size: 15px;
-  font-weight: 700;
+  color: #262626;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .button:hover {
-  background-color: #fefefe;
-  color: #051e76;
+  background-color: #e00988;
+  color: #ffffff;
   outline: none;
 }
 
 .guide {
   display: flex;
   width: 100%;
-  padding: 0px 16px;
+  padding: 0px 8px;
   visibility:hidden;
-  
 }
 
 .overlay {
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.4);
   opacity: 1;
   min-width: 100%;
   min-height: 100%;
@@ -113,20 +112,25 @@ a-scene {
   margin-right: 16px;
 }
 
+.bubbles-holder {
+  display: flex;
+  flex-direction: column;
+}
+
 .mystery-guide {
-  font-size: 10px;
+  font-size: 15px;
   color: #fefefe;
-  margin: 0px 0px 4px;
+  margin: 0px 0px 8px;
 }
 
 .guide-bubble {
   background-color: #fefefe;
   border-radius: 14px;
-  font-size: 11px;
+  font-size: 15px;
   line-height: 150%;
   padding: 8px 16px;
-  color: #051e76;
-  animation: fadeIn ease-in 1.5s, moveUp ease-in 1.5s;
+  color: #262626;
+  animation: fadeIn ease-in 1s, moveUp ease-in 1s;
   position: relative;
 }
 
@@ -135,6 +139,32 @@ a-scene {
   top: 2px;
   left: -9px;
   position: absolute;
+}
+
+.larger-bubble {
+  margin: 15px 8px 0px 16px;
+}
+
+.start-button button {
+  background-color: #e00988;
+  border: none;
+  padding: 16px 24px;
+  height: unset;
+  width: unset;
+  font-weight: 700;
+}
+
+.button-magenta {
+  background-color: #e00988;
+  padding: 16px 24px;
+  border: none;
+  min-height: 48px;
+  width: 24vw;
+  height: 6vh;
+  border-radius: 14px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
 }
 
 .blue-guide {
@@ -151,7 +181,6 @@ a-scene {
 
 .photo-holder {
   min-height: 100%;
-  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
@@ -168,6 +197,7 @@ body.map-body {
 }
 
 .map-holder {
+  display: none;
   height: 100%;
   position: relative;
   overflow: hidden;
@@ -190,7 +220,7 @@ body.map-body {
 }
 
 .toggle-buttons {
-  background: #c5dcff;
+  background: #ffffff;
   border-radius: 14px;
   min-height: 48px;
   display: flex;
@@ -212,10 +242,10 @@ input[type="radio"].toggle {
 }
 input[type="radio"].toggle + label {
   min-width: 122px;
-  color: #051e76;
+  color: #262626;
 }
 input[type="radio"].toggle + label:after {
-  background: #0034ed;
+  background: #e00988;
   content: "";
   height: 100%;
   border-radius: 14px;
