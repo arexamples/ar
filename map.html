@@ -17,20 +17,20 @@
     <div class="holder">
       <div class="guide">
         <div class="robot">
-          <img src="guide-blue.svg" />
+          <img src="/guide.svg" />
         </div>
         <div>
-          <p class="mystery-guide blue-guide">Tajemný průvodce</p>
-          <div id="guide-text" class="guide-bubble blue-bubble">
-            Tady vidíte, kudy jít. Další otázku najdete <b>vedle Zary</b>. Nebo
-            se koukněte na fotografie, podle kterých se můžete po cestě
-            orientovat.
+          <p class="mystery-guide">Tajemný průvodce</p>
+          <div id="guide-text" class="guide-bubble">
+            Tady vidíte, kudy jít. Další otázku najdete
+            <b>vedle Zary</b>. Nebo se koukněte na fotografie, podle kterých se
+            můžete po cestě orientovat.
           </div>
         </div>
       </div>
       <div class="toggle-buttons">
         <input
-          onclick="showMap()"
+          onclick="showPhotos()"
           id="toggle-on"
           class="toggle toggle-left"
           name="toggle"
@@ -38,16 +38,16 @@
           type="radio"
           checked
         />
-        <label for="toggle-on" class="btn">Mapa</label>
+        <label for="toggle-on" class="btn">Fotografie</label>
         <input
-          onclick="showPhotos()"
+          onclick="showMap()"
           id="toggle-off"
           class="toggle toggle-right"
           name="toggle"
           value="true"
           type="radio"
         />
-        <label for="toggle-off" class="btn">Fotografie</label>
+        <label for="toggle-off" class="btn">Mapa</label>
       </div>
     </div>
 
@@ -63,15 +63,15 @@
       function showPhotos() {
         photoHolder.style.display = "flex";
         mapHolder.style.display = "none";
-        guideHolder.style.display = "none";
-        holder.style.justifyContent = "flex-end";
+        guideHolder.style.display = "flex";
+        holder.style.justifyContent = "space-between";
       }
 
       function showMap() {
         photoHolder.style.display = "none";
         mapHolder.style.display = "block";
-        guideHolder.style.display = "flex";
-        holder.style.justifyContent = "space-between";
+        guideHolder.style.display = "none";
+        holder.style.justifyContent = "flex-end";
       }
     </script>
   </body>
