@@ -201,7 +201,7 @@ function showStartButton(){
 function showStartButtonsDiv(){
     guideText2.style.visibility = "visible";
     startButtonsDiv = document.createElement("div");
-    startButtonsDiv.classList.add("start-button");
+    startButtonsDiv.classList.add("button-magenta");
 
     var button1 = document.createElement("button");
     button1.innerHTML = "Jdu do toho";
@@ -260,7 +260,7 @@ function showModelButtons(){
     guideText.innerHTML = RIGHT_ANSWER_TEXT; 
 
     modelButtonsDiv = document.createElement("div");
-    modelButtonsDiv.classList.add("map-button");
+    modelButtonsDiv.classList.add("button-magenta");
 
     var button1 = document.createElement("button");
     button1.innerHTML = "Navigace";
@@ -284,7 +284,7 @@ function showArrowButtons(){
 
     setTimeout(function() {
         arrowButtonsDiv = document.createElement("div");
-        arrowButtonsDiv.classList.add("map-button");
+        arrowButtonsDiv.classList.add("button-magenta");
 
         var a = document.createElement('a');
         a.href = "https://arexamples.github.io/ar/map.html";
@@ -309,7 +309,7 @@ function showMapButtons(){
         arrowButtonsDiv.remove();
     }
     mapButtonsDiv = document.createElement("div");
-    mapButtonsDiv.classList.add("map-button");
+    mapButtonsDiv.classList.add("button-magenta");
 
     var button1 = document.createElement("button");
     button1.innerHTML = "Mapa<img src='map-icon.svg'>";
