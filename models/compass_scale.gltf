@@ -7,7 +7,7 @@
 		"nodes":[0]
 	}],
 	"nodes":[{
-		"name":"World",
+		"name":"Compass",
 		"translation":[0.0,
 		0.0,
 		0.0],
@@ -1677,9 +1677,9 @@
 		0.9484055042266846,
 		2.7755575615628916e-17],
 		"rotation":[0.0,
-		-0.720783531665802,
+		-0.7071067690849304,
 		0.0,
-		-0.6931602358818054],
+		-0.7071067690849304],
 		"scale":[1.0,
 		1.0,
 		1.0],
@@ -2913,11 +2913,11 @@
 	{
 		"primitives":[{
 			"attributes":{
-				"POSITION":449,
-				"NORMAL":450,
-				"TEXCOORD_0":451
+				"POSITION":453,
+				"NORMAL":454,
+				"TEXCOORD_0":455
 			},
-			"indices":448,
+			"indices":452,
 			"material":0
 		}]
 	}],
@@ -2927,7 +2927,7 @@
 		"componentType":5126,
 		"count":4,
 		"byteOffset":0,
-		"max":[3.559999942779541],
+		"max":[5.960000038146973],
 		"min":[0.0]
 	},
 	{
@@ -8053,28 +8053,72 @@
 		"bufferView":223,
 		"type":"SCALAR",
 		"componentType":5126,
-		"count":6,
+		"count":3,
 		"byteOffset":0,
-		"max":[3.559999942779541],
+		"max":[5.960000038146973],
 		"min":[0.0]
 	},
 	{
 		"bufferView":223,
-		"type":"VEC4",
+		"type":"VEC3",
 		"componentType":5126,
-		"count":6,
-		"byteOffset":24,
+		"count":3,
+		"byteOffset":12,
 		"max":[0.0,
-		-0.6920848488807678,
-		0.0,
-		-0.6630500555038452],
+		0.9484055042266846,
+		2.7755575615628916e-17],
 		"min":[0.0,
-		-0.7485750317573547,
-		0.0,
-		-0.7218161225318909]
+		0.9484055042266846,
+		2.7755575615628916e-17]
 	},
 	{
 		"bufferView":224,
+		"type":"SCALAR",
+		"componentType":5126,
+		"count":8,
+		"byteOffset":0,
+		"max":[5.960000038146973],
+		"min":[0.0]
+	},
+	{
+		"bufferView":224,
+		"type":"VEC4",
+		"componentType":5126,
+		"count":8,
+		"byteOffset":32,
+		"max":[5.71817082573034e-9,
+		-0.6755902171134949,
+		4.77636641349477e-9,
+		-0.6410730481147766],
+		"min":[0.0,
+		-0.7674798965454102,
+		0.0,
+		-0.7372773289680481]
+	},
+	{
+		"bufferView":225,
+		"type":"SCALAR",
+		"componentType":5126,
+		"count":3,
+		"byteOffset":0,
+		"max":[5.960000038146973],
+		"min":[0.0]
+	},
+	{
+		"bufferView":225,
+		"type":"VEC3",
+		"componentType":5126,
+		"count":3,
+		"byteOffset":12,
+		"max":[1.0,
+		1.0,
+		1.0],
+		"min":[1.0,
+		1.0,
+		1.0]
+	},
+	{
+		"bufferView":226,
 		"type":"SCALAR",
 		"componentType":5123,
 		"count":132,
@@ -8083,7 +8127,7 @@
 		"min":[0]
 	},
 	{
-		"bufferView":225,
+		"bufferView":227,
 		"type":"VEC3",
 		"componentType":5126,
 		"count":72,
@@ -8096,7 +8140,7 @@
 		-12.509464263916016]
 	},
 	{
-		"bufferView":225,
+		"bufferView":227,
 		"type":"VEC3",
 		"componentType":5126,
 		"count":72,
@@ -8109,7 +8153,7 @@
 		-1.0]
 	},
 	{
-		"bufferView":225,
+		"bufferView":227,
 		"type":"VEC2",
 		"componentType":5126,
 		"count":72,
@@ -9570,7 +9614,17 @@
 	{
 		"buffer":112,
 		"byteOffset":0,
-		"byteLength":120
+		"byteLength":48
+	},
+	{
+		"buffer":112,
+		"byteOffset":48,
+		"byteLength":160
+	},
+	{
+		"buffer":112,
+		"byteOffset":208,
+		"byteLength":48
 	},
 	{
 		"buffer":113,
@@ -9586,7 +9640,7 @@
 		"byteStride":32
 	}],
 	"buffers":[{
-		"uri":"data:application/octet-stream;base64,AAAAAArXIz6amZk/CtdjQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgD8AAIA/AACAPwAAgD8AAIA/AACAPw==",
+		"uri":"data:application/octet-stream;base64,AAAAAArXIz6amZk/Uri+QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgD8AAIA/AACAPwAAgD8AAIA/AACAPw==",
 		"byteLength":64
 	},
 	{
@@ -10034,8 +10088,8 @@
 		"byteLength":12704
 	},
 	{
-		"uri":"data:application/octet-stream;base64,AAAAAClcDz+amZk/XI8CQOxROEAK12NAAAAAAK2dOL8AAAAAjlkxvwAAAADgyTu/AAAAAKj8Lb8AAAAAWPw1vwAAAAA7DDS/AAAAAJ2iP78AAAAApr0pvwAAAAB5LDG/AAAAAPHIOL8AAAAArZ04vwAAAACOWTG/",
-		"byteLength":120
+		"uri":"data:application/octet-stream;base64,AAAAAGZmZkBSuL5AAAAAALTKcj8AAAAkAAAAALTKcj8AAAAkAAAAALTKcj8AAAAkAAAAAI/CdT/2KNw/CtcjQK5HYUBmZmZAcT2KQFK4vkAAAAAAWPw1vwAAAAA7DDS/AAAAAFj8Nb8AAAAAOww0v5B5xDGQeUS/XR2kMV0dJL8AAAAAe/MsvwAAAAA1vjy/AAAAAPwgOr8AAAAA6MIvvwAAAAAtrjq/AAAAAOosL78AAAAA8wQ1vwAAAADzBDW/AAAAAPMENb8AAAAA8wQ1vwAAAABmZmZAUri+QAAAgD8AAIA/AACAPwAAgD8AAIA/AACAPwAAgD8AAIA/AACAPw==",
+		"byteLength":256
 	},
 	{
 		"uri":"data:application/octet-stream;base64,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",
@@ -10054,7 +10108,7 @@
 		0.0,
 		0.0],
 		"alphaMode":"OPAQUE",
-		"doubleSided":true,
+		"doubleSided":false,
 		"name":"Arrow"
 	},
 	{
@@ -10070,7 +10124,7 @@
 		0.0,
 		0.0],
 		"alphaMode":"OPAQUE",
-		"doubleSided":true,
+		"doubleSided":false,
 		"name":"Centre"
 	},
 	{
@@ -10086,7 +10140,7 @@
 		0.0,
 		0.0],
 		"alphaMode":"OPAQUE",
-		"doubleSided":true,
+		"doubleSided":false,
 		"name":"Bg"
 	}],
 	"animations":[{
@@ -10099,6 +10153,16 @@
 			"input":446,
 			"interpolation":"LINEAR",
 			"output":447
+		},
+		{
+			"input":448,
+			"interpolation":"LINEAR",
+			"output":449
+		},
+		{
+			"input":450,
+			"interpolation":"LINEAR",
+			"output":451
 		}],
 		"channels":[{
 			"sampler":0,
@@ -10111,7 +10175,21 @@
 			"sampler":1,
 			"target":{
 				"node":116,
+				"path":"translation"
+			}
+		},
+		{
+			"sampler":2,
+			"target":{
+				"node":116,
 				"path":"rotation"
+			}
+		},
+		{
+			"sampler":3,
+			"target":{
+				"node":116,
+				"path":"scale"
 			}
 		}]
 	}]
