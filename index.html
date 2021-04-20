@@ -121,7 +121,6 @@ AFRAME.registerComponent('registerevents', {
             if(currentPhaze == "start")
             {
                 showStartButton()
-                guideText2.style.visibility = "visible";
             }
             if(currentPhaze == "question")
             {
@@ -200,6 +199,7 @@ function showStartButton(){
 
 
 function showStartButtonsDiv(){
+    guideText2.style.visibility = "visible";
     startButtonsDiv = document.createElement("div");
     startButtonsDiv.classList.add("start-button");
 
