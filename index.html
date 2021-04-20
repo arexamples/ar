@@ -201,11 +201,11 @@ function showStartButton(){
 function showStartButtonsDiv(){
     guideText2.style.visibility = "visible";
     startButtonsDiv = document.createElement("div");
-    startButtonsDiv.classList.add("button-magenta");
+    startButtonsDiv.classList.add("start-button");
 
     var button1 = document.createElement("button");
     button1.innerHTML = "Jdu do toho";
-    button1.classList.add("button");
+    button1.classList.add("button-magenta");
     button1.onclick = function() {
         showAnswerButtons();
         animatedModel.setAttribute('animation-mixer',{clip: "*", loop: "once"});   
@@ -260,11 +260,11 @@ function showModelButtons(){
     guideText.innerHTML = RIGHT_ANSWER_TEXT; 
 
     modelButtonsDiv = document.createElement("div");
-    modelButtonsDiv.classList.add("button-magenta");
+    modelButtonsDiv.classList.add("start-button");
 
     var button1 = document.createElement("button");
     button1.innerHTML = "Navigace";
-    button1.classList.add("button");
+    button1.classList.add("button-magenta");
     button1.onclick = function() {showArrow()};
     modelButtonsDiv.appendChild(button1);
 
@@ -284,7 +284,7 @@ function showArrowButtons(){
 
     setTimeout(function() {
         arrowButtonsDiv = document.createElement("div");
-        arrowButtonsDiv.classList.add("button-magenta");
+        arrowButtonsDiv.classList.add("start-button");
 
         var a = document.createElement('a');
         a.href = "https://arexamples.github.io/ar/map.html";
@@ -294,7 +294,7 @@ function showArrowButtons(){
 
         var button1 = document.createElement("button");
         button1.innerHTML = "Mapa<img src='map-icon.svg'>";
-        button1.classList.add("button");
+        button1.classList.add("button-magenta");
         a.appendChild(button1);
 
         arrowButtonsDiv.appendChild(a);
@@ -309,11 +309,11 @@ function showMapButtons(){
         arrowButtonsDiv.remove();
     }
     mapButtonsDiv = document.createElement("div");
-    mapButtonsDiv.classList.add("button-magenta");
+    mapButtonsDiv.classList.add("start-button");
 
     var button1 = document.createElement("button");
     button1.innerHTML = "Mapa<img src='map-icon.svg'>";
-    button1.classList.add("button");
+    button1.classList.add("button-magenta"");
     button1.onclick = function() {rightAnswer()};
     mapButtonsDiv.appendChild(button1);
 
