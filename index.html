@@ -173,22 +173,7 @@ function rightAnswer(){
 
 function showStartButton(){
     console.log("showStartButton");
-    if(doStartTimer)
-    {
-        setTimeout(function () {
-            doStartTimer = false;
-            if(!startButtonsDiv)
-            {
-                if(!isOverlay)
-                {
-                    showStartButtonsDiv()
-                }
-            }
-        }, 1000);
-    }
-    else{
-        showStartButtonsDiv()
-    }
+    showStartButtonsDiv()
 }
 
 
