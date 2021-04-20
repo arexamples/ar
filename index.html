@@ -8,6 +8,7 @@
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" href="styles.css" />
     <title>React App</title>
   </head>
@@ -30,17 +31,18 @@
     <div id="myEmbeddedScene">
         <a-scene class="holder2" embedded device-orientation-permission-ui="enabled: false" renderer="logarithmicDepthBuffer: true; antialias: true;" arjs=’sourceType: webcam; trackingMethod:best; debugUIEnabled: true;’ vr-mode-ui='enabled: false'>
         <a-assets>
-            <!-- <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_anim.glb"></a-asset-item> -->
             <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/brick_02.gltf"></a-asset-item>
             <a-asset-item id="Iphone" src="https://raw.githubusercontent.com/arexamples/ar/master/models/itobphone.gltf"></a-asset-item>
             <a-asset-item id="BadAnswer" src="https://raw.githubusercontent.com/arexamples/ar/master/models/bphone_crash.gltf"></a-asset-item>
             <a-asset-item id="RightAnswer" src="https://raw.githubusercontent.com/arexamples/ar/master/models/bphoneanim_r.gltf"></a-asset-item>
             <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/compass.gltf"></a-asset-item> 
+            <a-asset-item id="bphone_crash" src="https://raw.githubusercontent.com/arexamples/ar/master/models/bphone_crash.gltf"></a-asset-item> 
+            <a-asset-item id="bphone_scale" src="https://raw.githubusercontent.com/arexamples/ar/master/models/bphone_scale.gltf"></a-asset-item> 
+            <a-asset-item id="compass_scale" src="https://raw.githubusercontent.com/arexamples/ar/master/models/compass_scale.gltf"></a-asset-item> 
+            <a-asset-item id="iphone_scale" src="https://raw.githubusercontent.com/arexamples/ar/master/models/iphone_scale.gltf"></a-asset-item> 
         </a-assets>
         <a-marker id="arrow_marker" type='pattern' url='https://raw.githubusercontent.com/arexamples/ar/master/markers/arrow_marker.patt' smooth="true" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5" registerevents>
-            <a-entity id="wrapper" position="0 0 0" emitevents="true">     
-            <!-- <a-entity id="animatedModel" gltf-model="#usb" scale="1 1 1" rotation="-90 0 0" position="0 0 0"></a-entity> -->
-            <a-entity id="animatedModel" gltf-model="#Iphone" scale="0.01 0.01 0.01" rotation="-90 0 0" position="0 0 0"></a-entity>     
+            <a-entity id="wrapper" position="0 0 0" emitevents="true">
             </a-entity>                                                                                   
         </a-marker>			   
         <a-entity camera></a-entity>
@@ -56,7 +58,6 @@ var currentPhaze = "start"
 
 var wrapper;
 var imageWrapper;  
-var animatedModel;
 var guideText;
 var guide;
 var overlay;
@@ -65,23 +66,24 @@ var arrowButtonsDiv;
 var mapButtonsDiv;
 var modelButtonsDiv;
 var startButtonsDiv;
+var continueButtonsDiv;
 var holderDiv;
 var doStartTimer = true;
+var doAnswerTimer = true;
 var isOverlay = true;
   
 const QUESTION_TEXT = 'Kdy se začal používat úplně první mobilní telefon pro osobní použití <b>Motorola DynaTAC 8000X</b>?';
-const RIGHT_ANSWER_TEXT = '<b>Správně!</b> Jeho cena tehdy byla 10 tisíc dolarů, což je asi dnešních 200 tisíc korun. A pak, že jsou dnešní moderní telefony drahé :).';
+const RIGHT_ANSWER_TEXT = '<b>Správně!</b> Jeho cena tehdy byla 10 tisíc dolarů, což je asi dnešních 200 tisíc korun. A pak, že jsou dnešní moderní telefony drahé :-).';
 const WRONG_ANSWER_TEXT = 'Nesprávná odpověď. Zkuste to znovu.';
 const COMPASS_TEXT = 'Naskenujte prosím symbol kompasu.';
 const WELCOME_TEXT = 'Vítejte do tajemné soutěže o super ceny jako třeba IPhone XYZ.';
 const READY_TEXT = 'Odpovězte na pár otázek, dojděte si pro okamžitou odměnu a zaregistrujte se do hry o hlavní ceny. Nezabere to víc jak 10 minut. Jste připraveni?';
-const DONE_TEXT = 'Na tomto místě máte splněno. Čekají vás ještě dvě otázky. Najdete je <b>tímto směrem za 200 m</b>. Nebo mrkněte na navigaci (stiskněte spodní tlačítko).';
+const DONE_TEXT = 'Na tomto místě máte splněno. Čekají vás ještě dvě otázky. Najdete je <b>tímto směrem za 200 m</b>. Nebo mrkněte na navigaci.';
 const MAP_TEXT = 'Tady vidíte, kudy jít. Další otázku najdete <b>vedle Zary</b>. Nebo se koukněte na fotografie, podle kterých se můžete po cestě orientovat.';
   
 window.onload = () => {
     wrapper = document.getElementById('wrapper');
     imageWrapper = document.getElementById("imageWrapper");
-    animatedModel = document.getElementById("animatedModel");
     guideText = document.getElementById("guide-text");
     guide = document.getElementById("guide");
     overlay = document.getElementById("overlay");
@@ -99,14 +101,15 @@ AFRAME.registerComponent('registerevents', {
             var markerId = marker.id;
             overlay.style.visibility = "hidden";
             guide.style.visibility = "visible";
+            fadeInAndMoveUp(guideText, null);
             
             if(currentPhaze == "start")
-            {
+            {                
                 showStartButton()
             }
             if(currentPhaze == "question")
             {
-                showAnswerButtons()
+                //showAnswerButtons()
             }
             if(currentPhaze == "model")
             {
@@ -143,47 +146,142 @@ AFRAME.registerComponent('registerevents', {
     }
 });
 
-  
 function wrongAnswer(){
-    guideText.innerHTML = WRONG_ANSWER_TEXT; 
-    showPhoneWrong()
+    fadeInAndMoveUp(guideText, WRONG_ANSWER_TEXT);
+    showPhoneWrong();
 }
 
 function rightAnswer(){
     answerButtonsDiv.remove();
     currentPhaze = "model";
-    showPhoneRight()
+    showPhoneRight();
     showModelButtons();
 }
 
-
 function showStartButton(){
-    console.log("showStartButton");
-    showStartButtonsDiv()
+    if(doStartTimer)
+    {
+        setTimeout(function () {
+            doStartTimer = false;
+            if(!startButtonsDiv)
+            {
+                if(!isOverlay)
+                {
+                    showIphone1();
+                }
+            }
+        }, 1000);
+        setTimeout(function () {
+            doStartTimer = false;
+            if(!startButtonsDiv)
+            {
+                if(!isOverlay)
+                {
+                    showStartButtonsDiv()
+                }
+            }
+        }, 4000);
+    }
+    else{
+        showIphone1();
+        showStartButtonsDiv()
+    }
 }
 
+function showAnswerButton(){
+    if(doAnswerTimer)
+    {
+        setTimeout(function () {
+            doAnswerTimer = false;
+            //if(!startButtonsDiv)
+            //{
+                if(!isOverlay)
+                {
+                    showBphone1();
+                }
+           // }
+        }, 1000);
+        setTimeout(function () {
+            doAnswerTimer = false;
+           // if(!startButtonsDiv)
+           // {
+                if(!isOverlay)
+                {
+                    showAnswerButtonDiv()
+                }
+           // }
+        }, 4000);
+    }
+    else{
+        showBphone1();
+        showAnswerButtonDiv()
+    }
+}
+
+function continue1()
+{
+    startButtonsDiv.remove();
+    hideIphone1();
+    setTimeout(function () {
+            showContinueButton2()
+    }, 2000);   
+}
+
+function showContinueButton2(){
+    continueButtonsDiv = document.createElement("div");
+    continueButtonsDiv.classList.add("start-button");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Pokračovat";
+    button1.classList.add("button-magenta");
+    button1.onclick = function() {
+        //continue1();
+        //animatedModel.setAttribute('animation-mixer',{clip: "*", loop: "once"});   
+        continueButtonsDiv.remove();
+        fadeInAndMoveUp(guideText, QUESTION_TEXT);
+        showAnswerButton();
+    };
+    continueButtonsDiv.appendChild(button1);
+    holderDiv.appendChild(continueButtonsDiv);
+}
+
+
+/*
+function showStartButton(){
+    showStartButtonsDiv()
+}*/
+
+function fadeInAndMoveUp(element, text){
+    $(element).hide();
+    if(text != null)
+    {
+        element.innerHTML = text; 
+    }
+    $(element).fadeIn({queue: false, duration: 'slow'});
+    $(element).animate({ top: "10px" }, 'slow').animate({ top: "-10px" }, 'slow');
+}
 
 function showStartButtonsDiv(){
     startButtonsDiv = document.createElement("div");
     startButtonsDiv.classList.add("start-button");
 
     var button1 = document.createElement("button");
-    button1.innerHTML = "Jdu do toho";
+    button1.innerHTML = "Pokračovat";
     button1.classList.add("button-magenta");
     button1.onclick = function() {
-        showAnswerButtons();
-        animatedModel.setAttribute('animation-mixer',{clip: "*", loop: "once"});   
-        guideText.innerHTML = QUESTION_TEXT; 
+        continue1();
+        //animatedModel.setAttribute('animation-mixer',{clip: "*", loop: "once"});   
+        fadeInAndMoveUp(guideText, READY_TEXT);
     };
     startButtonsDiv.appendChild(button1);
     holderDiv.appendChild(startButtonsDiv);
 }
 
-function showAnswerButtons(){
+function showAnswerButtonDiv(){
     currentPhaze = "question";
-    if(startButtonsDiv)
+    if(continueButtonsDiv)
     {
-        startButtonsDiv.remove();
+        continueButtonsDiv.remove();
     }
     answerButtonsDiv = document.createElement("div");
     answerButtonsDiv.classList.add("btn-group");
@@ -220,7 +318,7 @@ function showModelButtons(){
     {
         arrowButtonsDiv.remove();
     }
-    guideText.innerHTML = RIGHT_ANSWER_TEXT; 
+    fadeInAndMoveUp(guideText, RIGHT_ANSWER_TEXT);
 
     modelButtonsDiv = document.createElement("div");
     modelButtonsDiv.classList.add("start-button");
@@ -241,7 +339,8 @@ function showArrowButtons(){
     {
         modelButtonsDiv.remove();
     }
-    guideText.innerHTML = DONE_TEXT; 
+
+    fadeInAndMoveUp(guideText, DONE_TEXT);
 
     var delayInMilliseconds = 1;
 
@@ -299,7 +398,7 @@ function showPhoneRight(){
     phoneRightEntity.setAttribute('gltf-model', "#RightAnswer");
     phoneRightEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
     phoneRightEntity.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
-    phoneRightEntity.setAttribute('animation-mixer', "clips: *");                                           
+    phoneRightEntity.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:3});           
                                         
     wrapper.innerHTML = '';                                          
     wrapper.appendChild(phoneRightEntity);
@@ -339,40 +438,110 @@ function showArrow(){
                                            
     wrapper.innerHTML = '';                                               
     wrapper.appendChild(arrowEntity);
-}             
-                                                                                     
-function showMap(){                                                                      
-  var a = document.createElement('a');
-  a.href = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";
-  a.target = "_blank";                                                                                
-  a.ret = "noopener noreferrer";                                                                                
-                                                                                  
-  var img = document.createElement("img");
-  img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";   
-  img.style = "text-align:center;max-width: 100%; height: auto; position: absolute; bottom: 0;left: 0; z-index: 10;"                                                                                         
-                                                                                                                             
-  wrapper.innerHTML = '';
-  imageWrapper.innerHTML = '';                                                                                                                    
-  a.appendChild(img);                                                                                                       
-  imageWrapper.appendChild(a);                                                    
-}    
-                                                                                                                    
-function showMap2(){                                                                      
-  var a = document.createElement('a');
-  a.href = "https://raw.githubusercontent.com/arexamples/ar/master/images/map2.png";
-  a.target = "_blank";                                                                                
-  a.ret = "noopener noreferrer";                                                                                
-                                                                                  
-  var img = document.createElement("img");
-  img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map2.png";   
-  img.style = "text-align:center;max-width: 100%; height: auto; position: absolute; bottom: 0;left: 0; z-index: 10;"                                                                                         
-     
-                                                                                                                    
-  wrapper.innerHTML = '';
-  imageWrapper.innerHTML = '';                                                                                                                    
-  a.appendChild(img);                                                                                                       
-  imageWrapper.appendChild(a);                                                    
 } 
+
+function hideIphone1(){
+    var iphoneEntity1 = document.createElement('a-entity');
+    iphoneEntity1.setAttribute('gltf-model', "#iphone_scale");
+    iphoneEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    iphoneEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    iphoneEntity1.setAttribute('position', {x: 0, y: 0, z: 1});
+    iphoneEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:1, timeScale:-1});   
+    // timeScale:-1
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(iphoneEntity1);
+    //iphoneEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", timeScale:-1});   
+    // startFrame
+}
+
+
+function showIphone1(){
+    var iphoneEntity1 = document.createElement('a-entity');
+    iphoneEntity1.setAttribute('gltf-model', "#iphone_scale");
+    iphoneEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    iphoneEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    iphoneEntity1.setAttribute('position', {x: 0, y: 0, z: 1});
+    iphoneEntity1.setAttribute('animation-mixer', {clip: "*", loop:"once", clampWhenFinished:true});   
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(iphoneEntity1);
+}
+
+function hideBphone1(){
+    var bPhoneEntity1 = document.createElement('a-entity');
+    bPhoneEntity1.setAttribute('gltf-model', "#bphone_scale");
+    bPhoneEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    bPhoneEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    bPhoneEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
+    bPhoneEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:1, timeScale:-1});   
+    // timeScale:-1
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(bPhoneEntity1);
+}
+
+function showBphone1(){
+    var bPhoneEntity1 = document.createElement('a-entity');
+    bPhoneEntity1.setAttribute('gltf-model', "#bphone_scale");
+    bPhoneEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    bPhoneEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    bPhoneEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
+    bPhoneEntity1.setAttribute('animation-mixer', {clip: "*", loop:"once", clampWhenFinished:true});   
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(bPhoneEntity1);
+}
+
+function hideBphoneCrash1(){
+    var bPhoneCrashEntity1 = document.createElement('a-entity');
+    bPhoneCrashEntity1.setAttribute('gltf-model', "#bphone_crash");
+    bPhoneCrashEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    bPhoneCrashEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    bPhoneCrashEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
+    bPhoneCrashEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:1, timeScale:-1});   
+    // timeScale:-1
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(bPhoneCrashEntity1);
+}
+
+function showBphoneCrash1(){
+    var bPhoneCrashEntity1 = document.createElement('a-entity');
+    bPhoneCrashEntity1.setAttribute('gltf-model', "#bphone_crash");
+    bPhoneCrashEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    bPhoneCrashEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    bPhoneCrashEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
+    bPhoneCrashEntity1.setAttribute('animation-mixer', {clip: "*", loop:"once", clampWhenFinished:true});   
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(bPhoneCrashEntity1);
+}
+
+function hideCompass1(){
+    var compassEntity1 = document.createElement('a-entity');
+    compassEntity1.setAttribute('gltf-model', "#compass_scale");
+    compassEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    compassEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    compassEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
+    compassEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:1, timeScale:-1});   
+    // timeScale:-1
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(compassEntity1);
+}
+
+function showCompass1(){
+    var compassEntity1 = document.createElement('a-entity');
+    compassEntity1.setAttribute('gltf-model', "#compass_scale");
+    compassEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    compassEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    compassEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
+    compassEntity1.setAttribute('animation-mixer', {clip: "*", loop:"once", clampWhenFinished:true});   
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(compassEntity1);
+}
 </script>
   </body>
 </html>
