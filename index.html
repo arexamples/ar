@@ -206,19 +206,19 @@ function showAnswerButtons(){
 
     setTimeout(function() {
         var button1 = document.createElement("button");
-        button1.innerHTML = "1990";
+        button1.innerHTML = "1981";
         button1.classList.add("button");
-        button1.onclick = function() {rightAnswer()};
+        button1.onclick = function() {wrongAnswer()};
         answerButtonsDiv.appendChild(button1);
 
         var button2 = document.createElement("button");
-        button2.innerHTML = "1997";
+        button2.innerHTML = "1983";
         button2.classList.add('button');
-        button2.onclick = function() {wrongAnswer()};
+        button2.onclick = function() {rightAnswer()};
         answerButtonsDiv.appendChild(button2);
 
         var button3 = document.createElement("button");
-        button3.innerHTML = "2003";
+        button3.innerHTML = "1992";
         button3.classList.add('button');
         button3.onclick = function() {wrongAnswer()};
         answerButtonsDiv.appendChild(button3);
