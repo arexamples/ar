@@ -222,6 +222,7 @@ function showStartButton(){
 }
 
 function showAnswerButton(){
+    currentPhaze = "answer";
     if(doAnswerTimer)
     {
         setTimeout(function () {
@@ -254,6 +255,7 @@ function showAnswerButton(){
 function showContinueButton()
 {
     startButtonDiv.remove();
+    currentPhaze = "continue";
     if(doContinueTimer)
     {
         setTimeout(function () {
@@ -345,6 +347,7 @@ function showAnswerButtonDiv(){
 }
 
 function showModelButton(){
+    currentPhaze = "model";
     if(doModelTimer)
         {
             setTimeout(function () {
@@ -413,6 +416,7 @@ function showRetryButtonDiv(){
 }
 
 function showRetryButton(){
+    currentPhaze = "retry";
     if(doRetryTimer)
     {
         setTimeout(function () {
@@ -443,6 +447,7 @@ function showRetryButton(){
 }
 
 function showCompassButton(){
+    currentPhaze = "compass";
     if(doCompassTimer)
     {
         setTimeout(function () {
