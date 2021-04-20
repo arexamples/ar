@@ -34,7 +34,7 @@ video {
   align-items: center;
   padding: 16px 8px 24px;
   position: fixed;
-  top: 0;
+  bottom: 0;
   left: 0;
 }
 
@@ -81,8 +81,8 @@ a-scene {
 .guide {
   display: flex;
   width: 100%;
-  padding: 0px 8px;
-  visibility:hidden;
+  padding: 0px 8px 0px 16px;
+  visibility: hidden;
 }
 
 .overlay {
@@ -165,6 +165,10 @@ a-scene {
   color: #fff;
   font-size: 16px;
   font-weight: 600;
+}
+
+.button-magenta img {
+  margin-left: 11px;
 }
 
 .blue-guide {
