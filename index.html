@@ -14,13 +14,16 @@
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="holder" class="holder">
-        <div id="guide" class="guide">
-            <div class="robot"><img src="https://raw.githubusercontent.com/arexamples/ar/master/guide.svg" /></div>
-            <div>
-                <p class="mystery-guide">Tajemný průvodce</p>
-                <div id="guide-text" class="guide-bubble">Vítejte do tajemné soutěže o super ceny jako třeba IPhone XYZ!</div>
-                <!-- <div id="guide-text" class="guide-bubble">Ve kterém roce se poprvě začal používat mobilní telefon pro osobní použití?</div>  -->
+      <div class="bubbles-holder">
+            <div id="guide" class="guide">
+                <div class="robot"><img src="https://raw.githubusercontent.com/arexamples/ar/master/guide.svg" /></div>
+                <div>
+                    <p class="mystery-guide">Tajemný průvodce</p>
+                    <div id="guide-text" class="guide-bubble">Vítejte do tajemné soutěže o super ceny jako třeba <b>iPhone XYZ!</b></div>
+                    <!-- <div id="guide-text" class="guide-bubble">Ve kterém roce se poprvě začal používat mobilní telefon pro osobní použití?</div>  -->
+                </div>
             </div>
+            <div id="guide-text2" class="guide-bubble larger-bubble">Odpovězte na pár otázek, dojděte si pro okamžitou odměnu a zaregistrujte se do hry o hlavní ceny. Nezabere to víc jak 10 minut. Jste připraveni?</div>
         </div>
         <!-- 
         <div id="answerButton" class="btn-group">
@@ -69,7 +72,8 @@ var currentPhaze = "start"
 var wrapper;
 var imageWrapper;  
 var animatedModel;
-var guideText
+var guideText;
+var guideText2;
 var guide;
 var overlay;
 var answerButtonsDiv;
@@ -95,6 +99,8 @@ window.onload = () => {
     imageWrapper = document.getElementById("imageWrapper");
     animatedModel = document.getElementById("animatedModel");
     guideText = document.getElementById("guide-text");
+    guideText2 = document.getElementById("guide-text2");
+    guideText2.style.visibility = "hidden";
     guide = document.getElementById("guide");
     overlay = document.getElementById("overlay");
     holderDiv = document.getElementById("holder");
@@ -176,7 +182,7 @@ function showStartButton(){
             doStartTimer = false;
             if(!startButtonsDiv)
             {
-                guideText.innerHTML += "\n\n " + READY_TEXT;
+                guideText2.style.visibility = "visible";
                 if(!isOverlay)
                 {
                     showStartButtonsDiv()
@@ -192,7 +198,7 @@ function showStartButton(){
 
 function showStartButtonsDiv(){
     startButtonsDiv = document.createElement("div");
-    startButtonsDiv.classList.add("map-button");
+    startButtonsDiv.classList.add("start-button");
 
     var button1 = document.createElement("button");
     button1.innerHTML = "Jdu do toho";
@@ -207,6 +213,7 @@ function showStartButtonsDiv(){
 }
 
 function showAnswerButtons(){
+    guideText2.style.visibility = "hidden";
     currentPhaze = "question";
     if(startButtonsDiv)
     {
