@@ -61,15 +61,23 @@ var imageWrapper;
 var guideText;
 var guide;
 var overlay;
-var answerButtonsDiv;
-var arrowButtonsDiv;
-var mapButtonsDiv;
-var modelButtonsDiv;
-var startButtonsDiv;
-var continueButtonsDiv;
+
+var answerButtonDiv;
+var modelButtonDiv;
+var startButtonDiv;
+var continueButtonDiv;
+var compassButtonDiv;
+var retryButtonDiv;
+
 var holderDiv;
+
 var doStartTimer = true;
 var doAnswerTimer = true;
+var doRetryTimer = true;
+var doModelTimer = true;
+var doCompassTimer = true;
+var doContinueTimer = true;
+
 var isOverlay = true;
   
 const QUESTION_TEXT = 'Kdy se začal používat úplně první mobilní telefon pro osobní použití <b>Motorola DynaTAC 8000X</b>?';
@@ -88,7 +96,7 @@ window.onload = () => {
     guide = document.getElementById("guide");
     overlay = document.getElementById("overlay");
     holderDiv = document.getElementById("holder");
-    //showAnswerButtons()
+    //showAnswerButton()
 };  
 
 
@@ -107,17 +115,25 @@ AFRAME.registerComponent('registerevents', {
             {                
                 showStartButton()
             }
-            if(currentPhaze == "question")
+            if(currentPhaze == "answer")
             {
-                //showAnswerButtons()
+                showAnswerButton()
             }
             if(currentPhaze == "model")
             {
-                showModelButtons()
+                showModelButton()
             }
-            if(currentPhaze == "arrow")
+            if(currentPhaze == "retry")
             {
-                showArrowButtons()
+                showRetryButton()
+            }
+            if(currentPhaze == "compass")
+            {
+                showCompassButton()
+            }
+            if(currentPhaze == "continue")
+            {
+                showContinueButton()
             }
         });
 
@@ -126,130 +142,34 @@ AFRAME.registerComponent('registerevents', {
             var markerId = marker.id;
             overlay.style.visibility = "visible";
             guide.style.visibility = "hidden";
-            if(currentPhaze == "start" && startButtonsDiv)
+            
+            if(currentPhaze == "start" && startButtonDiv)
             {
-                startButtonsDiv.remove();
+                startButtonDiv.remove();
             }
-            if(currentPhaze == "question" && answerButtonsDiv)
+            if(currentPhaze == "answer" && answerButtonDiv)
             {
-                answerButtonsDiv.remove();
+                answerButtonDiv.remove();
             }
-            if(currentPhaze == "model" && modelButtonsDiv)
+            if(currentPhaze == "model" && modelButtonDiv)
             {
-                modelButtonsDiv.remove();
+                modelButtonDiv.remove();
             }
-            if(currentPhaze == "arrow" && arrowButtonsDiv)
+            if(currentPhaze == "retry" && retryButtonDiv)
             {
-                arrowButtonsDiv.remove();
+                retryButtonDiv.remove();
+            }
+            if(currentPhaze == "compass" && compassButtonDiv)
+            {
+                compassButtonDiv.remove();
+            }
+            if(currentPhaze == "continue" && continueButtonDiv)
+            {
+                continueButtonDiv.remove();
             }
         });
     }
 });
-
-function wrongAnswer(){
-    fadeInAndMoveUp(guideText, WRONG_ANSWER_TEXT);
-    showPhoneWrong();
-}
-
-function rightAnswer(){
-    answerButtonsDiv.remove();
-    currentPhaze = "model";
-    showPhoneRight();
-    showModelButtons();
-}
-
-function showStartButton(){
-    if(doStartTimer)
-    {
-        setTimeout(function () {
-            doStartTimer = false;
-            if(!startButtonsDiv)
-            {
-                if(!isOverlay)
-                {
-                    showIphone1();
-                }
-            }
-        }, 1000);
-        setTimeout(function () {
-            doStartTimer = false;
-            if(!startButtonsDiv)
-            {
-                if(!isOverlay)
-                {
-                    showStartButtonsDiv()
-                }
-            }
-        }, 4000);
-    }
-    else{
-        showIphone1();
-        showStartButtonsDiv()
-    }
-}
-
-function showAnswerButton(){
-    if(doAnswerTimer)
-    {
-        setTimeout(function () {
-            doAnswerTimer = false;
-            //if(!startButtonsDiv)
-            //{
-                if(!isOverlay)
-                {
-                    showBphone1();
-                }
-           // }
-        }, 1000);
-        setTimeout(function () {
-            doAnswerTimer = false;
-           // if(!startButtonsDiv)
-           // {
-                if(!isOverlay)
-                {
-                    showAnswerButtonDiv()
-                }
-           // }
-        }, 4000);
-    }
-    else{
-        showBphone1();
-        showAnswerButtonDiv()
-    }
-}
-
-function continue1()
-{
-    startButtonsDiv.remove();
-    hideIphone1();
-    setTimeout(function () {
-            showContinueButton2()
-    }, 2000);   
-}
-
-function showContinueButton2(){
-    continueButtonsDiv = document.createElement("div");
-    continueButtonsDiv.classList.add("start-button");
-
-    var button1 = document.createElement("button");
-    button1.innerHTML = "Pokračovat";
-    button1.classList.add("button-magenta");
-    button1.onclick = function() {
-        //continue1();
-        //animatedModel.setAttribute('animation-mixer',{clip: "*", loop: "once"});   
-        continueButtonsDiv.remove();
-        fadeInAndMoveUp(guideText, QUESTION_TEXT);
-        showAnswerButton();
-    };
-    continueButtonsDiv.appendChild(button1);
-    holderDiv.appendChild(continueButtonsDiv);
-}
-
-
-/*
-function showStartButton(){
-    showStartButtonsDiv()
-}*/
 
 function fadeInAndMoveUp(element, text){
     $(element).hide();
@@ -261,125 +181,315 @@ function fadeInAndMoveUp(element, text){
     $(element).animate({ top: "10px" }, 'slow').animate({ top: "-10px" }, 'slow');
 }
 
-function showStartButtonsDiv(){
-    startButtonsDiv = document.createElement("div");
-    startButtonsDiv.classList.add("start-button");
+function wrongAnswer(){
+    currentPhaze = "retry";
+    fadeInAndMoveUp(guideText, WRONG_ANSWER_TEXT);  
+    answerButtonDiv.remove();
+    showRetryButton();
+}
+
+function rightAnswer(){
+    currentPhaze = "model";
+    fadeInAndMoveUp(guideText, RIGHT_ANSWER_TEXT);  
+    answerButtonDiv.remove();
+    showModelButton();
+}
+
+function showStartButton(){
+    if(doStartTimer)
+    {
+        setTimeout(function () {
+            doStartTimer = false;
+            if(!startButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showIphone1();
+                }
+            }
+        }, 1000);
+        setTimeout(function () {
+            doStartTimer = false;
+            if(!startButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showStartButtonDiv()
+                }
+            }
+        }, 4000);
+    }
+    else{
+        showIphone1();
+        showStartButtonDiv()
+    }
+}
+
+function showAnswerButton(){
+    if(doAnswerTimer)
+    {
+        setTimeout(function () {
+            doAnswerTimer = false;
+            if(!answerButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showBphone1();
+                }
+            }
+        }, 2000);
+        setTimeout(function () {
+            doAnswerTimer = false;
+            if(!answerButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showAnswerButtonDiv()
+                }
+            }
+        }, 4000);
+    }
+    else{
+        showBphone1();
+        showAnswerButtonDiv()
+    }
+}
+
+function showContinueButton()
+{
+    startButtonDiv.remove();
+    if(doContinueTimer)
+    {
+        setTimeout(function () {
+            doContinueTimer = false;
+            if(!continueButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showContinueButtonDiv();
+                }
+            }
+            }, 2000);
+    }
+    else{
+        showContinueButtonDiv();
+    }
+}
+
+function showContinueButtonDiv(){
+    currentPhaze = "continue";
+    continueButtonDiv = document.createElement("div");
+    continueButtonDiv.classList.add("start-button");
 
     var button1 = document.createElement("button");
     button1.innerHTML = "Pokračovat";
     button1.classList.add("button-magenta");
     button1.onclick = function() {
-        continue1();
+        hideIphone1();
+        continueButtonDiv.remove();
+        fadeInAndMoveUp(guideText, QUESTION_TEXT);
+        showAnswerButton();
+    };
+    continueButtonDiv.appendChild(button1);
+    holderDiv.appendChild(continueButtonDiv);
+}
+
+
+function showStartButtonDiv(){
+    currentPhaze = "start";
+    startButtonDiv = document.createElement("div");
+    startButtonDiv.classList.add("start-button");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Pokračovat";
+    button1.classList.add("button-magenta");
+    button1.onclick = function() {
+        showContinueButton();
         //animatedModel.setAttribute('animation-mixer',{clip: "*", loop: "once"});   
         fadeInAndMoveUp(guideText, READY_TEXT);
     };
-    startButtonsDiv.appendChild(button1);
-    holderDiv.appendChild(startButtonsDiv);
+    startButtonDiv.appendChild(button1);
+    holderDiv.appendChild(startButtonDiv);
 }
 
 function showAnswerButtonDiv(){
-    currentPhaze = "question";
-    if(continueButtonsDiv)
+    currentPhaze = "answer";
+    if(continueButtonDiv)
     {
-        continueButtonsDiv.remove();
+        continueButtonDiv.remove();
     }
-    answerButtonsDiv = document.createElement("div");
-    answerButtonsDiv.classList.add("btn-group");
+    answerButtonDiv = document.createElement("div");
+    answerButtonDiv.classList.add("btn-group");
 
-    var delayInMilliseconds = 1;
+    var button1 = document.createElement("button");
+    button1.innerHTML = "1981";
+    button1.classList.add("button");
+    button1.onclick = function() {wrongAnswer()};
+    answerButtonDiv.appendChild(button1);
 
-    setTimeout(function() {
-        var button1 = document.createElement("button");
-        button1.innerHTML = "1981";
-        button1.classList.add("button");
-        button1.onclick = function() {wrongAnswer()};
-        answerButtonsDiv.appendChild(button1);
+    var button2 = document.createElement("button");
+    button2.innerHTML = "1983";
+    button2.classList.add('button');
+    button2.onclick = function() {rightAnswer()};
+    answerButtonDiv.appendChild(button2);
 
-        var button2 = document.createElement("button");
-        button2.innerHTML = "1983";
-        button2.classList.add('button');
-        button2.onclick = function() {rightAnswer()};
-        answerButtonsDiv.appendChild(button2);
+    var button3 = document.createElement("button");
+    button3.innerHTML = "1992";
+    button3.classList.add('button');
+    button3.onclick = function() {wrongAnswer()};
+    answerButtonDiv.appendChild(button3);
+    //document.getElementById("MyElement").classList.remove('MyClass');
 
-        var button3 = document.createElement("button");
-        button3.innerHTML = "1992";
-        button3.classList.add('button');
-        button3.onclick = function() {wrongAnswer()};
-        answerButtonsDiv.appendChild(button3);
-        //document.getElementById("MyElement").classList.remove('MyClass');
-
-        holderDiv.appendChild(answerButtonsDiv);
-    }, delayInMilliseconds);
+    holderDiv.appendChild(answerButtonDiv);
+ 
 }
 
-function showModelButtons(){
+function showModelButton(){
+    if(doModelTimer)
+        {
+            setTimeout(function () {
+                doModelTimer = false;
+                if(!modelButtonDiv)
+                {
+                    if(!isOverlay)
+                    {
+                        showBphoneRotate();
+                    }
+                }
+            }, 2000);
+            setTimeout(function () {
+                doModelTimer = false;
+                if(!modelButtonDiv)
+                {
+                    if(!isOverlay)
+                    {
+                        showModelButtonDiv()
+                    }
+                }
+            }, 4000);
+        }
+        else{
+            showBphoneRotate();
+            showModelButtonDiv()
+        }
+}
+
+function showModelButtonDiv(){
     currentPhaze = "model";
-    if(arrowButtonsDiv)
-    {
-        arrowButtonsDiv.remove();
-    }
-    fadeInAndMoveUp(guideText, RIGHT_ANSWER_TEXT);
 
-    modelButtonsDiv = document.createElement("div");
-    modelButtonsDiv.classList.add("start-button");
+    modelButtonDiv = document.createElement("div");
+    modelButtonDiv.classList.add("start-button");
 
     var button1 = document.createElement("button");
-    button1.innerHTML = "Navigace";
+    button1.innerHTML = "Pokračovat";
     button1.classList.add("button-magenta");
-    button1.onclick = function() {showArrow()};
-    modelButtonsDiv.appendChild(button1);
-
-
-    holderDiv.appendChild(modelButtonsDiv);
+    button1.onclick = function() {
+        modelButtonDiv.remove();
+        hideBphone1();
+        fadeInAndMoveUp(guideText, DONE_TEXT);
+        showCompassButton();
+    };
+    modelButtonDiv.appendChild(button1);
+    holderDiv.appendChild(modelButtonDiv);
 }
 
-function showArrowButtons(){
-    currentPhaze = "arrow";
-    if(modelButtonsDiv)
-    {
-        modelButtonsDiv.remove();
-    }
-
-    fadeInAndMoveUp(guideText, DONE_TEXT);
-
-    var delayInMilliseconds = 1;
-
-    setTimeout(function() {
-        arrowButtonsDiv = document.createElement("div");
-        arrowButtonsDiv.classList.add("start-button");
-
-        var a = document.createElement('a');
-        a.href = "https://arexamples.github.io/ar/map.html";
-        a.target = "_blank";                                                                                
-        a.ret = "noopener noreferrer";   
-    
-
-        var button1 = document.createElement("button");
-        button1.innerHTML = "Mapa<img src='map-icon.svg'>";
-        button1.classList.add("button-magenta");
-        a.appendChild(button1);
-
-        arrowButtonsDiv.appendChild(a);
-        holderDiv.appendChild(arrowButtonsDiv);
-    }, delayInMilliseconds);
-    
-}
-
-function showMapButtons(){
-    if(arrowButtonsDiv)
-    {
-        arrowButtonsDiv.remove();
-    }
-    mapButtonsDiv = document.createElement("div");
-    mapButtonsDiv.classList.add("map-button");
+function showRetryButtonDiv(){
+    currentPhaze = "retry";
+    retryButtonDiv = document.createElement("div");
+    retryButtonDiv.classList.add("start-button");
 
     var button1 = document.createElement("button");
-    button1.innerHTML = "Mapa<img src='map-icon.svg'>";
+    button1.innerHTML = "Zkusit znovu";
     button1.classList.add("button-magenta");
-    button1.onclick = function() {rightAnswer()};
-    mapButtonsDiv.appendChild(button1);
+    button1.onclick = function() {
+        hideBphoneCrash1();
+        retryButtonDiv.remove();
+        fadeInAndMoveUp(guideText, QUESTION_TEXT);
+        showAnswerButtonDiv();
+        //doRetryTimer = true;
+    };
+    retryButtonDiv.appendChild(button1);
+    holderDiv.appendChild(retryButtonDiv);
+}
 
-    holderDiv.appendChild(mapButtonsDiv);
+function showRetryButton(){
+    if(doRetryTimer)
+    {
+        setTimeout(function () {
+            doRetryTimer = false;
+            if(!retryButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showBphoneCrash1();
+                }
+            }
+        }, 1000);
+        setTimeout(function () {
+            doRetryTimer = false;
+            if(!retryButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showRetryButtonDiv();
+                }
+            }
+        }, 4000);
+    }
+    else{
+        showBphoneCrash1();
+        showRetryButtonDiv();
+    }
+}
+
+function showCompassButton(){
+    if(doCompassTimer)
+    {
+        setTimeout(function () {
+            doCompassTimer = false;
+            if(!compassButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showCompass1();
+                }
+             }
+        }, 2000);
+        setTimeout(function () {
+            doCompassTimer = false;
+            if(!compassButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showCompassButtonDiv()
+                }
+            }
+        }, 4000);
+    }
+    else{
+        showCompass1();
+        showCompassButtonDiv()
+    }
+}
+
+
+function showCompassButtonDiv(){
+    currentPhaze = "compass";
+    compassButtonDiv = document.createElement("div");
+    compassButtonDiv.classList.add("map-button");
+
+    var a = document.createElement('a');
+    a.href = "https://arexamples.github.io/ar/map.html";
+    a.target = "_blank";                                                                                
+    a.ret = "noopener noreferrer";   
+    
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Navigace<img src='map-icon.svg'>";
+    button1.classList.add("button-magenta");
+    a.appendChild(button1);
+
+    compassButtonDiv.appendChild(a);
+    holderDiv.appendChild(compassButtonDiv);
 }
 
 function showIphone(){
@@ -393,9 +503,9 @@ function showIphone(){
     wrapper.appendChild(iphoneEntity);
 }
 
-function showPhoneRight(){
+function showBphoneRotate(){
     var phoneRightEntity = document.createElement('a-entity');
-    phoneRightEntity.setAttribute('gltf-model', "#RightAnswer");
+    phoneRightEntity.setAttribute('gltf-model', "#bphone_rotate");
     phoneRightEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
     phoneRightEntity.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
     phoneRightEntity.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:3});           
@@ -403,42 +513,6 @@ function showPhoneRight(){
     wrapper.innerHTML = '';                                          
     wrapper.appendChild(phoneRightEntity);
 }
-
-function showPhoneWrong(){
-    var phoneWrongEntity = document.createElement('a-entity');
-    phoneWrongEntity.setAttribute('gltf-model', "#BadAnswer");
-    phoneWrongEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
-    phoneWrongEntity.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
-    phoneWrongEntity.setAttribute('animation-mixer', {clip: "*", loop: "once"});      
-                                     
-    wrapper.innerHTML = '';                                          
-    wrapper.appendChild(phoneWrongEntity);
-}
-
-function showUsb(){
-    showModelButtons()
-    var usbEntity = document.createElement('a-entity');
-    usbEntity.setAttribute('gltf-model', "#usb");
-    usbEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
-    usbEntity.setAttribute('scale', {x: 1, y: 1, z: 1});
-    usbEntity.setAttribute('animation-mixer', "clips: *");                                           
-                                         
-    wrapper.innerHTML = '';                                          
-    wrapper.appendChild(usbEntity);
-}
-  
-function showArrow(){
-    showArrowButtons()
-    var arrowEntity = document.createElement('a-entity');
-    arrowEntity.setAttribute('gltf-model', "#arrow");
-    arrowEntity.setAttribute('rotation', {x: 0, y: -135, z: 0});
-    //arrowEntity.setAttribute('position', {x: 0.5, y: 0, z: -1});                                               
-    arrowEntity.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
-    arrowEntity.setAttribute('animation-mixer', "clips: *");  
-                                           
-    wrapper.innerHTML = '';                                               
-    wrapper.appendChild(arrowEntity);
-} 
 
 function hideIphone1(){
     var iphoneEntity1 = document.createElement('a-entity');
@@ -454,7 +528,6 @@ function hideIphone1(){
     //iphoneEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", timeScale:-1});   
     // startFrame
 }
-
 
 function showIphone1(){
     var iphoneEntity1 = document.createElement('a-entity');
@@ -499,7 +572,7 @@ function hideBphoneCrash1(){
     bPhoneCrashEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
     bPhoneCrashEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
     bPhoneCrashEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
-    bPhoneCrashEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:1, timeScale:-1});   
+    bPhoneCrashEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:1, timeScale:-1, clampWhenFinished:true});   
     // timeScale:-1
                                         
     wrapper.innerHTML = '';                                          
@@ -518,23 +591,11 @@ function showBphoneCrash1(){
     wrapper.appendChild(bPhoneCrashEntity1);
 }
 
-function hideCompass1(){
-    var compassEntity1 = document.createElement('a-entity');
-    compassEntity1.setAttribute('gltf-model', "#compass_scale");
-    compassEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
-    compassEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
-    compassEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
-    compassEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:1, timeScale:-1});   
-    // timeScale:-1
-                                        
-    wrapper.innerHTML = '';                                          
-    wrapper.appendChild(compassEntity1);
-}
 
 function showCompass1(){
     var compassEntity1 = document.createElement('a-entity');
     compassEntity1.setAttribute('gltf-model', "#compass_scale");
-    compassEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    compassEntity1.setAttribute('rotation', {x: 0, y: -45, z: 0});
     compassEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
     compassEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
     compassEntity1.setAttribute('animation-mixer', {clip: "*", loop:"once", clampWhenFinished:true});   
