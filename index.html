@@ -317,26 +317,30 @@ function showAnswerButtonDiv(){
     answerButtonDiv = document.createElement("div");
     answerButtonDiv.classList.add("btn-group");
 
-    var button1 = document.createElement("button");
-    button1.innerHTML = "1981";
-    button1.classList.add("button");
-    button1.onclick = function() {wrongAnswer()};
-    answerButtonDiv.appendChild(button1);
+    var delayInMilliseconds = 1;
+  
+    setTimeout(function() {
+      var button1 = document.createElement("button");
+      button1.innerHTML = "1981";
+      button1.classList.add("button");
+      button1.onclick = function() {wrongAnswer()};
+      answerButtonDiv.appendChild(button1);
 
-    var button2 = document.createElement("button");
-    button2.innerHTML = "1983";
-    button2.classList.add('button');
-    button2.onclick = function() {rightAnswer()};
-    answerButtonDiv.appendChild(button2);
+      var button2 = document.createElement("button");
+      button2.innerHTML = "1983";
+      button2.classList.add('button');
+      button2.onclick = function() {rightAnswer()};
+      answerButtonDiv.appendChild(button2);
 
-    var button3 = document.createElement("button");
-    button3.innerHTML = "1992";
-    button3.classList.add('button');
-    button3.onclick = function() {wrongAnswer()};
-    answerButtonDiv.appendChild(button3);
-    //document.getElementById("MyElement").classList.remove('MyClass');
+      var button3 = document.createElement("button");
+      button3.innerHTML = "1992";
+      button3.classList.add('button');
+      button3.onclick = function() {wrongAnswer()};
+      answerButtonDiv.appendChild(button3);
+      //document.getElementById("MyElement").classList.remove('MyClass');
 
-    holderDiv.appendChild(answerButtonDiv);
+      holderDiv.appendChild(answerButtonDiv);
+    }, delayInMilliseconds);
  
 }
 
