@@ -47,7 +47,7 @@
             <a-asset-item id="Iphone" src="https://raw.githubusercontent.com/arexamples/ar/master/models/itobphone.gltf"></a-asset-item>
             <a-asset-item id="BadAnswer" src="https://raw.githubusercontent.com/arexamples/ar/master/models/bphone_crash.gltf"></a-asset-item>
             <a-asset-item id="RightAnswer" src="https://raw.githubusercontent.com/arexamples/ar/master/models/bphoneanim_r.gltf"></a-asset-item>
-            <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/arrow.glb"></a-asset-item> 
+            <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/compass.gtlf"></a-asset-item> 
         </a-assets>
         <a-marker id="arrow_marker" type='pattern' url='https://raw.githubusercontent.com/arexamples/ar/master/markers/arrow_marker.patt' smooth="true" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5" registerevents>
             <a-entity id="wrapper" position="0 0 0" emitevents="true">     
@@ -362,6 +362,7 @@ function showArrow(){
     arrowEntity.setAttribute('rotation', {x: 0, y: -135, z: 0});
     arrowEntity.setAttribute('position', {x: 0.5, y: 0, z: -1});                                               
     arrowEntity.setAttribute('scale', {x: 0.25, y: 0.25, z: 0.25});
+    arrowEntity.setAttribute('animation-mixer', "clips: *");  
                                            
     wrapper.innerHTML = '';                                               
     wrapper.appendChild(arrowEntity);
