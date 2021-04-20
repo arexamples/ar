@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description"content="Web site created using create-react-app"/>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <title>React App</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="holder" class="holder">
+        <div id="guide" class="guide">
+            <div>
+                <div id="guide-text" class="guide-bubble">Vítejte do tajemné soutěže o super ceny jako třeba <b>IPhone XYZ!</b></div>
+            </div>
+        </div>       
+    </div>
+
+    <div id="overlay" class="overlay">
+        <div class="overlay-container">
+            <img class="overlay-image" src="https://raw.githubusercontent.com/arexamples/ar/master/overlay.gif" />
+        </div>
+    </div>
+    
+    <div id="myEmbeddedScene">
+        <a-scene class="holder2" embedded device-orientation-permission-ui="enabled: false" renderer="logarithmicDepthBuffer: true; antialias: true;" arjs=’sourceType: webcam; trackingMethod:best; debugUIEnabled: true;’ vr-mode-ui='enabled: false'>
+        <a-assets>
+            <!-- <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/usb_anim.glb"></a-asset-item> -->
+            <a-asset-item id="usb" src="https://raw.githubusercontent.com/arexamples/ar/master/models/brick_02.gltf"></a-asset-item>
+            <a-asset-item id="Iphone" src="https://raw.githubusercontent.com/arexamples/ar/master/models/itobphone.gltf"></a-asset-item>
+            <a-asset-item id="BadAnswer" src="https://raw.githubusercontent.com/arexamples/ar/master/models/bphone_crash.gltf"></a-asset-item>
+            <a-asset-item id="RightAnswer" src="https://raw.githubusercontent.com/arexamples/ar/master/models/bphoneanim_r.gltf"></a-asset-item>
+            <a-asset-item id="arrow" src="https://raw.githubusercontent.com/arexamples/ar/master/models/compass.gltf"></a-asset-item> 
+        </a-assets>
+        <a-marker id="arrow_marker" type='pattern' url='https://raw.githubusercontent.com/arexamples/ar/master/markers/arrow_marker.patt' smooth="true" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5" registerevents>
+            <a-entity id="wrapper" position="0 0 0" emitevents="true">     
+            <!-- <a-entity id="animatedModel" gltf-model="#usb" scale="1 1 1" rotation="-90 0 0" position="0 0 0"></a-entity> -->
+            <a-entity id="animatedModel" gltf-model="#Iphone" scale="0.01 0.01 0.01" rotation="-90 0 0" position="0 0 0"></a-entity>     
+            </a-entity>                                                                                   
+        </a-marker>			   
+        <a-entity camera></a-entity>
+        </a-scene>
+    </div>
+    <div id="ARKO"></div>
+    								   
+<script> 
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+var currentPhaze = "start"
+
+var wrapper;
+var imageWrapper;  
+var animatedModel;
+var guideText;
+var guide;
+var overlay;
+var answerButtonsDiv;
+var arrowButtonsDiv;
+var mapButtonsDiv;
+var modelButtonsDiv;
+var startButtonsDiv;
+var holderDiv;
+var doStartTimer = true;
+var isOverlay = true;
+  
+const QUESTION_TEXT = 'Kdy se začal používat úplně první mobilní telefon pro osobní použití <b>Motorola DynaTAC 8000X</b>?';
+const RIGHT_ANSWER_TEXT = '<b>Správně!</b> Jeho cena tehdy byla 10 tisíc dolarů, což je asi dnešních 200 tisíc korun. A pak, že jsou dnešní moderní telefony drahé :).';
+const WRONG_ANSWER_TEXT = 'Nesprávná odpověď. Zkuste to znovu.';
+const COMPASS_TEXT = 'Naskenujte prosím symbol kompasu.';
+const WELCOME_TEXT = 'Vítejte do tajemné soutěže o super ceny jako třeba IPhone XYZ.';
+const READY_TEXT = 'Odpovězte na pár otázek, dojděte si pro okamžitou odměnu a zaregistrujte se do hry o hlavní ceny. Nezabere to víc jak 10 minut. Jste připraveni?';
+const DONE_TEXT = 'Na tomto místě máte splněno. Čekají vás ještě dvě otázky. Najdete je <b>tímto směrem za 200 m</b>. Nebo mrkněte na navigaci (stiskněte spodní tlačítko).';
+const MAP_TEXT = 'Tady vidíte, kudy jít. Další otázku najdete <b>vedle Zary</b>. Nebo se koukněte na fotografie, podle kterých se můžete po cestě orientovat.';
+  
+window.onload = () => {
+    wrapper = document.getElementById('wrapper');
+    imageWrapper = document.getElementById("imageWrapper");
+    animatedModel = document.getElementById("animatedModel");
+    guideText = document.getElementById("guide-text");
+    guide = document.getElementById("guide");
+    overlay = document.getElementById("overlay");
+    holderDiv = document.getElementById("holder");
+    //showAnswerButtons()
+};  
+
+
+AFRAME.registerComponent('registerevents', {
+    init: function () {
+        var marker = this.el;
+
+        marker.addEventListener('markerFound', function() {
+            isOverlay = false;
+            var markerId = marker.id;
+            overlay.style.visibility = "hidden";
+            guide.style.visibility = "visible";
+            
+            if(currentPhaze == "start")
+            {
+                showStartButton()
+            }
+            if(currentPhaze == "question")
+            {
+                showAnswerButtons()
+            }
+            if(currentPhaze == "model")
+            {
+                showModelButtons()
+            }
+            if(currentPhaze == "arrow")
+            {
+                showArrowButtons()
+            }
+        });
+
+        marker.addEventListener('markerLost', function() {
+            isOverlay = true;
+            var markerId = marker.id;
+            overlay.style.visibility = "visible";
+            guide.style.visibility = "hidden";
+            if(currentPhaze == "start" && startButtonsDiv)
+            {
+                startButtonsDiv.remove();
+            }
+            if(currentPhaze == "question" && answerButtonsDiv)
+            {
+                answerButtonsDiv.remove();
+            }
+            if(currentPhaze == "model" && modelButtonsDiv)
+            {
+                modelButtonsDiv.remove();
+            }
+            if(currentPhaze == "arrow" && arrowButtonsDiv)
+            {
+                arrowButtonsDiv.remove();
+            }
+        });
+    }
+});
+
+  
+function wrongAnswer(){
+    guideText.innerHTML = WRONG_ANSWER_TEXT; 
+    showPhoneWrong()
+}
+
+function rightAnswer(){
+    answerButtonsDiv.remove();
+    currentPhaze = "model";
+    showPhoneRight()
+    showModelButtons();
+}
+
+
+function showStartButton(){
+    console.log("showStartButton");
+    showStartButtonsDiv()
+}
+
+
+function showStartButtonsDiv(){
+    startButtonsDiv = document.createElement("div");
+    startButtonsDiv.classList.add("start-button");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Jdu do toho";
+    button1.classList.add("button-magenta");
+    button1.onclick = function() {
+        showAnswerButtons();
+        animatedModel.setAttribute('animation-mixer',{clip: "*", loop: "once"});   
+        guideText.innerHTML = QUESTION_TEXT; 
+    };
+    startButtonsDiv.appendChild(button1);
+    holderDiv.appendChild(startButtonsDiv);
+}
+
+function showAnswerButtons(){
+    currentPhaze = "question";
+    if(startButtonsDiv)
+    {
+        startButtonsDiv.remove();
+    }
+    answerButtonsDiv = document.createElement("div");
+    answerButtonsDiv.classList.add("btn-group");
+
+    var delayInMilliseconds = 1;
+
+    setTimeout(function() {
+        var button1 = document.createElement("button");
+        button1.innerHTML = "1981";
+        button1.classList.add("button");
+        button1.onclick = function() {wrongAnswer()};
+        answerButtonsDiv.appendChild(button1);
+
+        var button2 = document.createElement("button");
+        button2.innerHTML = "1983";
+        button2.classList.add('button');
+        button2.onclick = function() {rightAnswer()};
+        answerButtonsDiv.appendChild(button2);
+
+        var button3 = document.createElement("button");
+        button3.innerHTML = "1992";
+        button3.classList.add('button');
+        button3.onclick = function() {wrongAnswer()};
+        answerButtonsDiv.appendChild(button3);
+        //document.getElementById("MyElement").classList.remove('MyClass');
+
+        holderDiv.appendChild(answerButtonsDiv);
+    }, delayInMilliseconds);
+}
+
+function showModelButtons(){
+    currentPhaze = "model";
+    if(arrowButtonsDiv)
+    {
+        arrowButtonsDiv.remove();
+    }
+    guideText.innerHTML = RIGHT_ANSWER_TEXT; 
+
+    modelButtonsDiv = document.createElement("div");
+    modelButtonsDiv.classList.add("start-button");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Navigace";
+    button1.classList.add("button-magenta");
+    button1.onclick = function() {showArrow()};
+    modelButtonsDiv.appendChild(button1);
+
+
+    holderDiv.appendChild(modelButtonsDiv);
+}
+
+function showArrowButtons(){
+    currentPhaze = "arrow";
+    if(modelButtonsDiv)
+    {
+        modelButtonsDiv.remove();
+    }
+    guideText.innerHTML = DONE_TEXT; 
+
+    var delayInMilliseconds = 1;
+
+    setTimeout(function() {
+        arrowButtonsDiv = document.createElement("div");
+        arrowButtonsDiv.classList.add("start-button");
+
+        var a = document.createElement('a');
+        a.href = "https://arexamples.github.io/ar/map.html";
+        a.target = "_blank";                                                                                
+        a.ret = "noopener noreferrer";   
+    
+
+        var button1 = document.createElement("button");
+        button1.innerHTML = "Mapa<img src='map-icon.svg'>";
+        button1.classList.add("button-magenta");
+        a.appendChild(button1);
+
+        arrowButtonsDiv.appendChild(a);
+        holderDiv.appendChild(arrowButtonsDiv);
+    }, delayInMilliseconds);
+    
+}
+
+function showMapButtons(){
+    if(arrowButtonsDiv)
+    {
+        arrowButtonsDiv.remove();
+    }
+    mapButtonsDiv = document.createElement("div");
+    mapButtonsDiv.classList.add("map-button");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Mapa<img src='map-icon.svg'>";
+    button1.classList.add("button-magenta");
+    button1.onclick = function() {rightAnswer()};
+    mapButtonsDiv.appendChild(button1);
+
+    holderDiv.appendChild(mapButtonsDiv);
+}
+
+function showIphone(){
+    var iphoneEntity = document.createElement('a-entity');
+    iphoneEntity.setAttribute('gltf-model', "#Iphone");
+    iphoneEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    iphoneEntity.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    iphoneEntity.setAttribute('animation-mixer', "clips: *");                                           
+                                         
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(iphoneEntity);
+}
+
+function showPhoneRight(){
+    var phoneRightEntity = document.createElement('a-entity');
+    phoneRightEntity.setAttribute('gltf-model', "#RightAnswer");
+    phoneRightEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    phoneRightEntity.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    phoneRightEntity.setAttribute('animation-mixer', "clips: *");                                           
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(phoneRightEntity);
+}
+
+function showPhoneWrong(){
+    var phoneWrongEntity = document.createElement('a-entity');
+    phoneWrongEntity.setAttribute('gltf-model', "#BadAnswer");
+    phoneWrongEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    phoneWrongEntity.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    phoneWrongEntity.setAttribute('animation-mixer', {clip: "*", loop: "once"});      
+                                     
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(phoneWrongEntity);
+}
+
+function showUsb(){
+    showModelButtons()
+    var usbEntity = document.createElement('a-entity');
+    usbEntity.setAttribute('gltf-model', "#usb");
+    usbEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    usbEntity.setAttribute('scale', {x: 1, y: 1, z: 1});
+    usbEntity.setAttribute('animation-mixer', "clips: *");                                           
+                                         
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(usbEntity);
+}
+  
+function showArrow(){
+    showArrowButtons()
+    var arrowEntity = document.createElement('a-entity');
+    arrowEntity.setAttribute('gltf-model', "#arrow");
+    arrowEntity.setAttribute('rotation', {x: 0, y: -135, z: 0});
+    //arrowEntity.setAttribute('position', {x: 0.5, y: 0, z: -1});                                               
+    arrowEntity.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    arrowEntity.setAttribute('animation-mixer', "clips: *");  
+                                           
+    wrapper.innerHTML = '';                                               
+    wrapper.appendChild(arrowEntity);
+}             
+                                                                                     
+function showMap(){                                                                      
+  var a = document.createElement('a');
+  a.href = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";
+  a.target = "_blank";                                                                                
+  a.ret = "noopener noreferrer";                                                                                
+                                                                                  
+  var img = document.createElement("img");
+  img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map.png";   
+  img.style = "text-align:center;max-width: 100%; height: auto; position: absolute; bottom: 0;left: 0; z-index: 10;"                                                                                         
+                                                                                                                             
+  wrapper.innerHTML = '';
+  imageWrapper.innerHTML = '';                                                                                                                    
+  a.appendChild(img);                                                                                                       
+  imageWrapper.appendChild(a);                                                    
+}    
+                                                                                                                    
+function showMap2(){                                                                      
+  var a = document.createElement('a');
+  a.href = "https://raw.githubusercontent.com/arexamples/ar/master/images/map2.png";
+  a.target = "_blank";                                                                                
+  a.ret = "noopener noreferrer";                                                                                
+                                                                                  
+  var img = document.createElement("img");
+  img.src = "https://raw.githubusercontent.com/arexamples/ar/master/images/map2.png";   
+  img.style = "text-align:center;max-width: 100%; height: auto; position: absolute; bottom: 0;left: 0; z-index: 10;"                                                                                         
+     
+                                                                                                                    
+  wrapper.innerHTML = '';
+  imageWrapper.innerHTML = '';                                                                                                                    
+  a.appendChild(img);                                                                                                       
+  imageWrapper.appendChild(a);                                                    
+} 
+</script>
+  </body>
+</html>
