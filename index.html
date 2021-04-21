@@ -37,7 +37,7 @@
             <a-asset-item id="compass_scale" src="https://raw.githubusercontent.com/arexamples/ar/master/models/compass_scale.gltf"></a-asset-item> 
             <a-asset-item id="iphone_scale" src="https://raw.githubusercontent.com/arexamples/ar/master/models/iphone_scale.gltf"></a-asset-item> 
         </a-assets>
-        <a-marker id="arrow_marker" type='pattern' url='https://raw.githubusercontent.com/arexamples/ar/master/markers/arrow_marker.patt' smooth="true" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5" registerevents>
+        <a-marker id="arrow_marker" type='pattern' url='https://raw.githubusercontent.com/arexamples/ar/master/markers/arrow_marker.patt' smooth="true" minConfidence: "1.0" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5" registerevents>
             <a-entity id="wrapper" position="0 0 0" emitevents="true">
             </a-entity>                                                                                   
         </a-marker>			   
