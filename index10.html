@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta name="description"content="Web site created using create-react-app"/>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <title>DEMO</title>
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="holder" class="holder">
+        <div id="guide" class="guide">
+            <div>
+                <div id="guide-text" class="guide-bubble">Vítejte do tajemné soutěže o super ceny jako třeba <b>IPhone XYZ!</b></div>
+            </div>
+        </div>       
+    </div>
+
+    <div id="overlay" class="overlay">
+        <div class="overlay-container">
+            <img class="overlay-image" src="https://raw.githubusercontent.com/arexamples/ar/master/overlay.gif" />
+        </div>
+    </div>
+    
+    <div id="myEmbeddedScene">
+        <a-scene class="holder2" embedded device-orientation-permission-ui="enabled: false" renderer="logarithmicDepthBuffer: true; antialias: true;" arjs=’sourceType: webcam; trackingMethod:best; debugUIEnabled: true;’ vr-mode-ui='enabled: false'>
+        <a-assets>
+            <a-asset-item id="bphone_rotate" src="https://raw.githubusercontent.com/arexamples/ar/master/models/bphone_rotate.gltf"></a-asset-item> 
+            <a-asset-item id="bphone_crash" src="https://raw.githubusercontent.com/arexamples/ar/master/models/bphone_crash.gltf"></a-asset-item> 
+            <a-asset-item id="bphone_scale" src="https://raw.githubusercontent.com/arexamples/ar/master/models/bphone_scale.gltf"></a-asset-item> 
+            <a-asset-item id="compass_scale" src="https://raw.githubusercontent.com/arexamples/ar/master/models/compass_scale.gltf"></a-asset-item> 
+            <a-asset-item id="iphone_scale" src="https://raw.githubusercontent.com/arexamples/ar/master/models/iphone_scale.gltf"></a-asset-item> 
+        </a-assets>
+        <a-marker id="arrow_marker" type='pattern' url='https://raw.githubusercontent.com/arexamples/ar/master/markers/arrow_marker.patt' smooth="true" minConfidence: "1.0" smoothCount="10" smoothTolerance="0.01" smoothThreshold="5" registerevents>
+            <a-entity id="wrapper" position="0 0 0" emitevents="true">
+            </a-entity>                                                                                   
+        </a-marker>			   
+        <a-entity camera></a-entity>
+        </a-scene>
+    </div>
+    <div id="ARKO"></div>
+    								   
+<script> 
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+
+var currentPhaze = "start"
+
+var wrapper;
+var imageWrapper;  
+var guideText;
+var guide;
+var overlay;
+
+var answerButtonDiv;
+var modelButtonDiv;
+var startButtonDiv;
+var continueButtonDiv;
+var compassButtonDiv;
+var retryButtonDiv;
+
+var holderDiv;
+
+var doStartTimer = true;
+var doAnswerTimer = true;
+var doRetryTimer = true;
+var doModelTimer = true;
+var doCompassTimer = true;
+var doContinueTimer = true;
+
+var isOverlay = true;
+  
+const QUESTION_TEXT = 'Kdy se začal používat úplně první mobilní telefon pro osobní použití <b>Motorola DynaTAC 8000X</b>?';
+const RIGHT_ANSWER_TEXT = '<b>Správně!</b> Jeho cena tehdy byla 10 tisíc dolarů, což je asi dnešních 200 tisíc korun. A pak, že jsou dnešní moderní telefony drahé :-).';
+const WRONG_ANSWER_TEXT = 'Nesprávná odpověď. Zkuste to znovu.';
+const COMPASS_TEXT = 'Naskenujte prosím symbol kompasu.';
+const WELCOME_TEXT = 'Vítejte do tajemné soutěže o super ceny jako třeba IPhone XYZ.';
+const READY_TEXT = 'Odpovězte na pár otázek, dojděte si pro okamžitou odměnu a zaregistrujte se do hry o hlavní ceny. Nezabere to víc jak 10 minut. Jste připraveni?';
+const DONE_TEXT = 'Na tomto místě máte splněno. Čekají vás ještě dvě otázky. Najdete je <b>tímto směrem za 200 m</b>. Nebo mrkněte na navigaci.';
+const MAP_TEXT = 'Tady vidíte, kudy jít. Další otázku najdete <b>vedle Zary</b>. Nebo se koukněte na fotografie, podle kterých se můžete po cestě orientovat.';
+  
+window.onload = () => {
+    wrapper = document.getElementById('wrapper');
+    imageWrapper = document.getElementById("imageWrapper");
+    guideText = document.getElementById("guide-text");
+    guide = document.getElementById("guide");
+    overlay = document.getElementById("overlay");
+    holderDiv = document.getElementById("holder");
+    //showAnswerButton()
+};  
+
+
+AFRAME.registerComponent('registerevents', {
+    init: function () {
+        var marker = this.el;
+
+        marker.addEventListener('markerFound', function() {
+            isOverlay = false;
+            var markerId = marker.id;
+            overlay.style.visibility = "hidden";
+            guide.style.visibility = "visible";
+            fadeInAndMoveUp(guideText, null);
+            
+            if(currentPhaze == "start")
+            {                
+                showStartButton()
+            }
+            if(currentPhaze == "answer")
+            {
+                showAnswerButton()
+            }
+            if(currentPhaze == "model")
+            {
+                showModelButton()
+            }
+            if(currentPhaze == "retry")
+            {
+                showRetryButton()
+            }
+            if(currentPhaze == "compass")
+            {
+                showCompassButton()
+            }
+            if(currentPhaze == "continue")
+            {
+                showContinueButton()
+            }
+        });
+
+        marker.addEventListener('markerLost', function() {
+            isOverlay = true;
+            var markerId = marker.id;
+            overlay.style.visibility = "visible";
+            guide.style.visibility = "hidden";
+            
+            if(currentPhaze == "start" && startButtonDiv)
+            {
+                startButtonDiv.remove();
+            }
+            if(currentPhaze == "answer" && answerButtonDiv)
+            {
+                answerButtonDiv.remove();
+            }
+            if(currentPhaze == "model" && modelButtonDiv)
+            {
+                modelButtonDiv.remove();
+            }
+            if(currentPhaze == "retry" && retryButtonDiv)
+            {
+                retryButtonDiv.remove();
+            }
+            if(currentPhaze == "compass" && compassButtonDiv)
+            {
+                compassButtonDiv.remove();
+            }
+            if(currentPhaze == "continue" && continueButtonDiv)
+            {
+                continueButtonDiv.remove();
+            }
+        });
+    }
+});
+
+function fadeInAndMoveUp(element, text){
+    $(element).hide();
+    if(text != null)
+    {
+        element.innerHTML = text; 
+    }
+    $(element).fadeIn({queue: false, duration: 'slow'});
+    $(element).animate({ top: "10px" }, 'slow').animate({ top: "-10px" }, 'slow');
+}
+
+function wrongAnswer(){
+    currentPhaze = "retry";
+    fadeInAndMoveUp(guideText, WRONG_ANSWER_TEXT);  
+    answerButtonDiv.remove();
+    showRetryButton();
+}
+
+function rightAnswer(){
+    currentPhaze = "model";
+    fadeInAndMoveUp(guideText, RIGHT_ANSWER_TEXT);  
+    answerButtonDiv.remove();
+    showModelButton();
+}
+
+function showStartButton(){
+    if(doStartTimer)
+    {
+        setTimeout(function () {
+            doStartTimer = false;
+            if(!startButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showIphone1();
+                }
+            }
+        }, 1000);
+        setTimeout(function () {
+            doStartTimer = false;
+            if(!startButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showStartButtonDiv()
+                }
+            }
+        }, 4000);
+    }
+    else{
+        showIphone1();
+        showStartButtonDiv()
+    }
+}
+
+function showAnswerButton(){
+    currentPhaze = "answer";
+    if(doAnswerTimer)
+    {
+        setTimeout(function () {
+            doAnswerTimer = false;
+            if(!answerButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showBphone1();
+                }
+            }
+        }, 2000);
+        setTimeout(function () {
+            doAnswerTimer = false;
+            if(!answerButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showAnswerButtonDiv()
+                }
+            }
+        }, 4000);
+    }
+    else{
+        showBphone1();
+        showAnswerButtonDiv()
+    }
+}
+
+function showContinueButton()
+{
+    startButtonDiv.remove();
+    currentPhaze = "continue";
+    if(doContinueTimer)
+    {
+        setTimeout(function () {
+            doContinueTimer = false;
+            if(!continueButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showContinueButtonDiv();
+                }
+            }
+            }, 2000);
+    }
+    else{
+        showContinueButtonDiv();
+    }
+}
+
+function showContinueButtonDiv(){
+    currentPhaze = "continue";
+    continueButtonDiv = document.createElement("div");
+    continueButtonDiv.classList.add("start-button");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Pokračovat";
+    button1.classList.add("button-magenta");
+    button1.onclick = function() {
+        hideIphone1();
+        continueButtonDiv.remove();
+        fadeInAndMoveUp(guideText, QUESTION_TEXT);
+        showAnswerButton();
+    };
+    continueButtonDiv.appendChild(button1);
+    holderDiv.appendChild(continueButtonDiv);
+}
+
+
+function showStartButtonDiv(){
+    currentPhaze = "start";
+    startButtonDiv = document.createElement("div");
+    startButtonDiv.classList.add("start-button");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Pokračovat";
+    button1.classList.add("button-magenta");
+    button1.onclick = function() {
+        showContinueButton();
+        //animatedModel.setAttribute('animation-mixer',{clip: "*", loop: "once"});   
+        fadeInAndMoveUp(guideText, READY_TEXT);
+    };
+    startButtonDiv.appendChild(button1);
+    holderDiv.appendChild(startButtonDiv);
+}
+
+function showAnswerButtonDiv(){
+    currentPhaze = "answer";
+    if(continueButtonDiv)
+    {
+        continueButtonDiv.remove();
+    }
+    answerButtonDiv = document.createElement("div");
+    answerButtonDiv.classList.add("btn-group");
+
+    var delayInMilliseconds = 1;
+  
+    setTimeout(function() {
+      var button1 = document.createElement("button");
+      button1.innerHTML = "1981";
+      button1.classList.add("button");
+      button1.onclick = function() {wrongAnswer()};
+      answerButtonDiv.appendChild(button1);
+
+      var button2 = document.createElement("button");
+      button2.innerHTML = "1983";
+      button2.classList.add('button');
+      button2.onclick = function() {rightAnswer()};
+      answerButtonDiv.appendChild(button2);
+
+      var button3 = document.createElement("button");
+      button3.innerHTML = "1992";
+      button3.classList.add('button');
+      button3.onclick = function() {wrongAnswer()};
+      answerButtonDiv.appendChild(button3);
+      //document.getElementById("MyElement").classList.remove('MyClass');
+
+      holderDiv.appendChild(answerButtonDiv);
+    }, delayInMilliseconds);
+ 
+}
+
+function showModelButton(){
+    currentPhaze = "model";
+    if(doModelTimer)
+        {
+            setTimeout(function () {
+                doModelTimer = false;
+                if(!modelButtonDiv)
+                {
+                    if(!isOverlay)
+                    {
+                        showBphoneRotate();
+                    }
+                }
+            }, 2000);
+            setTimeout(function () {
+                doModelTimer = false;
+                if(!modelButtonDiv)
+                {
+                    if(!isOverlay)
+                    {
+                        showModelButtonDiv()
+                    }
+                }
+            }, 4000);
+        }
+        else{
+            showBphoneRotate();
+            showModelButtonDiv()
+        }
+}
+
+function showModelButtonDiv(){
+    currentPhaze = "model";
+
+    modelButtonDiv = document.createElement("div");
+    modelButtonDiv.classList.add("start-button");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Pokračovat";
+    button1.classList.add("button-magenta");
+    button1.onclick = function() {
+        modelButtonDiv.remove();
+        hideBphone1();
+        fadeInAndMoveUp(guideText, DONE_TEXT);
+        showCompassButton();
+    };
+    modelButtonDiv.appendChild(button1);
+    holderDiv.appendChild(modelButtonDiv);
+}
+
+function showRetryButtonDiv(){
+    currentPhaze = "retry";
+    retryButtonDiv = document.createElement("div");
+    retryButtonDiv.classList.add("start-button");
+
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Zkusit znovu";
+    button1.classList.add("button-magenta");
+    button1.onclick = function() {
+        hideBphoneCrash1();
+        retryButtonDiv.remove();
+        fadeInAndMoveUp(guideText, QUESTION_TEXT);
+        showAnswerButtonDiv();
+        //doRetryTimer = true;
+    };
+    retryButtonDiv.appendChild(button1);
+    holderDiv.appendChild(retryButtonDiv);
+}
+
+function showRetryButton(){
+    currentPhaze = "retry";
+    if(doRetryTimer)
+    {
+        setTimeout(function () {
+            doRetryTimer = false;
+            if(!retryButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showBphoneCrash1();
+                }
+            }
+        }, 1000);
+        setTimeout(function () {
+            doRetryTimer = false;
+            if(!retryButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showRetryButtonDiv();
+                }
+            }
+        }, 4000);
+    }
+    else{
+        showBphoneCrash1();
+        showRetryButtonDiv();
+    }
+}
+
+function showCompassButton(){
+    currentPhaze = "compass";
+    if(doCompassTimer)
+    {
+        setTimeout(function () {
+            doCompassTimer = false;
+            if(!compassButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showCompass1();
+                }
+             }
+        }, 2000);
+        setTimeout(function () {
+            doCompassTimer = false;
+            if(!compassButtonDiv)
+            {
+                if(!isOverlay)
+                {
+                    showCompassButtonDiv()
+                }
+            }
+        }, 4000);
+    }
+    else{
+        showCompass1();
+        showCompassButtonDiv()
+    }
+}
+
+
+function showCompassButtonDiv(){
+    currentPhaze = "compass";
+    compassButtonDiv = document.createElement("div");
+    compassButtonDiv.classList.add("map-button");
+
+    var a = document.createElement('a');
+    a.href = "https://arexamples.github.io/ar/map.html";
+    a.target = "_blank";                                                                                
+    a.ret = "noopener noreferrer";   
+    
+    var button1 = document.createElement("button");
+    button1.innerHTML = "Navigace<img src='map-icon.svg'>";
+    button1.classList.add("button-magenta");
+    a.appendChild(button1);
+
+    compassButtonDiv.appendChild(a);
+    holderDiv.appendChild(compassButtonDiv);
+}
+
+function showIphone(){
+    var iphoneEntity = document.createElement('a-entity');
+    iphoneEntity.setAttribute('gltf-model', "#Iphone");
+    iphoneEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    iphoneEntity.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    iphoneEntity.setAttribute('animation-mixer', "clips: *");                                           
+                                         
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(iphoneEntity);
+}
+
+function showBphoneRotate(){
+    var phoneRightEntity = document.createElement('a-entity');
+    phoneRightEntity.setAttribute('gltf-model', "#bphone_rotate");
+    phoneRightEntity.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    phoneRightEntity.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    phoneRightEntity.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:3});           
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(phoneRightEntity);
+}
+
+function hideIphone1(){
+    var iphoneEntity1 = document.createElement('a-entity');
+    iphoneEntity1.setAttribute('gltf-model', "#iphone_scale");
+    iphoneEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    iphoneEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    iphoneEntity1.setAttribute('position', {x: 0, y: 0, z: 1});
+    iphoneEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:1, timeScale:-1});   
+    // timeScale:-1
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(iphoneEntity1);
+    //iphoneEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", timeScale:-1});   
+    // startFrame
+}
+
+function showIphone1(){
+    var iphoneEntity1 = document.createElement('a-entity');
+    iphoneEntity1.setAttribute('gltf-model', "#iphone_scale");
+    iphoneEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    iphoneEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    iphoneEntity1.setAttribute('position', {x: 0, y: 0, z: 1});
+    iphoneEntity1.setAttribute('animation-mixer', {clip: "*", loop:"once", clampWhenFinished:true});   
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(iphoneEntity1);
+}
+
+function hideBphone1(){
+    var bPhoneEntity1 = document.createElement('a-entity');
+    bPhoneEntity1.setAttribute('gltf-model', "#bphone_scale");
+    bPhoneEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    bPhoneEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    bPhoneEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
+    bPhoneEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:1, timeScale:-1});   
+    // timeScale:-1
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(bPhoneEntity1);
+}
+
+function showBphone1(){
+    var bPhoneEntity1 = document.createElement('a-entity');
+    bPhoneEntity1.setAttribute('gltf-model', "#bphone_scale");
+    bPhoneEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    bPhoneEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    bPhoneEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
+    bPhoneEntity1.setAttribute('animation-mixer', {clip: "*", loop:"once", clampWhenFinished:true});   
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(bPhoneEntity1);
+}
+
+function hideBphoneCrash1(){
+    var bPhoneCrashEntity1 = document.createElement('a-entity');
+    bPhoneCrashEntity1.setAttribute('gltf-model', "#bphone_crash");
+    bPhoneCrashEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    bPhoneCrashEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    bPhoneCrashEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
+    bPhoneCrashEntity1.setAttribute('animation-mixer', {clip: "*", loop:"repeat", repetitions:1, timeScale:-1, clampWhenFinished:true});   
+    // timeScale:-1
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(bPhoneCrashEntity1);
+}
+
+function showBphoneCrash1(){
+    var bPhoneCrashEntity1 = document.createElement('a-entity');
+    bPhoneCrashEntity1.setAttribute('gltf-model', "#bphone_crash");
+    bPhoneCrashEntity1.setAttribute('rotation', {x: -90, y: 0, z: 0});
+    bPhoneCrashEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    bPhoneCrashEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
+    bPhoneCrashEntity1.setAttribute('animation-mixer', {clip: "*", loop:"once", clampWhenFinished:true});   
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(bPhoneCrashEntity1);
+}
+
+
+function showCompass1(){
+    var compassEntity1 = document.createElement('a-entity');
+    compassEntity1.setAttribute('gltf-model', "#compass_scale");
+    compassEntity1.setAttribute('rotation', {x: 0, y: -45, z: 0});
+    compassEntity1.setAttribute('scale', {x: 0.01, y: 0.01, z: 0.01});
+    compassEntity1.setAttribute('position', {x: 0, y: 0, z: 0.5});
+    compassEntity1.setAttribute('animation-mixer', {clip: "*", loop:"once", clampWhenFinished:true});   
+                                        
+    wrapper.innerHTML = '';                                          
+    wrapper.appendChild(compassEntity1);
+}
+</script>
+  </body>
+</html>
